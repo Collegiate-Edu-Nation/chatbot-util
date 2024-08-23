@@ -31,7 +31,7 @@ def create_cen_answer(question, num_cen):
         else:
             answer = f"Collegiate Edu-Nation {cen_1}"
         num_cen += 1
-    elif (num_cen in (set(range(2,4)) | set(range(14,19)))):
+    elif (num_cen in (set(range(2,4)) | set(range(14,24)))):
         if "CEN" in question:
             answer = f"Joining CEN {cen_2}"
         else:
