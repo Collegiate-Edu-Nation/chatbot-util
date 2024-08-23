@@ -10,9 +10,9 @@ setup(
     # Executables
     scripts=[
         "src/chain.py",
-        "src/employees.py",
         "src/file_io.py",
         "src/main.py",
-        "src/parser.py"
+        "src/parser.py",
+        "src/utils.py"
     ]
 )
