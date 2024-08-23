@@ -23,31 +23,31 @@ def create_person_answer(topic):
     answer = f"{topic}, CEN's {employees[topic]}, can help with that. Their contact is {temp[0][0].lower()}{temp[1].lower()}@edu-nation.org"
     return answer
 
-def create_cen_answer(question, num_cen):
+def create_cen_answer(question, cen_index):
     """Update CEN topics to be the relevant answer"""
-    if (num_cen in (set(range(2)) | set(range(4,14)))):
+    if (cen_index in (set(range(2)) | set(range(4,14)))):
         if "CEN" in question:
             answer = f"CEN {cen_1}"
         else:
             answer = f"Collegiate Edu-Nation {cen_1}"
-        num_cen += 1
-    elif (num_cen in (set(range(2,4)) | set(range(14,24)))):
+        cen_index += 1
+    elif (cen_index in (set(range(2,4)) | set(range(14,24)))):
         if "CEN" in question:
             answer = f"Joining CEN {cen_2}"
         else:
             answer = f"Joining Collegiate Edu-Nation {cen_2}"
-        num_cen += 1
+        cen_index += 1
     else:
         answer = "CEN"
-    return answer, num_cen
+    return answer, cen_index
 
-def create_answer(topic, question, num_cen):
+def create_answer(topic, question, cen_index):
     """Convert topics to answers depending on whether the topic is a person or CEN"""
     if topic != 'CEN':
         answer = create_person_answer(topic)
     else:
-        answer, num_cen = create_cen_answer(question, num_cen)
-    return answer, num_cen
+        answer, cen_index = create_cen_answer(question, cen_index)
+    return answer, cen_index
 
 def clean_entry(question, answer):
     """Clean up unnecessary quotes"""

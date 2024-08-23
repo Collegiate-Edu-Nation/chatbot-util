@@ -24,10 +24,10 @@ def write(filename, store):
     """Format questions and topics, write to csv file"""
     with open(filename, 'w') as csvfile:
         csvfile.write('"question","answer"\n')
-        num_cen = 0
+        cen_index = 0
         for topic in store:
             for question in store[topic]:
                 # Write cleaned entry to csv
-                answer, num_cen = utils.create_answer(topic, question, num_cen)
+                answer, cen_index = utils.create_answer(topic, question, cen_index)
                 entry = utils.clean_entry(question, answer)
                 csvfile.write(entry)
