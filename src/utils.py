@@ -1,5 +1,5 @@
 def create_person_answer(topic, employees):
-    """Update non-CEN topics to be their contact info"""
+    """Update person topics to be their contact info"""
     temp = topic.split(' ')
     answer = f"{topic}, CEN's {employees[topic]}, can help with that. Their contact is {temp[0][0].lower()}{temp[1].lower()}@edu-nation.org"
     return answer
@@ -28,6 +28,7 @@ def create_cen_answer(question, cen_answers, num_cen, cen_index):
     return answer, cen_index
 
 def create_robotics_answer(robotics_answers, num_robotics, robotics_index):
+    """Update Robotics topics to be the relevant answer"""
     if robotics_index in set(range(6)):
         answer = robotics_answers[0]
     elif robotics_index in set(range(6,12)):
@@ -42,6 +43,7 @@ def create_robotics_answer(robotics_answers, num_robotics, robotics_index):
     return answer, robotics_index
 
 def create_instr_answer(instr_answers, num_instr, instr_index):
+    """Update Instructional topics to be the relevant answer"""
     if instr_index in set(range(6)):
         answer = instr_answers[0]
     elif instr_index in set(range(6,12)):
@@ -55,17 +57,30 @@ def create_instr_answer(instr_answers, num_instr, instr_index):
     instr_index += 1
     return answer, instr_index
 
-def create_answer(topic, question, employees, cen_answers, num_cen, cen_index, robotics_answers, num_robotics, robotics_index, instr_answers, num_instr, instr_index):
-    """Convert topics to answers depending on whether the topic is a person or CEN"""
+def create_answer(topic, question, employees, answers, nums, indices):
+    """Convert topics to answers depending on whether the topic is a person or one of CEN, Robotics, Instructional"""
     if topic == 'CEN':
-        answer, cen_index = create_cen_answer(question, cen_answers, num_cen, cen_index)
+        answer, indices["cen_index"] = create_cen_answer(
+            question, 
+            answers["cen_answers"], 
+            nums["num_cen"], 
+            indices["cen_index"]
+        )
     elif topic == 'Robotics':
-        answer, robotics_index = create_robotics_answer(robotics_answers, num_robotics, robotics_index)
+        answer, indices["robotics_index"] = create_robotics_answer(
+            answers["robotics_answers"], 
+            nums["num_robotics"], 
+            indices["robotics_index"]
+        )
     elif topic == 'Instructional':
-        answer, instr_index = create_instr_answer(instr_answers, num_instr, instr_index)
+        answer, indices["instr_index"] = create_instr_answer(
+            answers["instr_answers"], 
+            nums["num_instr"], 
+            indices["instr_index"]
+        )
     else:
         answer = create_person_answer(topic, employees)
-    return answer, cen_index, robotics_index, instr_index
+    return answer, indices
 
 def clean_entry(question, answer):
     """Clean up unnecessary quotes"""
