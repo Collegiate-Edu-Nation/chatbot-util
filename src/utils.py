@@ -6,7 +6,7 @@ def create_person_answer(topic, employees):
 
 def create_cen_answer_helper(question, cen_answer):
     """Format answer and increment cen_index"""
-    if "CEN" in question:
+    if ("CEN" in question) and ("acronym" not in question) and ("abbreviation" not in question):
         answer = f"{cen_answer[0]}CEN{cen_answer[1]}"
     else:
         answer = f"{cen_answer[0]}Collegiate Edu-Nation{cen_answer[1]}"
@@ -27,38 +27,23 @@ def create_cen_answer(question, cen_answers, num_cen, cen_index):
     cen_index += 1
     return answer, cen_index
 
-def create_robotics_answer(robotics_answers, num_robotics, robotics_index):
-    """Update Robotics topics to be the relevant answer"""
-    if robotics_index in set(range(6)):
-        answer = robotics_answers[0]
-    elif robotics_index in set(range(6,12)):
-        answer = robotics_answers[1]
-    elif robotics_index in set(range(12,18)):
-        answer = robotics_answers[2]
-    elif robotics_index in set(range(18,24)):
-        answer = robotics_answers[3]
-    elif robotics_index in set(range(24,30)):
-        answer = robotics_answers[4]
-    robotics_index += 1
-    return answer, robotics_index
-
-def create_instr_answer(instr_answers, num_instr, instr_index):
-    """Update Instructional topics to be the relevant answer"""
-    if instr_index in set(range(6)):
-        answer = instr_answers[0]
-    elif instr_index in set(range(6,12)):
-        answer = instr_answers[1]
-    elif instr_index in set(range(12,18)):
-        answer = instr_answers[2]
-    elif instr_index in set(range(18,24)):
-        answer = instr_answers[3]
-    elif instr_index in set(range(24,30)):
-        answer = instr_answers[4]
-    instr_index += 1
-    return answer, instr_index
+def create_other_answer(answers, num, index):
+    """Update other topics to be the relevant answer"""
+    if index in set(range(6)):
+        answer = answers[0]
+    elif index in set(range(6,12)):
+        answer = answers[1]
+    elif index in set(range(12,18)):
+        answer = answers[2]
+    elif index in set(range(18,24)):
+        answer = answers[3]
+    elif index in set(range(24,30)):
+        answer = answers[4]
+    index += 1
+    return answer, index
 
 def create_answer(topic, question, employees, answers, nums, indices):
-    """Convert topics to answers depending on whether the topic is a person or one of CEN, Robotics, Instructional"""
+    """Convert topics to answers depending on whether the topic is a person, CEN, or other"""
     if topic == 'CEN':
         answer, indices["cen_index"] = create_cen_answer(
             question, 
@@ -67,13 +52,13 @@ def create_answer(topic, question, employees, answers, nums, indices):
             indices["cen_index"]
         )
     elif topic == 'Robotics':
-        answer, indices["robotics_index"] = create_robotics_answer(
+        answer, indices["robotics_index"] = create_other_answer(
             answers["robotics_answers"], 
             nums["num_robotics"], 
             indices["robotics_index"]
         )
     elif topic == 'Instructional':
-        answer, indices["instr_index"] = create_instr_answer(
+        answer, indices["instr_index"] = create_other_answer(
             answers["instr_answers"], 
             nums["num_instr"], 
             indices["instr_index"]
