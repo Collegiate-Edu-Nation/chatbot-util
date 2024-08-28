@@ -20,7 +20,7 @@ Start Ollama server (second command only needs to be run if model has not alread
 <summary><b>Usage</b></summary>
 Before the FAQ can be extended by the LLM, the initial FAQ must be added to ~/.chatbot-util/
 
-Also, an updated employee list must be included in ~/.chatbot-util/employees.txt, and likewise for cen_answers.txt
+Also, an updated employee list must be included in ~/.chatbot-util/employees.txt, and likewise for cen_answers.txt, robotics_answers.txt, instr_answers.txt
 
 Once there, run the app:
 
