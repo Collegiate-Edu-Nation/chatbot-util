@@ -10,9 +10,9 @@
   outputs = { self, nixpkgs }: 
   let
     supportedSystems = [ "x86_64-linux" "aarch64-darwin" ];
-    forEachSupportedSystem = function: nixpkgs.lib.genAttrs supportedSystems (system: function {
+    forEachSupportedSystem = function: nixpkgs.lib.genAttrs supportedSystems (system: function rec {
       pkgs = nixpkgs.legacyPackages.${system};
-      deps = with nixpkgs.legacyPackages.${system}.python311Packages; [
+      deps = with pkgs.python311Packages; [
         langchain
         langchain-core
         langchain-community
