@@ -18,9 +18,8 @@ def main():
     # Read info, generate questions, then write final output
     print(f'\nReading topics, questions, employees, and answers...')
     store, employees, answers, nums = file_io.read(filenames)
-    print('Generating and appending similar questions...')
     permutated_store = chain.generate(store)
-    print(f'Writing to "{filenames["writefile"]}"...')
+    print(f'\nWriting to "{filenames["writefile"]}"...')
     file_io.write(filenames, permutated_store, employees, answers, nums)
     print('Done.\n')
 
