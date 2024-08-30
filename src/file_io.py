@@ -15,9 +15,8 @@ def read(filenames):
         for i, line in enumerate(reader):
             if i != 0:
                 if len(line) > 0:
-                    split = line[0].split(",")
-                    topic = split[0]
-                    question = split[1]
+                    topic = line[0].split(",")[0]
+                    question = line[0].removeprefix(topic + ",")
                     if topic != "" and question != "":
                         cur_topic = topic
                         store[cur_topic] = []
@@ -51,12 +50,14 @@ def read(filenames):
         robotics_answers = []
         lines = robotics_answers_file.readlines()
         for line in lines:
-            robotics_answers.append(line)
+            clean_line = line.strip("\n")
+            robotics_answers.append(clean_line)
     with open(filenames["instr_answers_filename"], "r") as instr_answers_file:
         instr_answers = []
         lines = instr_answers_file.readlines()
         for line in lines:
-            instr_answers.append(line)
+            clean_line = line.strip("\n")
+            instr_answers.append(clean_line)
     answers = {
         "cen_answers": cen_answers,
         "robotics_answers": robotics_answers,
