@@ -35,6 +35,7 @@ def create_other_answer(answers, num, index):
         if ((index == i) or (index in set(range(num+(i*5), num+((i+1)*5))))):
             answer = answers[i]
         i += 1
+    index += 1
     return answer, index
 
 def create_answer(topic, question, employees, answers, nums, indices):
