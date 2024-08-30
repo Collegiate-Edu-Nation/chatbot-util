@@ -29,17 +29,12 @@ def create_cen_answer(question, cen_answers, num_cen, cen_index):
 
 def create_other_answer(answers, num, index):
     """Update other topics to be the relevant answer"""
-    if index in set(range(6)):
-        answer = answers[0]
-    elif index in set(range(6,12)):
-        answer = answers[1]
-    elif index in set(range(12,18)):
-        answer = answers[2]
-    elif index in set(range(18,24)):
-        answer = answers[3]
-    elif index in set(range(24,30)):
-        answer = answers[4]
-    index += 1
+    answer = None
+    i = 0
+    while not answer:
+        if ((index == i) or (index in set(range(num+(i*5), num+((i+1)*5))))):
+            answer = answers[i]
+        i += 1
     return answer, index
 
 def create_answer(topic, question, employees, answers, nums, indices):
