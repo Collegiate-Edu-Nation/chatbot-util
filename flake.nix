@@ -11,22 +11,9 @@
   let
     supportedSystems = [ "x86_64-linux" "aarch64-darwin" ];
     forEachSupportedSystem = function: nixpkgs.lib.genAttrs supportedSystems (system: function rec {
-      pkgs = nixpkgs.legacyPackages.${system}.extend (final: prev: {
-        python311 = prev.python311.override {
-          packageOverrides = python311-final: python311-prev: {
-            # Adding disabled test fixes build on darwin due to test_openai_schema failing with: Unclosed <MemoryObjectSendStream>
-            fastapi = python311-prev.fastapi.overrideAttrs (old: {
-              disabledTests = (old.disabledTests or []) ++ [
-                "test_schema_extra_examples"
-              ];
-            });
-          };
-        };
-      });
+      pkgs = nixpkgs.legacyPackages.${system};
       deps = with pkgs.python311Packages; [
-        langchain
-        langchain-core
-        langchain-community
+        ollama
       ];
     });
   in {

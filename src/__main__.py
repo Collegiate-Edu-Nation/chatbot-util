@@ -9,6 +9,7 @@ def main():
     filenames = {
         "readfile": os.path.expanduser("~/.chatbot-util/Chatbot FAQ - Enter Here.csv"),
         "employees_filename": os.path.expanduser("~/.chatbot-util/employees.txt"),
+        "phrases_filename": os.path.expanduser("~/.chatbot-util/phrases.txt"),
         "cen_answers_filename": os.path.expanduser("~/.chatbot-util/cen_answers.txt"),
         "robotics_answers_filename": os.path.expanduser("~/.chatbot-util/robotics_answers.txt"),
         "instr_answers_filename": os.path.expanduser("~/.chatbot-util/instr_answers.txt"),
@@ -17,8 +18,8 @@ def main():
 
     # Read info, generate questions, then write final output
     print(f'\nReading topics, questions, employees, and answers...')
-    store, employees, answers, nums = file_io.read(filenames)
-    permutated_store = chain.generate(store)
+    store, employees, phrases, answers, nums = file_io.read(filenames)
+    permutated_store = chain.generate(store, phrases)
     print(f'\nWriting to "{filenames["writefile"]}"...')
     file_io.write(filenames, permutated_store, employees, answers, nums)
     print('Done.\n')

@@ -7,7 +7,6 @@ setup(
     scripts=[
         "src/chain.py",
         "src/file_io.py",
-        "src/parser.py",
         "src/utils.py"
     ],
     entry_points={

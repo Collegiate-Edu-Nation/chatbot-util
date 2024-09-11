@@ -37,6 +37,13 @@ def read(filenames):
             else:
                 employee, role = line.split(sep=":")
             employees[employee] = role
+    with open(filenames["phrases_filename"], "r") as phrases_file:
+        phrases = []
+        lines = phrases_file.readlines()
+        for line in lines:
+            find, replace = line.split(sep=":")
+            replace = replace.strip("\n")
+            phrases.append([find,replace])
     with open(filenames["cen_answers_filename"], "r") as cen_answers_file:
         cen_answers = {}
         lines = cen_answers_file.readlines()
@@ -63,7 +70,7 @@ def read(filenames):
         "robotics_answers": robotics_answers,
         "instr_answers": instr_answers
     }
-    return store, employees, answers, nums
+    return store, employees, phrases, answers, nums
 
 def write(filenames, store, employees, answers, nums):
     """Format questions and topics, write to csv file"""
