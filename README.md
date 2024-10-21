@@ -24,7 +24,7 @@ Also, an updated employee list must be included in ~/.chatbot-util/employees.txt
 
 Once there, run the app:
 
-    nix run github:camdenboren/chatbot-util
+    nix run github:collegiate-edu-nation/chatbot-util
 
 <i>*Note: Ollama must be running in the background in order for the app to actually get a response- see <b>Setup</b> for commands. It's also worthwhile to make sure the LLMs are running on your GPU, otherwise responses are unbearably slow</i>
 
