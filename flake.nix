@@ -37,10 +37,17 @@
                 bashInteractive
                 python312
               ]
+              ++ (with pkgs.python312Packages; [
+                coverage
+                mockito
+              ])
               ++ deps;
 
             shellHook = ''
               echo -e "\nchatbot-util Development Environment via Nix Flake\n"
+              echo -e "run:  python -m src"
+              echo -e "test: python -m unittest discover"
+              echo -e "cov:  coverage run --source=src,test -m unittest discover\n"
               python --version
             '';
           };
