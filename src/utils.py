@@ -39,20 +39,20 @@ def create_answer(topic, question, employees, answers, nums, indices):
     if topic == 'CEN':
         answer, indices["cen_index"] = create_cen_answer(
             question, 
-            answers["cen_answers"], 
-            nums["num_cen"], 
+            answers["cen_answers"],
+            nums["num_cen"],
             indices["cen_index"]
         )
     elif topic == 'Robotics':
         answer, indices["robotics_index"] = create_other_answer(
-            answers["robotics_answers"], 
-            nums["num_robotics"], 
+            answers["robotics_answers"],
+            nums["num_robotics"],
             indices["robotics_index"]
         )
     elif topic == 'Instructional':
         answer, indices["instr_index"] = create_other_answer(
-            answers["instr_answers"], 
-            nums["num_instr"], 
+            answers["instr_answers"],
+            nums["num_instr"],
             indices["instr_index"]
         )
     else:

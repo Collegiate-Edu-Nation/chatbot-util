@@ -1,5 +1,5 @@
 import csv
-import utils
+from src import utils
 
 def read(filenames):
     """Read questions from csv file, read employees and cen_answers from text files"""
@@ -84,6 +84,13 @@ def write(filenames, store, employees, answers, nums):
         for topic in store:
             for question in store[topic]:
                 # Write cleaned entry to csv
-                answer, indices = utils.create_answer(topic, question, employees, answers, nums, indices)
+                answer, indices = utils.create_answer(
+                    topic,
+                    question,
+                    employees,
+                    answers,
+                    nums,
+                    indices
+                )
                 entry = utils.clean_entry(question, answer)
                 csvfile.write(entry)

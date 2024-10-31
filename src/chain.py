@@ -1,7 +1,7 @@
 import sys
 import ollama
 
-instruction = "If a question uses an abbreviation, use that abbreviation in your generated questions - NEVER MAKE UP A MEANING FOR AN ABBREVIATION. Generate 5 variations of the following question: "
+INSTRUCTION = "If a question uses an abbreviation, use that abbreviation in your generated questions - NEVER MAKE UP A MEANING FOR AN ABBREVIATION. Generate 5 variations of the following question: "
 
 def parse(response, phrases):
     """Parse lines from LLM and clean them before returning"""
@@ -60,7 +60,7 @@ def generate(store, phrases):
         new_questions = []
         for question in store[topic]:
             progress(index, total)
-            prompt = instruction + question
+            prompt = INSTRUCTION + question
             new_questions.append(invoke(prompt, phrases))
             index += 1
         for new_sub_question in new_questions:

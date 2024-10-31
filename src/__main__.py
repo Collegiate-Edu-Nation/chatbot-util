@@ -1,10 +1,9 @@
 import os
 import sys
-import chain
-import file_io
+from src import chain, file_io
 
 def main():
-    """Create chain and read info from files, then append generated questions to store and write to new file"""
+    """Create chain, read info from files, append generated questions, then write to new file"""
     # Expanded file paths
     filenames = {
         "readfile": os.path.expanduser("~/.chatbot-util/Chatbot FAQ - Enter Here.csv"),
@@ -17,7 +16,7 @@ def main():
     }
 
     # Read info, generate questions, then write final output
-    print(f'\nReading topics, questions, employees, and answers...')
+    print('\nReading topics, questions, employees, and answers...')
     store, employees, phrases, answers, nums = file_io.read(filenames)
     permutated_store = chain.generate(store, phrases)
     print(f'\nWriting to "{filenames["writefile"]}"...')
