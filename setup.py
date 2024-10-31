@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='chatbot-util',
-    version='0.1',
+    version='0.2',
     packages=["src"],
     scripts=[
         "src/chain.py",
