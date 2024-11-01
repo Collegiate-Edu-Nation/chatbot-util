@@ -3,7 +3,7 @@ from mockito import when, unstub
 import ollama
 from src import chain
 
-class TestUtils(unittest.TestCase):
+class TestChain(unittest.TestCase):
     def test_parse(self):
         # setup
         phrases = [['abc', 'ABC']]
