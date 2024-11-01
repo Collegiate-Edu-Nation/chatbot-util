@@ -38,7 +38,7 @@ def create_answer(topic, question, employees, answers, nums, indices):
     """Convert topics to answers depending on whether the topic is a person, CEN, or other"""
     if topic == 'CEN':
         answer, indices["cen_index"] = create_cen_answer(
-            question, 
+            question,
             answers["cen_answers"],
             nums["num_cen"],
             indices["cen_index"]

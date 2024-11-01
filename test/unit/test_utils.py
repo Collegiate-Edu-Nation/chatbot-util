@@ -49,3 +49,58 @@ class TestUtils(unittest.TestCase):
         answer, index = utils.create_other_answer(answers, num, index)
         self.assertTrue(answer == expected)
         self.assertTrue(index == expected_i)
+
+    def test_create_answer(self):
+        # setup
+        employees = {"A Bcdef": "G Hijk"}
+        answers = {
+            "cen_answers": {"cen_0": ["abc", "def"]},
+            "robotics_answers": ["abc"],
+            "instr_answers": ["abc"],
+        }
+        nums = {
+            "num_cen": 1,
+            "num_robotics": 1,
+            "num_instr": 1
+        }
+        indices = {
+            "cen_index": 0,
+            "robotics_index": 0,
+            "instr_index": 0
+        }
+
+        # CEN
+        topic = "CEN"
+        question = "CEN"
+        expected = "abcCENdef"
+        expected_indices = indices
+        expected_indices["cen_index"] += 1
+        answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
+        self.assertTrue(answer == expected)
+        self.assertTrue(rec_indices == expected_indices)
+
+        # Robotics
+        topic = "Robotics"
+        question = "abc"
+        expected = "abc"
+        expected_indices = indices
+        expected_indices["robotics_index"] += 1
+        answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
+        self.assertTrue(answer == expected)
+        self.assertTrue(rec_indices == expected_indices)
+
+        # Instructional
+        topic = "Instructional"
+        expected_indices = indices
+        expected_indices["instr_index"] += 1
+        answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
+        self.assertTrue(answer == expected)
+        self.assertTrue(rec_indices == expected_indices)
+
+        # Other
+        topic = "A Bcdef"
+        expected = "A Bcdef, CEN's G Hijk, can help with that. Their contact is abcdef@edu-nation.org"
+        expected_indices = indices
+        answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
+        self.assertTrue(answer == expected)
+        self.assertTrue(rec_indices == expected_indices)
