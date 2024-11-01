@@ -1,6 +1,7 @@
 import unittest
 from src import utils
 
+
 class TestUtils(unittest.TestCase):
     def test_create_person_answer(self):
         topic = "A Bcdef"
@@ -61,12 +62,12 @@ class TestUtils(unittest.TestCase):
         nums = {
             "num_cen": 1,
             "num_robotics": 1,
-            "num_instr": 1
+            "num_instr": 1,
         }
         indices = {
             "cen_index": 0,
             "robotics_index": 0,
-            "instr_index": 0
+            "instr_index": 0,
         }
 
         # CEN
@@ -75,7 +76,9 @@ class TestUtils(unittest.TestCase):
         expected = "abcCENdef"
         expected_indices = indices
         expected_indices["cen_index"] += 1
-        answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
+        answer, rec_indices = utils.create_answer(
+            topic, question, employees, answers, nums, indices
+        )
         self.assertEqual(answer, expected)
         self.assertEqual(rec_indices, expected_indices)
 
@@ -85,7 +88,9 @@ class TestUtils(unittest.TestCase):
         expected = "abc"
         expected_indices = indices
         expected_indices["robotics_index"] += 1
-        answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
+        answer, rec_indices = utils.create_answer(
+            topic, question, employees, answers, nums, indices
+        )
         self.assertEqual(answer, expected)
         self.assertEqual(rec_indices, expected_indices)
 
@@ -93,7 +98,9 @@ class TestUtils(unittest.TestCase):
         topic = "Instructional"
         expected_indices = indices
         expected_indices["instr_index"] += 1
-        answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
+        answer, rec_indices = utils.create_answer(
+            topic, question, employees, answers, nums, indices
+        )
         self.assertEqual(answer, expected)
         self.assertEqual(rec_indices, expected_indices)
 
@@ -101,12 +108,14 @@ class TestUtils(unittest.TestCase):
         topic = "A Bcdef"
         expected = "A Bcdef, CEN's G Hijk, can help with that. Their contact is abcdef@edu-nation.org"
         expected_indices = indices
-        answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
+        answer, rec_indices = utils.create_answer(
+            topic, question, employees, answers, nums, indices
+        )
         self.assertEqual(answer, expected)
         self.assertEqual(rec_indices, expected_indices)
 
     def test_clean_entry(self):
-        answer = 'abc'
+        answer = "abc"
         expected = '" ","abc"\n'
 
         # case 1
@@ -125,6 +134,6 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(entry, expected)
 
         # case 4
-        question = ' '
+        question = " "
         entry = utils.clean_entry(question, answer)
         self.assertEqual(entry, expected)

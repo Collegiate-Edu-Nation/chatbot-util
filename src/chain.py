@@ -3,12 +3,14 @@ import ollama
 
 INSTRUCTION = "If a question uses an abbreviation, use that abbreviation in your generated questions - NEVER MAKE UP A MEANING FOR AN ABBREVIATION. Generate 5 variations of the following question: "
 
+
 def parse(response, phrases):
     """Parse lines from LLM and clean them before returning"""
+
     def remove_empty(lines):
         """Remove empty lines"""
         for line in lines:
-            if line == '':
+            if line == "":
                 lines.remove(line)
         return lines
 
@@ -32,19 +34,22 @@ def parse(response, phrases):
     cleaned_lines = remove_phrases(no_num_lines, phrases)
     return cleaned_lines
 
+
 def invoke(prompt, phrases):
     """Define chat model, then create the chain"""
     options = {"seed": 39}
     response = ollama.generate(
-        model='mistral',
+        model="mistral",
         prompt=prompt,
-        options=options
+        options=options,
     )
     cleaned_response = parse(response["response"], phrases)
     return cleaned_response
 
+
 def generate(store, phrases):
     """Generate and append new questions to store"""
+
     def progress(index, total):
         """Updates generation progress"""
         sys.stdout.write(f"\rGenerating similar queries for: {index}/{total}...")

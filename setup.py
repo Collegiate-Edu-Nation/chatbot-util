@@ -1,17 +1,13 @@
 from setuptools import setup
 
 setup(
-    name='chatbot-util',
-    version='0.2',
+    name="chatbot-util",
+    version="0.2",
     packages=["src"],
     scripts=[
         "src/chain.py",
         "src/file_io.py",
-        "src/utils.py"
+        "src/utils.py",
     ],
-    entry_points={
-        "console_scripts": [
-            "chatbot-util = src.__main__:main"
-        ]
-    },
+    entry_points={"console_scripts": ["chatbot-util = src.__main__:main"]},
 )

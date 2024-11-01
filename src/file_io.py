@@ -1,6 +1,7 @@
 import csv
 from src import utils
 
+
 def read(filenames):
     """Read questions from csv file, read employees and cen_answers from text files"""
     with open(filenames["readfile"], "r") as f:
@@ -10,7 +11,7 @@ def read(filenames):
         nums = {
             "num_cen": 0,
             "num_robotics": 0,
-            "num_instr": 0
+            "num_instr": 0,
         }
         for i, line in enumerate(reader):
             if i != 0:
@@ -43,7 +44,7 @@ def read(filenames):
         for line in lines:
             find, replace = line.split(sep=":")
             replace = replace.strip("\n")
-            phrases.append([find,replace])
+            phrases.append([find, replace])
     with open(filenames["cen_answers_filename"], "r") as cen_answers_file:
         cen_answers = {}
         lines = cen_answers_file.readlines()
@@ -68,18 +69,19 @@ def read(filenames):
     answers = {
         "cen_answers": cen_answers,
         "robotics_answers": robotics_answers,
-        "instr_answers": instr_answers
+        "instr_answers": instr_answers,
     }
     return store, employees, phrases, answers, nums
 
+
 def write(filenames, store, employees, answers, nums):
     """Format questions and topics, write to csv file"""
-    with open(filenames["writefile"], 'w') as csvfile:
+    with open(filenames["writefile"], "w") as csvfile:
         csvfile.write('"question","answer"\n')
         indices = {
             "cen_index": 0,
             "robotics_index": 0,
-            "instr_index": 0
+            "instr_index": 0,
         }
         for topic in store:
             for question in store[topic]:
@@ -90,7 +92,7 @@ def write(filenames, store, employees, answers, nums):
                     employees,
                     answers,
                     nums,
-                    indices
+                    indices,
                 )
                 entry = utils.clean_entry(question, answer)
                 csvfile.write(entry)
