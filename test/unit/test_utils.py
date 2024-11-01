@@ -30,3 +30,13 @@ class TestUtils(unittest.TestCase):
         expected = "abcCollegiate Edu-Nationdef"
         answer = utils.create_cen_answer_helper(question, cen_answer)
         self.assertTrue(answer == expected)
+
+    def test_create_other_answer(self):
+        answers = ["abc"]
+        num = 1
+        index = 0
+        expected = "abc"
+        expected_i = 1
+        answer, index = utils.create_other_answer(answers, num, index)
+        self.assertTrue(answer == expected)
+        self.assertTrue(index == expected_i)
