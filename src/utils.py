@@ -1,3 +1,6 @@
+"""Utilities for creating and cleaning answers based on file content"""
+
+
 def create_person_answer(topic, employees):
     """Update person topics to be their contact info"""
     temp = topic.split(" ")

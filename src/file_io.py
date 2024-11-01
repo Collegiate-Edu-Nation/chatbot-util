@@ -1,9 +1,11 @@
+"""Reads csv, employees, and answers, and writes generated result to csv"""
+
 import csv
 from src import utils
 
 
 def read(filenames):
-    """Read questions from csv file, read employees and cen_answers from text files"""
+    """Read questions from csv file, read employees, phrases and answers from text files"""
     with open(filenames["readfile"], "r") as f:
         reader = csv.reader(f, delimiter="\n")
         store = {}

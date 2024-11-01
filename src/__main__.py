@@ -1,3 +1,5 @@
+"""Entry point that passes info read from files to chain, then passes LLM result to be written"""
+
 import os
 import sys
 from src import chain, file_io

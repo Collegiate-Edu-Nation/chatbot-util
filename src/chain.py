@@ -1,3 +1,5 @@
+"""Setup language model and output parser, then generate and append new questions"""
+
 import sys
 import ollama
 
