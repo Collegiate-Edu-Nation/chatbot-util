@@ -17,7 +17,7 @@ def create_cen_answer(question, cen_answers, num_cen, cen_index):
     answer = None
     i = 0
     while not answer:
-        if ((cen_index in set(range(i*2,(i+1)*2))) and (num_cen >= (i+1)*2)) or (cen_index in set(range(num_cen+(i*10),num_cen+((i+1)*10)))):
+        if ((cen_index in set(range(i*2,(i+1)*2))) and (num_cen >= (i+1)*2)) or (cen_index == 0 and num_cen == 1) or (cen_index in set(range(num_cen+(i*10),num_cen+((i+1)*10)))):
             answer = create_cen_answer_helper(question, cen_answers[f"cen_{i}"])
         i += 1
     cen_index += 1
