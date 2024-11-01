@@ -36,6 +36,17 @@
               [
                 bashInteractive
                 python312
+                (writeShellScriptBin "verify" ''
+                  mv ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup
+                  python -m src
+                  if ! [[ $(diff ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup) ]]; then
+                    echo -e "verified\n"
+                  else
+                    echo -e "unverified, check diff"\n
+                  fi
+                  rm ~/.chatbot-util/Permutated.csv
+                  mv ~/.chatbot-util/Permutated.csv.backup ~/.chatbot-util/Permutated.csv
+                '')
               ]
               ++ (with pkgs.python312Packages; [
                 coverage
@@ -45,9 +56,10 @@
 
             shellHook = ''
               echo -e "\nchatbot-util Development Environment via Nix Flake\n"
-              echo -e "run:  python -m src"
-              echo -e "test: python -m unittest discover"
-              echo -e "cov:  coverage run --source=src,test -m unittest discover\n"
+              echo -e "run:    python -m src"
+              echo -e "verify: verify"
+              echo -e "test:   python -m unittest discover"
+              echo -e "cov:    coverage run --source=src,test -m unittest discover\n"
               python --version
             '';
           };
