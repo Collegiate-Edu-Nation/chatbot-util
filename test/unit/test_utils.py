@@ -7,7 +7,7 @@ class TestUtils(unittest.TestCase):
         employees = {"A Bcdef": "G Hijk"}
         expected = "A Bcdef, CEN's G Hijk, can help with that. Their contact is abcdef@edu-nation.org"
         answer = utils.create_person_answer(topic, employees)
-        self.assertTrue(answer == expected)
+        self.assertEqual(answer, expected)
 
     def test_create_cen_answer_helper(self):
         # CEN
@@ -15,21 +15,21 @@ class TestUtils(unittest.TestCase):
         cen_answer = ["abc", "def"]
         expected = "abcCENdef"
         answer = utils.create_cen_answer_helper(question, cen_answer)
-        self.assertTrue(answer == expected)
+        self.assertEqual(answer, expected)
 
         # CEN w/ acryonym
         question = "CEN acronym"
         cen_answer = ["abc", "def"]
         expected = "abcCollegiate Edu-Nationdef"
         answer = utils.create_cen_answer_helper(question, cen_answer)
-        self.assertTrue(answer == expected)
+        self.assertEqual(answer, expected)
 
         # Collegiate Edu-Nation
         question = "Collegiate Edu-Nation"
         cen_answer = ["abc", "def"]
         expected = "abcCollegiate Edu-Nationdef"
         answer = utils.create_cen_answer_helper(question, cen_answer)
-        self.assertTrue(answer == expected)
+        self.assertEqual(answer, expected)
 
     def test_create_cen_answer(self):
         question = "CEN"
@@ -37,8 +37,8 @@ class TestUtils(unittest.TestCase):
         expected = "abcCENdef"
         expected_i = 1
         answer, index = utils.create_cen_answer(question, cen_answers, 1, 0)
-        self.assertTrue(answer == expected)
-        self.assertTrue(index == expected_i)
+        self.assertEqual(answer, expected)
+        self.assertEqual(index, expected_i)
 
     def test_create_other_answer(self):
         answers = ["abc"]
@@ -47,8 +47,8 @@ class TestUtils(unittest.TestCase):
         expected = "abc"
         expected_i = 1
         answer, index = utils.create_other_answer(answers, num, index)
-        self.assertTrue(answer == expected)
-        self.assertTrue(index == expected_i)
+        self.assertEqual(answer, expected)
+        self.assertEqual(index, expected_i)
 
     def test_create_answer(self):
         # setup
@@ -76,8 +76,8 @@ class TestUtils(unittest.TestCase):
         expected_indices = indices
         expected_indices["cen_index"] += 1
         answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
-        self.assertTrue(answer == expected)
-        self.assertTrue(rec_indices == expected_indices)
+        self.assertEqual(answer, expected)
+        self.assertEqual(rec_indices, expected_indices)
 
         # Robotics
         topic = "Robotics"
@@ -86,21 +86,45 @@ class TestUtils(unittest.TestCase):
         expected_indices = indices
         expected_indices["robotics_index"] += 1
         answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
-        self.assertTrue(answer == expected)
-        self.assertTrue(rec_indices == expected_indices)
+        self.assertEqual(answer, expected)
+        self.assertEqual(rec_indices, expected_indices)
 
         # Instructional
         topic = "Instructional"
         expected_indices = indices
         expected_indices["instr_index"] += 1
         answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
-        self.assertTrue(answer == expected)
-        self.assertTrue(rec_indices == expected_indices)
+        self.assertEqual(answer, expected)
+        self.assertEqual(rec_indices, expected_indices)
 
         # Other
         topic = "A Bcdef"
         expected = "A Bcdef, CEN's G Hijk, can help with that. Their contact is abcdef@edu-nation.org"
         expected_indices = indices
         answer, rec_indices = utils.create_answer(topic, question, employees, answers, nums, indices)
-        self.assertTrue(answer == expected)
-        self.assertTrue(rec_indices == expected_indices)
+        self.assertEqual(answer, expected)
+        self.assertEqual(rec_indices, expected_indices)
+
+    def test_clean_entry(self):
+        answer = 'abc'
+        expected = '" ","abc"\n'
+
+        # case 1
+        question = '" "'
+        entry = utils.clean_entry(question, answer)
+        self.assertEqual(entry, expected)
+
+        # case 2
+        question = '" '
+        entry = utils.clean_entry(question, answer)
+        self.assertEqual(entry, expected)
+
+        # case 3
+        question = ' "'
+        entry = utils.clean_entry(question, answer)
+        self.assertEqual(entry, expected)
+
+        # case 4
+        question = ' '
+        entry = utils.clean_entry(question, answer)
+        self.assertEqual(entry, expected)
