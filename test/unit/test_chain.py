@@ -1,4 +1,6 @@
 import unittest
+from mockito import when, unstub
+import ollama
 from src import chain
 
 class TestUtils(unittest.TestCase):
@@ -24,3 +26,21 @@ class TestUtils(unittest.TestCase):
         cleaned = chain.parse(response, phrases)
         self.assertEqual(cleaned, expected)
 
+    def test_invoke(self):
+        # setup
+        phrases = [['abc', 'ABC']]
+        options = {"seed": 39}
+        prompt = ''
+        response = {"response": ''}
+
+        # mock
+        when(ollama).generate(
+            model='mistral',
+            prompt=prompt,
+            options=options
+        ).thenReturn(response)
+
+        expected = []
+        result = chain.invoke(prompt, phrases)
+        self.assertEqual(result, expected)
+        unstub()
