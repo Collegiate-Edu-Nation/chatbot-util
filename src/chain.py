@@ -3,7 +3,9 @@
 import sys
 import ollama
 
-INSTRUCTION = "If a question uses an abbreviation, use that abbreviation in your generated questions - NEVER MAKE UP A MEANING FOR AN ABBREVIATION. Generate 5 variations of the following question: "
+INSTRUCTION = """If a question uses an abbreviation, use that abbreviation \
+in your generated questions - NEVER MAKE UP A MEANING FOR AN ABBREVIATION. \
+Generate 5 variations of the following question: """
 
 
 def parse(response, phrases):
