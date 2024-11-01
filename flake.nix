@@ -42,7 +42,7 @@
                   if ! [[ $(diff ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup) ]]; then
                     echo -e "verified\n"
                   else
-                    echo -e "unverified, check diff"\n
+                    echo -e "unverified, check diff\n"
                   fi
                   rm ~/.chatbot-util/Permutated.csv
                   mv ~/.chatbot-util/Permutated.csv.backup ~/.chatbot-util/Permutated.csv
