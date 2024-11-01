@@ -47,6 +47,8 @@ def invoke(prompt, phrases):
         prompt=prompt,
         options=options,
     )
+
+    # pylint: disable=unsubscriptable-object
     cleaned_response = parse(response["response"], phrases)
     return cleaned_response
 
