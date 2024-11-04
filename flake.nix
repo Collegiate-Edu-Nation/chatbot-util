@@ -77,7 +77,7 @@
         {
           default = pkgs.python312Packages.buildPythonApplication {
             pname = "chatbot-util";
-            version = "0.2";
+            version = "1.0";
             src = ./.;
 
             propagatedBuildInputs = deps;
