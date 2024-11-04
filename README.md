@@ -35,7 +35,7 @@ This will create the extended FAQ in the same directory. Make sure to cover both
 
 ## Advanced Usage
 ### Verify results
-flake.nix contains a basic script for verifying that the output of running chatbot-util matches the preexisting Permutated.csv. This is very helpful for ensuring deterministic output over time
+flake.nix contains a basic script for verifying that the output of running chatbot-util either exactly matches the preexisting Permutated.csv, or only contains new and unmodified entries. This is very helpful for ensuring deterministic output over time
 
 Run this command to verify. If successful, 'verified' will be printed to console
 
