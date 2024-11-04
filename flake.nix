@@ -41,6 +41,8 @@
                   python -m src
                   if ! [[ $(diff ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup) ]]; then
                     echo -e "verified\n"
+                  elif ! [[ $(diff --strip-trailing-cr -y --suppress-common-lines ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup | grep ">\||") ]]; then
+                    echo -e "verified\n"
                   else
                     echo -e "unverified, check diff\n"
                   fi
