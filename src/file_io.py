@@ -5,7 +5,7 @@ from src import utils
 
 
 def read_entries(filename):
-    """read and return topics and basic answers"""
+    """Read and return topics and basic answers"""
     with open(filename, "r", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\n")
         store = {}
@@ -36,78 +36,68 @@ def read_entries(filename):
     return store, nums
 
 
-def read_employees(filename):
-    """read and return employee list"""
-    with open(filename, "r", encoding="utf-8") as employees_file:
-        employees = {}
-        lines = employees_file.readlines()
-        for line in lines:
-            if len(line) >= 3:
-                employee, role = line[:-1].split(sep=":")
-            else:
-                employee, role = line.split(sep=":")
-            employees[employee] = role
+def read_employees(lines):
+    """Read and return employee list"""
+    employees = {}
+    for line in lines:
+        if len(line) >= 3:
+            employee, role = line[:-1].split(sep=":")
+        else:
+            employee, role = line.split(sep=":")
+        employees[employee] = role
 
     return employees
 
 
-def read_phrases(filename):
-    """read and return phrases to find and replace"""
-    with open(filename, "r", encoding="utf-8") as phrases_file:
-        phrases = []
-        lines = phrases_file.readlines()
-        for line in lines:
-            find, replace = line.split(sep=":")
-            replace = replace.strip("\n")
-            phrases.append([find, replace])
+def read_phrases(lines):
+    """Read and return phrases to find and replace"""
+    phrases = []
+    for line in lines:
+        find, replace = line.split(sep=":")
+        replace = replace.strip("\n")
+        phrases.append([find, replace])
 
     return phrases
 
 
-def read_cen(filename):
-    """read and return cen_answers"""
-    with open(filename, "r", encoding="utf-8") as cen_answers_file:
-        cen_answers = {}
-        lines = cen_answers_file.readlines()
-        for i, line in enumerate(lines):
-            if len(line) >= 3:
-                part1, part2 = line[:-1].split(sep=":")
-            else:
-                part1, part2 = line.split(sep=":")
-            cen_answers[f"cen_{i}"] = [part1, part2]
+def read_cen(lines):
+    """Read and return cen_answers"""
+    cen_answers = {}
+    for i, line in enumerate(lines):
+        if len(line) >= 3:
+            part1, part2 = line[:-1].split(sep=":")
+        else:
+            part1, part2 = line.split(sep=":")
+        cen_answers[f"cen_{i}"] = [part1, part2]
 
     return cen_answers
 
 
-def read_robotics(filename):
-    """read and return robotics answers"""
-    with open(filename, "r", encoding="utf-8") as robotics_answers_file:
-        robotics_answers = []
-        lines = robotics_answers_file.readlines()
-        for line in lines:
-            clean_line = line.strip("\n")
-            robotics_answers.append(clean_line)
+def read_robotics(lines):
+    """Read and return robotics answers"""
+    robotics_answers = []
+    for line in lines:
+        clean_line = line.strip("\n")
+        robotics_answers.append(clean_line)
 
     return robotics_answers
 
 
-def read_instr(filename):
-    """read and return instructional team answers"""
-    with open(filename, "r", encoding="utf-8") as instr_answers_file:
-        instr_answers = []
-        lines = instr_answers_file.readlines()
-        for line in lines:
-            clean_line = line.strip("\n")
-            instr_answers.append(clean_line)
+def read_instr(lines):
+    """Read and return instructional team answers"""
+    instr_answers = []
+    for line in lines:
+        clean_line = line.strip("\n")
+        instr_answers.append(clean_line)
 
     return instr_answers
 
 
-def read_answers(filenames):
-    """read and return answers for cen, robotics, instr"""
-    cen_answers = read_cen(filenames["cen_answers_filename"])
-    robotics_answers = read_robotics(filenames["robotics_answers_filename"])
-    instr_answers = read_instr(filenames["instr_answers_filename"])
+def read_answers(lines):
+    """Read and return answers for cen, robotics, instr"""
+    cen_answers = read_cen(lines[0])
+    robotics_answers = read_robotics(lines[1])
+    instr_answers = read_instr(lines[2])
 
     answers = {
         "cen_answers": cen_answers,
@@ -117,12 +107,29 @@ def read_answers(filenames):
     return answers
 
 
+def read_other(filename):
+    """Read and return employees, phrases, and answers"""
+    with open(filename, "r", encoding="utf-8") as f:
+        raw_lines = f.readlines()
+        lines = [[], [], [], [], []]
+
+        cur = 0
+        for raw_line in raw_lines:
+            if raw_line == "\n":
+                cur += 1
+                continue
+            lines[cur].append(raw_line)
+
+    employees = read_employees(lines[0])
+    phrases = read_phrases(lines[1])
+    answers = read_answers(lines[2:])
+    return employees, phrases, answers
+
+
 def read(filenames):
     """Read questions from csv file, read employees, phrases and answers from text files"""
     store, nums = read_entries(filenames["readfile"])
-    employees = read_employees(filenames["employees_filename"])
-    phrases = read_phrases(filenames["phrases_filename"])
-    answers = read_answers(filenames)
+    employees, phrases, answers = read_other(filenames["readfile2"])
 
     return store, employees, phrases, answers, nums
 

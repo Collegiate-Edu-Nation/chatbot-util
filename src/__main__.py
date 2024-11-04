@@ -10,15 +10,7 @@ def main():
     # Expanded file paths
     filenames = {
         "readfile": os.path.expanduser("~/.chatbot-util/Chatbot FAQ - Enter Here.csv"),
-        "employees_filename": os.path.expanduser("~/.chatbot-util/employees.txt"),
-        "phrases_filename": os.path.expanduser("~/.chatbot-util/phrases.txt"),
-        "cen_answers_filename": os.path.expanduser("~/.chatbot-util/cen_answers.txt"),
-        "robotics_answers_filename": os.path.expanduser(
-            "~/.chatbot-util/robotics_answers.txt"
-        ),
-        "instr_answers_filename": os.path.expanduser(
-            "~/.chatbot-util/instr_answers.txt"
-        ),
+        "readfile2": os.path.expanduser("~/.chatbot-util/Other.txt"),
         "writefile": os.path.expanduser("~/.chatbot-util/Permutated.csv"),
     }
 
