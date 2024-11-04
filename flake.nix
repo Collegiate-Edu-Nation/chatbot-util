@@ -51,6 +51,10 @@
               ++ (with pkgs.python312Packages; [
                 coverage
                 mockito
+                mkdocs
+                mkdocs-material
+                mkdocstrings
+                mkdocstrings-python
               ])
               ++ deps;
 
@@ -59,7 +63,8 @@
               echo -e "run:    python -m src"
               echo -e "verify: verify"
               echo -e "test:   python -m unittest discover"
-              echo -e "cov:    coverage run --source=src,test -m unittest discover\n"
+              echo -e "cov:    coverage run --source=src,test -m unittest discover"
+              echo -e "docs:   mkdocs build, serve, or gh-deploy\n"
               python --version
             '';
           };
