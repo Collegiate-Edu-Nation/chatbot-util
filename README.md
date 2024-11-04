@@ -30,8 +30,7 @@ Once there, run the app
 
 <i>*Note: Ollama must be running in the background in order for the app to actually get a response- see <b>Setup</b> for commands. It's also worthwhile to make sure the LLMs are running on your GPU, otherwise responses are unbearably slow</i>
 
-This will create the extended FAQ in the same directory. Make sure to cover both CEN and Collegiate Edu-Nation as appropriate in cen_answers.txt, as Gemini gets confused
-
+This will create the extended FAQ in the same directory
 
 ## Advanced Usage
 ### Verify results
@@ -44,7 +43,7 @@ Run this command to verify. If successful, 'verified' will be printed to console
 ### Modifications
 To edit the code itself, clone this repo
 
-    git clone https://github.com/camdenboren/chatbot-util.git
+    git clone https://github.com/collegiate-edu-nation/chatbot-util.git
 
 Modify src as desired and commit the changes
 
