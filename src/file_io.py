@@ -73,31 +73,21 @@ def read_cen(lines):
     return cen_answers
 
 
-def read_robotics(lines):
-    """Read and return robotics answers"""
-    robotics_answers = []
+def read_basic(lines):
+    """Read and return basic answers for topics other than CEN"""
+    basic_answers = []
     for line in lines:
         clean_line = line.strip("\n")
-        robotics_answers.append(clean_line)
+        basic_answers.append(clean_line)
 
-    return robotics_answers
-
-
-def read_instr(lines):
-    """Read and return instructional team answers"""
-    instr_answers = []
-    for line in lines:
-        clean_line = line.strip("\n")
-        instr_answers.append(clean_line)
-
-    return instr_answers
+    return basic_answers
 
 
 def read_answers(lines):
     """Read and return answers for cen, robotics, instr"""
     cen_answers = read_cen(lines[0])
-    robotics_answers = read_robotics(lines[1])
-    instr_answers = read_instr(lines[2])
+    robotics_answers = read_basic(lines[1])
+    instr_answers = read_basic(lines[2])
 
     answers = {
         "cen_answers": cen_answers,
