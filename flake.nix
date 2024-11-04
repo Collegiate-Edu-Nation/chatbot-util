@@ -83,7 +83,7 @@
             propagatedBuildInputs = deps;
 
             meta = {
-              description = "Utility for generating similar FAQ's a la rag-fusion in a Dialogflow-ready, structured format.";
+              description = "Utility for generating similar FAQ's a la rag-fusion in a Dialogflow-ready, structured format";
               maintainers = [ "camdenboren" ];
             };
           };
