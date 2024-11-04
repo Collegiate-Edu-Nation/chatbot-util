@@ -1,4 +1,6 @@
 import unittest
+import tempfile
+import csv
 from src import file_io
 
 
@@ -37,3 +39,34 @@ class TestFileIO(unittest.TestCase):
 
         answers = file_io.read_answers(lines)
         self.assertEqual(answers, expected)
+
+    def test_read_entries(self):
+        lines = [
+            "Person/Entity,Questions\n",
+            "CEN,What is CEN?\n",
+            ",\n",
+            "Robotics,We need help\n",
+            ",\n",
+            "A Bcdef,We also need help\n",
+            ",\n",
+            "Instructional,We also also need help\n",
+        ]
+        with tempfile.NamedTemporaryFile() as temp_file:
+            open(temp_file.name, "w", encoding="utf-8").writelines(lines)
+
+            expected_store = {
+                "CEN": ["What is CEN?"],
+                "Robotics": ["We need help"],
+                "A Bcdef": ["We also need help"],
+                "Instructional": ["We also also need help"],
+            }
+            expected_nums = {
+                "num_cen": 1,
+                "num_robotics": 1,
+                "num_instr": 1,
+            }
+
+            store, nums = file_io.read_entries(temp_file.name)
+            self.assertEqual(store, expected_store)
+            self.assertEqual(nums, expected_nums)
+            temp_file.close()
