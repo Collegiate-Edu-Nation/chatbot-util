@@ -6,6 +6,9 @@
 
 Utility for generating similar FAQ's a la rag-fusion in a Dialogflow-ready, structured format
 
+Docs deployed at https://collegiate-edu-nation.github.io/chatbot-util<br>
+<i>Docs cover instructions and source code reference</i>
+
 ## Setup
 <b>Must install Ollama and flake-enabled Nix before running anything.</b>
 
@@ -19,20 +22,32 @@ Start Ollama server (second command only needs to be run if model has not alread
 ## Usage
 Before the FAQ can be extended by the LLM, the initial FAQ must be added to ~/.chatbot-util/
 
-A list of employees, phrases to substitute, and answers (each section being newline-delimited) must also be included in ~/.chatbot-util/Other.txt
+A list of employees, phrases to substitute, and answers must also be included in ~/.chatbot-util/Other.txt (see docs for more explanation)
 
-Once there, run the app:
+Once there, run the app
 
     nix run github:collegiate-edu-nation/chatbot-util
 
 <i>*Note: Ollama must be running in the background in order for the app to actually get a response- see <b>Setup</b> for commands. It's also worthwhile to make sure the LLMs are running on your GPU, otherwise responses are unbearably slow</i>
 
-This will create the extended FAQ in the same directory. Make sure to cover both CEN and Collegiate Edu-Nation as appropriate in cen_answers.txt, as Gemini gets confused.
+This will create the extended FAQ in the same directory. Make sure to cover both CEN and Collegiate Edu-Nation as appropriate in cen_answers.txt, as Gemini gets confused
 
 
 ## Advanced Usage
-To edit the code itself:
+### Verify results
+flake.nix contains a basic script for verifying that the output of running chatbot-util matches the preexisting Permutated.csv. This is very helpful for ensuring deterministic output over time
+
+Run this command to verify. If successful, 'verified' will be printed to console
+
+    nix develop github:collegiate-edu-nation/chatbot-util --command bash -c "verify"
+
+### Modifications
+To edit the code itself, clone this repo
 
     git clone https://github.com/camdenboren/chatbot-util.git
-    modify files in src as desired (and add new files to setup.py)
+
+Modify src as desired and commit the changes
+
+Run the app
+
     nix run /path/to/chatbot-util
