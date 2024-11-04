@@ -1,7 +1,7 @@
 # chatbot-util
 ![Static Badge](https://img.shields.io/badge/Version-0.2-blue)
 ![Static Badge](https://img.shields.io/badge/Platforms-Linux,_macOS-green)
-![Static Badge](https://img.shields.io/badge/Coverage-84%25-green)
+![Static Badge](https://img.shields.io/badge/Coverage-90%25-green)
 ![Static Badge](https://img.shields.io/badge/Powered_by_Nix-grey?logo=nixOS&logoColor=white)
 
 Utility for generating similar FAQ's a la rag-fusion in a Dialogflow-ready, structured format
