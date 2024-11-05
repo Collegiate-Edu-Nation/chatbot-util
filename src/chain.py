@@ -1,5 +1,9 @@
 """Setup language model and output parser, then generate and append new questions"""
 
+# SPDX-FileCopyrightText: 2024 Collegiate Edu-Nation
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import sys
 import ollama
 

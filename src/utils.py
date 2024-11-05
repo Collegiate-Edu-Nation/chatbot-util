@@ -1,5 +1,9 @@
 """Utilities for creating and cleaning answers based on file content"""
 
+# SPDX-FileCopyrightText: 2024 Collegiate Edu-Nation
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 
 def create_person_answer(topic, employees):
     """Update person topics to be their contact info"""

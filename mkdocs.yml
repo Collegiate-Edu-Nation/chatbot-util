@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 Collegiate Edu-Nation
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 site_name: chatbot-util docs
 
 theme:
@@ -17,6 +21,11 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 
+repo_name: collegiate-edu-nation/chatbot-util
+repo_url: https://github.com/collegiate-edu-nation/chatbot-util
+
+copyright: Copyright 2024 Collegiate Edu-Nation
+
 plugins:
   - mkdocstrings
 
@@ -27,3 +36,4 @@ nav:
   - Welcome: index.md
   - instructions.md
   - reference.md
+  - license.md

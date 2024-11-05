@@ -50,3 +50,6 @@ Modify src as desired and commit the changes
 Run the app
 
     nix run /path/to/chatbot-util
+
+### License
+[GPLv3](COPYING)
