@@ -1,7 +1,6 @@
 """Entry point that passes info read from files to chain, then passes LLM result to be written"""
 
-# SPDX-FileCopyrightText: 2024 Collegiate Edu-Nation
-#
+# SPDX-FileCopyrightText: 2024-2025 Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os

@@ -1,7 +1,6 @@
 """Reads csv, employees, and answers, and writes generated result to csv"""
 
-# SPDX-FileCopyrightText: 2024 Collegiate Edu-Nation
-#
+# SPDX-FileCopyrightText: 2024-2025 Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import csv
