@@ -12,7 +12,7 @@
   };
 
   outputs =
-    { self, nixpkgs }:
+    { nixpkgs, ... }:
     let
       supportedSystems = [
         "x86_64-linux"
@@ -81,7 +81,7 @@
         {
           default = pkgs.python312Packages.buildPythonApplication {
             pname = "chatbot-util";
-            version = "1.0";
+            version = "1.1";
             src = ./.;
 
             propagatedBuildInputs = deps;
