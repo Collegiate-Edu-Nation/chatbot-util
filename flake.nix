@@ -65,12 +65,16 @@
 
             shellHook = ''
               echo -e "\nchatbot-util Development Environment via Nix Flake\n"
-              echo -e "run:    python -m src"
-              echo -e "verify: verify"
-              echo -e "test:   python -m unittest discover"
-              echo -e "cov:    coverage run --source=src,test -m unittest discover"
-              echo -e "docs:   mkdocs build, serve, or gh-deploy\n"
-              python --version
+
+              echo -e "┌──────────────────────────────────────────────────────────────────┐"
+              echo -e "│                         Useful Commands                          │"
+              echo -e "├──────────┬───────────────────────────────────────────────────────┤"
+              echo -e "│ Run      │ $ python -m src                                       │"
+              echo -e "│ Verify   │ $ verify                                              │"
+              echo -e "│ Test     │ $ python -m unittest discover                         │"
+              echo -e "│ Coverage │ $ coverage run --source=src,test -m unittest discover │"
+              echo -e "│ Docs     │ $ mkdocs {build, serve, gh-deploy}                    │"
+              echo -e "└──────────┴───────────────────────────────────────────────────────┘\n"
             '';
           };
         }
