@@ -17,6 +17,7 @@ def read_entries(filename):
             "num_cen": 0,
             "num_robotics": 0,
             "num_instr": 0,
+            "num_reach": 0,
         }
 
         for i, line in enumerate(reader):
@@ -35,6 +36,8 @@ def read_entries(filename):
                             nums["num_robotics"] += 1
                         elif cur_topic == "Instructional":
                             nums["num_instr"] += 1
+                        elif cur_topic == "Edu-Reach":
+                            nums["num_reach"] += 1
 
     return store, nums
 
@@ -91,11 +94,13 @@ def read_answers(lines):
     cen_answers = read_cen(lines[0])
     robotics_answers = read_basic(lines[1])
     instr_answers = read_basic(lines[2])
+    reach_answers = read_basic(lines[3])
 
     answers = {
         "cen_answers": cen_answers,
         "robotics_answers": robotics_answers,
         "instr_answers": instr_answers,
+        "reach_answers": reach_answers,
     }
     return answers
 
@@ -104,7 +109,7 @@ def read_other(filename):
     """Read and return employees, phrases, and answers"""
     with open(filename, "r", encoding="utf-8") as f:
         raw_lines = f.readlines()
-        lines = [[], [], [], [], []]
+        lines = [[], [], [], [], [], []]
 
         cur = 0
         for raw_line in raw_lines:
@@ -135,6 +140,7 @@ def write(filenames, store, employees, answers, nums):
             "cen_index": 0,
             "robotics_index": 0,
             "instr_index": 0,
+            "reach_index": 0,
         }
         for topic in store:
             for question in store[topic]:

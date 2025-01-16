@@ -35,7 +35,7 @@ This file contains a list of topics/people and common questions that may be aske
 
 ## `Other.txt`
 
-This file contains a list of our employees and their roles, phrases to find and substitutes to replace them with (in the LLM-generated output), and answers for each of the CEN/Robotics/Instructional questions
+This file contains a list of our employees and their roles, phrases to find and substitutes to replace them with (in the LLM-generated output), and answers for each of the CEN/Robotics/Instructional/Edu-Reach questions
 
 ### Retrieval
 

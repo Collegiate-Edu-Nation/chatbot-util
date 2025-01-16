@@ -76,6 +76,12 @@ def create_answer(topic, question, employees, answers, nums, indices):
             nums["num_instr"],
             indices["instr_index"],
         )
+    elif topic == "Edu-Reach":
+        answer, indices["reach_index"] = create_other_answer(
+            answers["reach_answers"],
+            nums["num_reach"],
+            indices["reach_index"],
+        )
     else:
         answer = create_person_answer(topic, employees)
     return answer, indices
