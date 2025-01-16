@@ -17,8 +17,10 @@ _Docs cover instructions and source code reference_
 Start Ollama server (second command only needs to be run if model has not already been installed):
 
 ```shell
+{
 ollama serve
 ollama pull mistral
+}
 ```
 
 _I recommend running Ollama as a system service to avoid needing to run 'ollama serve' every time I boot_
