@@ -36,8 +36,13 @@ class TestFileIO(unittest.TestCase):
         self.assertEqual(basic_answers, expected)
 
     def test_read_answers(self):
-        lines = [[], [], []]
-        expected = {"cen_answers": {}, "robotics_answers": [], "instr_answers": []}
+        lines = [[], [], [], []]
+        expected = {
+            "cen_answers": {},
+            "robotics_answers": [],
+            "instr_answers": [],
+            "reach_answers": [],
+        }
 
         answers = file_io.read_answers(lines)
         self.assertEqual(answers, expected)
@@ -52,6 +57,8 @@ class TestFileIO(unittest.TestCase):
             "A Bcdef,We also need help\n",
             ",\n",
             "Instructional,We also also need help\n",
+            ",\n",
+            "Edu-Reach,We also also need help\n",
         ]
         with tempfile.NamedTemporaryFile() as temp_file:
             open(temp_file.name, "w", encoding="utf-8").writelines(lines)
@@ -61,11 +68,13 @@ class TestFileIO(unittest.TestCase):
                 "Robotics": ["We need help"],
                 "A Bcdef": ["We also need help"],
                 "Instructional": ["We also also need help"],
+                "Edu-Reach": ["We also also need help"],
             }
             expected_nums = {
                 "num_cen": 1,
                 "num_robotics": 1,
                 "num_instr": 1,
+                "num_reach": 1,
             }
 
             store, nums = file_io.read_entries(temp_file.name)
