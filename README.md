@@ -14,16 +14,19 @@ _Docs cover instructions and source code reference_
 
 **Must install Ollama and flake-enabled Nix before running anything**
 
-Start Ollama server (second command only needs to be run if model has not already been installed):
+Start Ollama server<br>
+_I recommend running Ollama as a system service to avoid running this all the time_
 
 ```shell
-{
 ollama serve
-ollama pull mistral
-}
 ```
 
-_I recommend running Ollama as a system service to avoid needing to run 'ollama serve' every time I boot_
+Download the LLM<br>
+_Only needs to be run if `mistral` has not already been downloaded_
+
+```shell
+ollama pull mistral
+```
 
 ## Usage
 
