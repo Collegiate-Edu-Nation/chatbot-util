@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2024-2025 Collegiate Edu-Nation
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[build-system]
+requires = [ "setuptools" ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chatbot-util"
+version = "1.1"
+
+[project.scripts]
+chatbot-util = "chatbot_util.__main__:main"
+
+[tool.coverage.run]
+source = [ "src" ]

@@ -41,7 +41,7 @@
                 python312
                 (writeShellScriptBin "verify" ''
                   mv ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup
-                  python -m src
+                  python -m src.chatbot_util
                   if ! [[ $(diff ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup) ]]; then
                     echo -e "verified\n"
                   elif ! [[ $(diff --strip-trailing-cr -y --suppress-common-lines ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup | grep ">\||") ]]; then
@@ -66,15 +66,15 @@
             shellHook = ''
               echo -e "\nchatbot-util Development Environment via Nix Flake\n"
 
-              echo -e "┌──────────────────────────────────────────────────────────────────┐"
-              echo -e "│                         Useful Commands                          │"
-              echo -e "├──────────┬───────────────────────────────────────────────────────┤"
-              echo -e "│ Run      │ $ python -m src                                       │"
-              echo -e "│ Verify   │ $ verify                                              │"
-              echo -e "│ Test     │ $ python -m unittest discover                         │"
-              echo -e "│ Coverage │ $ coverage run --source=src,test -m unittest discover │"
-              echo -e "│ Docs     │ $ mkdocs {build, serve, gh-deploy}                    │"
-              echo -e "└──────────┴───────────────────────────────────────────────────────┘\n"
+              echo -e "┌───────────────────────────────────────────────┐"
+              echo -e "│                Useful Commands                │"
+              echo -e "├──────────┬────────────────────────────────────┤"
+              echo -e "│ Run      │ $ python -m src.chatbot_util       │"
+              echo -e "│ Verify   │ $ verify                           │"
+              echo -e "│ Test     │ $ python -m unittest               │"
+              echo -e "│ Coverage │ $ coverage run -m unittest         │"
+              echo -e "│ Docs     │ $ mkdocs {build, serve, gh-deploy} │"
+              echo -e "└──────────┴────────────────────────────────────┘\n"
             '';
           };
         }
@@ -85,8 +85,10 @@
           default = pkgs.python312Packages.buildPythonApplication {
             pname = "chatbot-util";
             version = "1.1";
+            pyproject = true;
             src = ./.;
 
+            build-system = with pkgs.python312Packages; [ setuptools ];
             propagatedBuildInputs = deps;
 
             meta = {

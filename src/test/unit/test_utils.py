@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import unittest
-from src import utils
+from chatbot_util import utils
 
 
 class TestUtils(unittest.TestCase):

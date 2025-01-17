@@ -5,7 +5,7 @@
 
 import os
 import sys
-from src import chain, file_io
+from chatbot_util import chain, file_io
 
 
 def main():

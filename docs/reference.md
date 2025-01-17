@@ -8,19 +8,19 @@ hide:
 === "\_\_main\_\_.py"
 
     ## \_\_main\_\_.py
-    ::: src.__main__
+    ::: src.chatbot_util.__main__
 
 === "chain.py"
 
     ## chain.py
-    ::: src.chain
+    ::: src.chatbot_util.chain
 
 === "file_io.py"
 
     ## file_io.py
-    ::: src.file_io
+    ::: src.chatbot_util.file_io
 
 === "utils.py"
 
     ## utils.py
-    ::: src.utils
+    ::: src.chatbot_util.utils

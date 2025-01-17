@@ -4,7 +4,7 @@
 import unittest
 from mockito import when, unstub
 import ollama
-from src import chain
+from chatbot_util import chain
 
 
 class TestChain(unittest.TestCase):

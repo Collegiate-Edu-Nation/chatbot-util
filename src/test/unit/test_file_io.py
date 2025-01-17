@@ -3,7 +3,7 @@
 
 import unittest
 import tempfile
-from src import file_io
+from chatbot_util import file_io
 
 
 class TestFileIO(unittest.TestCase):
