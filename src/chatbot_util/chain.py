@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import sys
+
 import ollama
 
 INSTRUCTION = """If a question uses an abbreviation, use that abbreviation \
@@ -51,7 +52,6 @@ def invoke(prompt, phrases):
         options=options,
     )
 
-    # pylint: disable=unsubscriptable-object
     cleaned_response = parse(response["response"], phrases)
     return cleaned_response
 

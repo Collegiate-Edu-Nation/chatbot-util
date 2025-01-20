@@ -6,3 +6,6 @@ htmlcov
 .vscode
 site
 .ropeproject
+.ruff_cache
+.zed
+**/result*

@@ -2,8 +2,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import unittest
-from mockito import when, unstub
+
 import ollama
+from mockito import unstub, when
+
 from chatbot_util import chain
 
 

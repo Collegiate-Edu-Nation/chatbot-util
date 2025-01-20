@@ -22,7 +22,7 @@
         nixpkgs.lib.genAttrs supportedSystems (
           system:
           function rec {
-            pkgs = nixpkgs.legacyPackages.${system};
+            pkgs = nixpkgs.legacyPackages.${system}.extend (import ./nix/overlay.nix { inherit pkgs; });
             deps = with pkgs.python312Packages; [
               ollama
             ];
@@ -39,19 +39,9 @@
               [
                 bashInteractive
                 python312
-                (writeShellScriptBin "verify" ''
-                  mv ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup
-                  python -m src.chatbot_util
-                  if ! [[ $(diff ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup) ]]; then
-                    echo -e "verified\n"
-                  elif ! [[ $(diff --strip-trailing-cr -y --suppress-common-lines ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup | grep ">\||") ]]; then
-                    echo -e "verified\n"
-                  else
-                    echo -e "unverified, check diff\n"
-                  fi
-                  rm ~/.chatbot-util/Permutated.csv
-                  mv ~/.chatbot-util/Permutated.csv.backup ~/.chatbot-util/Permutated.csv
-                '')
+                build
+                format
+                verify
               ]
               ++ (with pkgs.python312Packages; [
                 coverage
@@ -60,22 +50,11 @@
                 mkdocs-material
                 mkdocstrings
                 mkdocstrings-python
+                ruff
               ])
               ++ deps;
 
-            shellHook = ''
-              echo -e "\nchatbot-util Development Environment via Nix Flake\n"
-
-              echo -e "┌───────────────────────────────────────────────┐"
-              echo -e "│                Useful Commands                │"
-              echo -e "├──────────┬────────────────────────────────────┤"
-              echo -e "│ Run      │ $ python -m src.chatbot_util       │"
-              echo -e "│ Verify   │ $ verify                           │"
-              echo -e "│ Test     │ $ python -m unittest               │"
-              echo -e "│ Coverage │ $ coverage run -m unittest         │"
-              echo -e "│ Docs     │ $ mkdocs {build, serve, gh-deploy} │"
-              echo -e "└──────────┴────────────────────────────────────┘\n"
-            '';
+            shellHook = import ./nix/shellHook.nix;
           };
         }
       );
