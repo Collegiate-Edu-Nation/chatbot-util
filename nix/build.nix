@@ -14,7 +14,7 @@ pkgs.writeShellScriptBin "build" ''
   echo -e "\n\033[1;33mcoverage...\033[0m"
   coverage run -m unittest 2> /dev/null | box
 
-  echo -e "\n\033[1;33mbuild...\033[0m"
+  echo -e "\n\n\033[1;33mbuild...\033[0m"
   nix build 2> /dev/null | box
 
   echo -e "\n\033[1;32mBuild succeeded.\033[0m"
