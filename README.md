@@ -62,7 +62,8 @@ To edit the code itself, clone this repo
 git clone https://github.com/collegiate-edu-nation/chatbot-util.git
 ```
 
-Modify `src` as desired and add the changes
+Modify `src` as desired and add the changes<br>
+_The `build` and `format` scripts will be helpful here_
 
 Run the app
 
