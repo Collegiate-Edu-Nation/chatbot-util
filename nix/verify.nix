@@ -4,7 +4,11 @@
 { pkgs }:
 
 pkgs.writeShellScriptBin "verify" ''
-  set -e
+  failed() {
+    echo -e "\n\033[1;31mVerification failed, error encountered.\033[0m"
+    exit 1
+  }
+  trap 'failed' ERR
 
   # rename old output and execute
   mv ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup

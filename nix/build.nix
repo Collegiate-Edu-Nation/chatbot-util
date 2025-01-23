@@ -4,9 +4,13 @@
 { pkgs }:
 
 pkgs.writeShellScriptBin "build" ''
-  set -e
   set -o pipefail
   box() { ${pkgs.boxes}/bin/boxes -d ansi -s $(tput cols); } 2> /dev/null
+  failed() {
+    echo -e "\n\033[1;31mBuild failed.\033[0m"
+    exit 1
+   }
+  trap 'failed' ERR
 
   echo -e "\033[1;33mruff...\033[0m"
   ruff check | box
