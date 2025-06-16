@@ -2,7 +2,7 @@
 
 ![Static Badge](https://img.shields.io/badge/Version-1.1-blue)
 ![Static Badge](https://img.shields.io/badge/Platforms-Linux,_macOS-forestgreen)
-![Static Badge](https://img.shields.io/badge/Coverage-90%25-forestgreen)
+[![built with garnix](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2FCollegiate-Edu-Nation%2Fchatbot-util%3Fbranch%3Dmain)](https://garnix.io/repo/Collegiate-Edu-Nation/chatbot-util)
 ![Static Badge](https://img.shields.io/badge/Powered_by_Nix-grey?logo=nixOS&logoColor=white)
 
 Utility for generating similar FAQ's a la rag-fusion in a Dialogflow-ready, structured format
