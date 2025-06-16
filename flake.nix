@@ -4,6 +4,8 @@
 {
   description = "chatbot-util Development Environment and Package via Nix Flake";
 
+  nixConfig.bash-prompt = ''\n\[\033[1;31m\][devShell:\w]\$\[\033[0m\] '';
+
   inputs = {
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-unstable";
@@ -23,59 +25,12 @@
           system:
           function rec {
             pkgs = nixpkgs.legacyPackages.${system}.extend (import ./nix/overlay.nix { inherit pkgs; });
-            deps = with pkgs.python312Packages; [
-              ollama
-            ];
+            deps = (import ./nix/deps.nix { inherit pkgs; });
           }
         );
     in
     {
-      devShells = forEachSupportedSystem (
-        { pkgs, deps }:
-        {
-          default = pkgs.mkShell {
-            packages =
-              with pkgs;
-              [
-                bashInteractive
-                python312
-                build
-                format
-                verify
-              ]
-              ++ (with pkgs.python312Packages; [
-                coverage
-                mockito
-                mkdocs
-                mkdocs-material
-                mkdocstrings
-                mkdocstrings-python
-                ruff
-              ])
-              ++ deps;
-
-            shellHook = import ./nix/shellHook.nix;
-          };
-        }
-      );
-      packages = forEachSupportedSystem (
-        { pkgs, deps }:
-        {
-          default = pkgs.python312Packages.buildPythonApplication {
-            pname = "chatbot-util";
-            version = "1.1";
-            pyproject = true;
-            src = ./.;
-
-            build-system = with pkgs.python312Packages; [ setuptools ];
-            propagatedBuildInputs = deps;
-
-            meta = {
-              description = "Utility for generating similar FAQ's a la rag-fusion in a Dialogflow-ready, structured format";
-              maintainers = [ "camdenboren" ];
-            };
-          };
-        }
-      );
+      devShells = forEachSupportedSystem (import ./nix/shell.nix);
+      packages = forEachSupportedSystem (import ./nix/package.nix);
     };
 }
