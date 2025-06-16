@@ -8,7 +8,7 @@
     pname = "chatbot-util";
     version = "1.1";
     pyproject = true;
-    src = ./.;
+    src = ../.;
 
     build-system = with pkgs.python312Packages; [ setuptools ];
     propagatedBuildInputs = deps.build;
