@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2024-2025 Collegiate Edu-Nation
+# SPDX-FileCopyrightText: Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 site_name: chatbot-util docs
@@ -23,7 +23,7 @@ theme:
 repo_name: collegiate-edu-nation/chatbot-util
 repo_url: https://github.com/collegiate-edu-nation/chatbot-util
 
-copyright: Copyright 2024-2025 Collegiate Edu-Nation
+copyright: Copyright Collegiate Edu-Nation
 
 plugins:
   - mkdocstrings
