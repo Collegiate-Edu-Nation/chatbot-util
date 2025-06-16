@@ -1,7 +1,7 @@
-"""Utilities for creating and cleaning answers based on file content"""
-
 # SPDX-FileCopyrightText: Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Utilities for creating and cleaning answers based on file content"""
 
 
 def create_person_answer(topic, employees):

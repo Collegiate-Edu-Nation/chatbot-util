@@ -1,7 +1,7 @@
-"""Setup language model and output parser, then generate and append new questions"""
-
 # SPDX-FileCopyrightText: Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Setup language model and output parser, then generate and append new questions"""
 
 import sys
 
