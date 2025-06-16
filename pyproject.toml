@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chatbot-util"
-version = "1.2"
+version = "1.2.0"
 
 [project.scripts]
 chatbot-util = "chatbot_util.__main__:main"
