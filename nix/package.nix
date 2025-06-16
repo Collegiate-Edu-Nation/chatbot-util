@@ -6,7 +6,7 @@
 {
   default = pkgs.python312Packages.buildPythonApplication {
     pname = "chatbot-util";
-    version = "1.1";
+    version = "1.2";
     pyproject = true;
     src = ../.;
 
