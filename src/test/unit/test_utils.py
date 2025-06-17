@@ -9,8 +9,8 @@ from chatbot_util import utils
 class TestUtils(unittest.TestCase):
     def test_create_person_answer(self):
         topic = "A Bcdef"
-        employees = {"A Bcdef": "G Hijk"}
-        expected = "A Bcdef, CEN's G Hijk, can help with that. Their contact is abcdef@edu-nation.org"
+        employees = {"A Bcdef": ["G Hijk", "His"]}
+        expected = "A Bcdef, CEN's G Hijk, can help with that. His contact is abcdef@edu-nation.org"
         answer = utils.create_person_answer(topic, employees)
         self.assertEqual(answer, expected)
 
@@ -57,7 +57,7 @@ class TestUtils(unittest.TestCase):
 
     def test_create_answer(self):
         # setup
-        employees = {"A Bcdef": "G Hijk"}
+        employees = {"A Bcdef": ["G Hijk", "His"]}
         answers = {
             "cen_answers": {"cen_0": ["abc", "def"]},
             "robotics_answers": ["abc"],
@@ -110,7 +110,7 @@ class TestUtils(unittest.TestCase):
 
         # Other
         topic = "A Bcdef"
-        expected = "A Bcdef, CEN's G Hijk, can help with that. Their contact is abcdef@edu-nation.org"
+        expected = "A Bcdef, CEN's G Hijk, can help with that. His contact is abcdef@edu-nation.org"
         expected_indices = indices
         answer, rec_indices = utils.create_answer(
             topic, question, employees, answers, nums, indices

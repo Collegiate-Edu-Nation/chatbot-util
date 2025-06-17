@@ -48,10 +48,10 @@ def read_employees(lines):
     employees = {}
     for line in lines:
         if len(line) >= 3:
-            employee, role = line[:-1].split(sep=":")
+            employee, role, pronoun = line[:-1].split(sep=":")
         else:
-            employee, role = line.split(sep=":")
-        employees[employee] = role
+            employee, role, pronoun = line.split(sep=":")
+        employees[employee] = [role, pronoun]
 
     return employees
 

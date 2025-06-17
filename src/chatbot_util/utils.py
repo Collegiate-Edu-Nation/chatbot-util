@@ -8,8 +8,8 @@ def create_person_answer(topic, employees):
     """Update person topics to be their contact info"""
     temp = topic.split(" ")
     answer = (
-        f"{topic}, CEN's {employees[topic]}, can help with that. "
-        f"Their contact is {temp[0][0].lower()}{temp[1].lower()}@edu-nation.org"
+        f"{topic}, CEN's {employees[topic][0]}, can help with that. "
+        f"{employees[topic][1]} contact is {temp[0][0].lower()}{temp[1].lower()}@edu-nation.org"
     )
     return answer
 

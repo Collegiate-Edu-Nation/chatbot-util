@@ -45,13 +45,14 @@ This file contains a list of our employees and their roles, phrases to find and 
 ### Format
 
 - Each section is separated by a newline
-- The first three sections require that each entry contains part 1, a colon, and part 2 (like `part 1:part 2`)
+- The first section requires that each entry contains parts 1-3, separated by a colon (like `part 1:part 2:part 3`)
+- The second and third sections require that each entry contains parts 1-2, separated by a colon (like `part 1:part 2`)
 - Do not use unnecessary quotes or spaces
 - Each section accepts 1+ entries
 - Example
 
       ```text
-      Employee Name:Employee Title
+      Employee Name:Employee Title:Employee Pronoun
 
       Phrase to replace:Phrase to replace it with
 

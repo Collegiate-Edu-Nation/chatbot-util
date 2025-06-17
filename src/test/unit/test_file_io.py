@@ -9,8 +9,8 @@ from chatbot_util import file_io
 
 class TestFileIO(unittest.TestCase):
     def test_read_employees(self):
-        lines = ["A Bcdef:G Hi\n", ":\n"]
-        expected = {"A Bcdef": "G Hi", "": "\n"}
+        lines = ["A Bcdef:G Hi:His\n", "::\n"]
+        expected = {"A Bcdef": ["G Hi", "His"], "": ["", ""]}
 
         employees = file_io.read_employees(lines)
         self.assertEqual(employees, expected)
