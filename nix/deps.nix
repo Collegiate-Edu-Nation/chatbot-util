@@ -4,7 +4,7 @@
 { pkgs }:
 
 {
-  build = with pkgs.python312Packages; [ ollama ];
+  build = with pkgs.python313Packages; [ ollama ];
   dev =
     with pkgs;
     [
@@ -12,7 +12,7 @@
       format
       verify
     ]
-    ++ (with pkgs.python312Packages; [
+    ++ (with pkgs.python313Packages; [
       coverage
       mockito
       mkdocs

@@ -11,7 +11,12 @@ from chatbot_util import utils
 def read_entries(filename):
     """Read and return topics and basic answers"""
     with open(filename, "r", encoding="utf-8") as f:
-        reader = csv.reader(f, delimiter="\n")
+        # it seems as though the delimiter doesn't actually
+        # matter as long as it's not the default: ",". updating
+        # to 3.13 broke "\n", and alternative approaches (e.g.,
+        # topic = line[0] w/ delimiter = ",") broke Ollama's
+        # determinism (checked via $ verify)
+        reader = csv.reader(f, delimiter="\t")
         store = {}
         cur_topic = ""
         nums = {

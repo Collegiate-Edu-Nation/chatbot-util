@@ -4,13 +4,13 @@
 { pkgs, deps }:
 
 {
-  default = pkgs.python312Packages.buildPythonApplication {
+  default = pkgs.python313Packages.buildPythonApplication {
     pname = "chatbot-util";
     version = "1.2.0";
     pyproject = true;
     src = ../.;
 
-    build-system = with pkgs.python312Packages; [ setuptools ];
+    build-system = with pkgs.python313Packages; [ setuptools ];
     propagatedBuildInputs = deps.build;
 
     meta = {
