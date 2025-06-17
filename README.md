@@ -5,7 +5,7 @@
 [![built with garnix](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2FCollegiate-Edu-Nation%2Fchatbot-util%3Fbranch%3Dmain&style=for-the-badge&color=grey&labelColor=grey)](https://garnix.io/repo/Collegiate-Edu-Nation/chatbot-util)
 ![Static Badge](https://img.shields.io/badge/Powered_by_Nix-grey?logo=nixOS&logoColor=white&style=for-the-badge)
 
-Utility for generating similar FAQ's a la rag-fusion in a Dialogflow-ready, structured format
+Utility for generating similar FAQ's a la rag-fusion in a structured format ready for Google's Conversational Agents
 
 Docs deployed at https://collegiate-edu-nation.github.io/chatbot-util<br>
 _Docs cover instructions and source code reference_

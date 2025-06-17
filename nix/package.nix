@@ -14,7 +14,7 @@
     propagatedBuildInputs = deps.build;
 
     meta = {
-      description = "Utility for generating similar FAQ's a la rag-fusion in a Dialogflow-ready, structured format";
+      description = "Utility for generating similar FAQ's a la rag-fusion in a structured format ready for Google's Conversational Agents";
       maintainers = [ "camdenboren" ];
     };
   };
