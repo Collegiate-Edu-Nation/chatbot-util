@@ -8,9 +8,22 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "chatbot-util"
 version = "1.2.0"
+dependencies = ["ollama==0.5.1"]
+requires-python = "==3.13.3"
 
 [project.scripts]
 chatbot-util = "chatbot_util.__main__:main"
+
+[project.optional-dependencies]
+dev = [
+  "coverage==7.8.0",
+  "mockito==1.5.4",
+  "mkdocs==1.6.1",
+  "mkdocs-material==9.6.4",
+  "mkdocstrings==0.29.1",
+  "mkdocstrings-python==1.16.12",
+  "ruff==0.11.13",
+]
 
 [tool.coverage.run]
 source = ["src"]

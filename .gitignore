@@ -9,3 +9,5 @@ site
 .ruff_cache
 .zed
 **/result*
+build
+**/*.egg-info
