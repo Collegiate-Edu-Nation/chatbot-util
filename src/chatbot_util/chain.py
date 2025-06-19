@@ -4,6 +4,7 @@
 """Setup language model and output parser, then generate and append new questions"""
 
 import sys
+from concurrent.futures import ThreadPoolExecutor
 
 import ollama
 
@@ -59,9 +60,11 @@ def invoke(prompt, phrases):
 def generate(store, phrases):
     """Generate and append new questions to store"""
 
-    def progress(index, total):
+    def progress(index, length, total):
         """Updates generation progress"""
-        sys.stdout.write(f"\rGenerating similar queries for: {index}/{total}...")
+        sys.stdout.write(
+            f"\rGenerating similar queries for: {index}-{index + length - 1}/{total}..."
+        )
         sys.stdout.flush()
 
     # Calculate total number of questions to generate
@@ -71,12 +74,23 @@ def generate(store, phrases):
             total += 1
 
     for topic in store:
+        length = len(store[topic])
+        progress(index, length, total)
         new_questions = []
-        for question in store[topic]:
-            progress(index, total)
-            prompt = INSTRUCTION + question
-            new_questions.append(invoke(prompt, phrases))
-            index += 1
+        prompts = list(map(lambda q: INSTRUCTION + q, store[topic]))
+
+        # call ollama concurrently for each topic and append to new_questions
+        with ThreadPoolExecutor(max_workers=8) as executor:
+            batch = list(executor.map(invoke, prompts, [phrases]))
+
+        # this process only appends the first 5 generated questions for each topic
+        # there's 48 base questions over 9 categories
+        # this gives 93 = 48 + 9*5, which confirms the above observation
+
+        for q in batch:
+            new_questions.append(q)
+        index += length
+
         for new_sub_question in new_questions:
             for new_question in new_sub_question:
                 store[topic].append(new_question)
