@@ -8,6 +8,7 @@ site
 .ropeproject
 .ruff_cache
 .zed
+.idea
 **/result*
 build
 **/*.egg-info
