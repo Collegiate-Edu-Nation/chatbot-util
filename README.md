@@ -75,7 +75,7 @@ nix run /path/to/chatbot-util
 
 This app intentionally submits requests to Ollama in a sequential manner as, in my testing, parallelism breaks Ollama's determinism in unpredictable ways
 
-If this isn't important for your use-case, leverage the `feat-concurrent-requests` branch for an ~80% speedup (this figure was on an M1 MacBook Pro w/ `OLLAMA_NUM_PARALLEL` set to 8)
+If this isn't important for your use-case, leverage the `feat-concurrent-requests` branch for an ~80% speedup (this figure was on an M2 Pro w/ `OLLAMA_NUM_PARALLEL` set to 8)
 
 ## License
 
