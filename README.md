@@ -34,13 +34,29 @@ Before the FAQ can be extended by the LLM, the initial FAQ must be added to `~/.
 
 A list of employees, phrases to substitute, and answers must also be included in `~/.chatbot-util/Other.txt` (see docs for more explanation)
 
-Once there, run the app
+Once there, create the extended FAQ in the same directory by running the app
+
+### Nix
 
 ```shell
 nix run github:collegiate-edu-nation/chatbot-util
 ```
 
-This will create the extended FAQ in the same directory
+Leverage the binary cache by adding [Garnix] to your nix-config
+
+```nix
+nix.settings.substituters = [ "https://cache.garnix.io" ];
+nix.settings.trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" ];
+```
+
+### Non-Nix
+
+```shell
+{
+pip install .
+chatbot-util
+}
+```
 
 ## Advanced Usage
 
@@ -75,8 +91,11 @@ nix run /path/to/chatbot-util
 
 This app intentionally submits requests to Ollama in a sequential manner as, in my testing, parallelism breaks Ollama's determinism in unpredictable ways
 
-If this isn't important for your use-case, leverage the `feat-concurrent-requests` branch for an ~80% speedup (this figure was on an M2 Pro w/ `OLLAMA_NUM_PARALLEL` set to 8)
+If this isn't important for your use-case, leverage the `feat-concurrent-requests` branch for an ~80% speedup (this figure was observed on an M2 Pro w/ `OLLAMA_NUM_PARALLEL` set to 8)
 
 ## License
 
-[GPLv3](COPYING)
+[GPLv3]
+
+[Garnix]: https://garnix.io/
+[GPLv3]: COPYING
