@@ -81,12 +81,6 @@ git clone https://github.com/collegiate-edu-nation/chatbot-util.git
 Modify `src` as desired and add the changes<br>
 _The `build` and `format` scripts will be helpful here_
 
-Run the app
-
-```shell
-nix run /path/to/chatbot-util
-```
-
 ### Parallelism
 
 This app intentionally submits requests to Ollama in a sequential manner as, in my testing, parallelism breaks Ollama's determinism in unpredictable ways
