@@ -15,8 +15,10 @@ class TestChainGenerate(unittest.TestCase):
         phrases = [["abc", "ABC"]]
         options = {"seed": 39}
         prompt = chain.INSTRUCTION + "def"
+        prompt2 = chain.INSTRUCTION + "ghi"
         response = {"response": '"a"'}
-        store = {"abc": ["def"]}
+        response2 = {"response": '"b"'}
+        store = {"abc": ["def", "ghi"]}
 
         # mock
         when(ollama).generate(
@@ -24,8 +26,13 @@ class TestChainGenerate(unittest.TestCase):
             prompt=prompt,
             options=options,
         ).thenReturn(response)
+        when(ollama).generate(
+            model="mistral",
+            prompt=prompt2,
+            options=options,
+        ).thenReturn(response2)
 
-        expected = {"abc": ["def", '"a"']}
+        expected = {"abc": ["def", "ghi", '"a"', '"b"']}
         result = chain.generate(store, phrases)
         self.assertEqual(result, expected)
         unstub()
