@@ -76,22 +76,18 @@ def generate(store, phrases):
     for topic in store:
         length = len(store[topic])
         progress(index, length, total)
-        new_questions = []
         prompts = list(map(lambda q: INSTRUCTION + q, store[topic]))
 
         # call ollama concurrently for each topic and append to new_questions
         with ThreadPoolExecutor(max_workers=8) as executor:
-            batch = list(executor.map(invoke, prompts, [phrases]))
-
-        # this process only appends the first 5 generated questions for each topic
-        # there's 48 base questions over 9 categories
-        # this gives 93 = 48 + 9*5, which confirms the above observation
-
-        for q in batch:
-            new_questions.append(q)
-        index += length
+            new_questions = [
+                executor.submit(invoke, prompt, phrases) for prompt in prompts
+            ]
 
         for new_sub_question in new_questions:
-            for new_question in new_sub_question:
+            for new_question in new_sub_question.result():
                 store[topic].append(new_question)
+
+        index += length
+
     return store
