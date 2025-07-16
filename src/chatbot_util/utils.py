@@ -3,8 +3,19 @@
 
 """Utilities for creating and cleaning answers based on file content"""
 
+from typing import TypedDict
 
-def create_person_answer(topic, employees):
+
+class Answers(TypedDict):
+    """Representation of the answer dict variants expected for each topic"""
+
+    cen_answers: dict[str, list[str]]
+    robotics_answers: list[str]
+    instr_answers: list[str]
+    reach_answers: list[str]
+
+
+def create_person_answer(topic: str, employees: dict[str, list[str]]) -> str:
     """Update person topics to be their contact info"""
     temp = topic.split(" ")
     answer = (
@@ -14,7 +25,7 @@ def create_person_answer(topic, employees):
     return answer
 
 
-def create_cen_answer_helper(question, cen_answer):
+def create_cen_answer_helper(question: str, cen_answer: list[str]) -> str:
     """Format answer based on question content"""
     if (
         ("CEN" in question)
@@ -27,7 +38,9 @@ def create_cen_answer_helper(question, cen_answer):
     return answer
 
 
-def create_cen_answer(question, cen_answers, num_cen, cen_index):
+def create_cen_answer(
+    question: str, cen_answers: dict[str, list[str]], num_cen: int, cen_index: int
+) -> tuple[str, int]:
     """Update CEN topics to be the relevant answer"""
     answer = None
     i = 0
@@ -43,7 +56,7 @@ def create_cen_answer(question, cen_answers, num_cen, cen_index):
     return answer, cen_index
 
 
-def create_other_answer(answers, num, index):
+def create_other_answer(answers: list[str], num: int, index: int) -> tuple[str, int]:
     """Update other topics to be the relevant answer"""
     answer = None
     i = 0
@@ -55,7 +68,14 @@ def create_other_answer(answers, num, index):
     return answer, index
 
 
-def create_answer(topic, question, employees, answers, nums, indices):
+def create_answer(
+    topic: str,
+    question: str,
+    employees: dict[str, list[str]],
+    answers: Answers,
+    nums: dict[str, int],
+    indices: dict[str, int],
+) -> tuple[str, dict[str, int]]:
     """Convert topics to answers depending on whether the topic is a person, CEN, or other"""
     if topic == "CEN":
         answer, indices["cen_index"] = create_cen_answer(
@@ -87,7 +107,7 @@ def create_answer(topic, question, employees, answers, nums, indices):
     return answer, indices
 
 
-def clean_entry(question, answer):
+def clean_entry(question: str, answer: str) -> str:
     """Clean up unnecessary quotes"""
     if question[0] == '"' and question[-1] == '"':
         entry = f'{question},"{answer}"\n'

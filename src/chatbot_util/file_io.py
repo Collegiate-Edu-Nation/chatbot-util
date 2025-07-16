@@ -8,8 +8,9 @@ import csv
 from chatbot_util import utils
 
 
-def read_entries(filename):
+def read_entries(filename: str) -> tuple[dict[str, list[str]], dict[str, int]]:
     """Read and return topics and basic answers"""
+
     with open(filename, "r", encoding="utf-8") as f:
         # it seems as though the delimiter doesn't actually
         # matter as long as it's not the default: ",". updating
@@ -48,7 +49,7 @@ def read_entries(filename):
     return store, nums
 
 
-def read_employees(lines):
+def read_employees(lines: list[str]) -> dict[str, list[str]]:
     """Read and return employee list"""
     employees = {}
     for line in lines:
@@ -61,7 +62,7 @@ def read_employees(lines):
     return employees
 
 
-def read_phrases(lines):
+def read_phrases(lines: list[str]) -> list[list[str]]:
     """Read and return phrases to find and replace"""
     phrases = []
     for line in lines:
@@ -72,7 +73,7 @@ def read_phrases(lines):
     return phrases
 
 
-def read_cen(lines):
+def read_cen(lines: list[str]) -> dict[str, list[str]]:
     """Read and return cen_answers"""
     cen_answers = {}
     for i, line in enumerate(lines):
@@ -85,7 +86,7 @@ def read_cen(lines):
     return cen_answers
 
 
-def read_basic(lines):
+def read_basic(lines: list[str]) -> list[str]:
     """Read and return basic answers for topics other than CEN"""
     basic_answers = []
     for line in lines:
@@ -95,14 +96,14 @@ def read_basic(lines):
     return basic_answers
 
 
-def read_answers(lines):
+def read_answers(lines: list[list[str]]) -> utils.Answers:
     """Read and return answers for cen, robotics, instr"""
     cen_answers = read_cen(lines[0])
     robotics_answers = read_basic(lines[1])
     instr_answers = read_basic(lines[2])
     reach_answers = read_basic(lines[3])
 
-    answers = {
+    answers: utils.Answers = {
         "cen_answers": cen_answers,
         "robotics_answers": robotics_answers,
         "instr_answers": instr_answers,
@@ -111,7 +112,9 @@ def read_answers(lines):
     return answers
 
 
-def read_other(filename):
+def read_other(
+    filename: str,
+) -> tuple[dict[str, list[str]], list[list[str]], utils.Answers]:
     """Read and return employees, phrases, and answers"""
     with open(filename, "r", encoding="utf-8") as f:
         raw_lines = f.readlines()
@@ -130,7 +133,15 @@ def read_other(filename):
     return employees, phrases, answers
 
 
-def read(filenames):
+def read(
+    filenames: dict[str, str],
+) -> tuple[
+    dict[str, list[str]],
+    dict[str, list[str]],
+    list[list[str]],
+    utils.Answers,
+    dict[str, int],
+]:
     """Read questions from csv file, read employees, phrases and answers from text files"""
     store, nums = read_entries(filenames["readfile"])
     employees, phrases, answers = read_other(filenames["readfile2"])
@@ -138,7 +149,13 @@ def read(filenames):
     return store, employees, phrases, answers, nums
 
 
-def write(filenames, store, employees, answers, nums):
+def write(
+    filenames: dict[str, str],
+    store: dict[str, list[str]],
+    employees: dict[str, list[str]],
+    answers: utils.Answers,
+    nums: dict[str, int],
+):
     """Format questions and topics, write to csv file"""
     with open(filenames["writefile"], "w", encoding="utf-8") as csvfile:
         csvfile.write('"question","answer"\n')

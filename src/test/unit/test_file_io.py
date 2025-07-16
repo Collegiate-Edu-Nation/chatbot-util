@@ -4,7 +4,7 @@
 import tempfile
 import unittest
 
-from chatbot_util import file_io
+from chatbot_util import file_io, utils
 
 
 class TestFileIO(unittest.TestCase):
@@ -38,7 +38,7 @@ class TestFileIO(unittest.TestCase):
 
     def test_read_answers(self):
         lines = [[], [], [], []]
-        expected = {
+        expected: utils.Answers = {
             "cen_answers": {},
             "robotics_answers": [],
             "instr_answers": [],

@@ -15,6 +15,9 @@ pkgs.writeShellScriptBin "build" ''
   echo -e "\033[1;33mruff...\033[0m"
   ruff check | box
 
+  echo -e "\n\033[1;33mpyright...\033[0m"
+  pyright 2> /dev/null | box
+
   echo -e "\n\033[1;33mcoverage...\033[0m"
   coverage run -m unittest 2> /dev/null | box
 

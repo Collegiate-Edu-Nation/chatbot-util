@@ -58,10 +58,11 @@ class TestUtils(unittest.TestCase):
     def test_create_answer(self):
         # setup
         employees = {"A Bcdef": ["G Hijk", "His"]}
-        answers = {
+        answers: utils.Answers = {
             "cen_answers": {"cen_0": ["abc", "def"]},
             "robotics_answers": ["abc"],
             "instr_answers": ["abc"],
+            "reach_answers": ["abc"],
         }
         nums = {
             "num_cen": 1,

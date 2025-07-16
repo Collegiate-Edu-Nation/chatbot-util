@@ -8,6 +8,7 @@
   dev =
     with pkgs;
     [
+      pyright
       build
       format
       verify

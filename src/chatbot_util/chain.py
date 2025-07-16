@@ -12,24 +12,24 @@ in your generated questions - NEVER MAKE UP A MEANING FOR AN ABBREVIATION. \
 Generate 5 variations of the following question: """
 
 
-def parse(response, phrases):
+def parse(response: str, phrases: list[list[str]]) -> list[str]:
     """Parse lines from LLM and clean them before returning"""
 
-    def remove_empty(lines):
+    def remove_empty(lines: list[str]) -> list[str]:
         """Remove empty lines"""
         for line in lines:
             if line == "":
                 lines.remove(line)
         return lines
 
-    def remove_numbers(lines):
+    def remove_numbers(lines: list[str]) -> list[str]:
         """Remove numbers"""
         for i, line in enumerate(lines):
             if line[1] == ".":
                 lines[i] = line[3:]
         return lines
 
-    def remove_phrases(lines, phrases):
+    def remove_phrases(lines: list[str], phrases: list[list[str]]) -> list[str]:
         for i, line in enumerate(lines):
             for phrase in phrases:
                 line = line.replace(phrase[0], phrase[1])
@@ -43,7 +43,7 @@ def parse(response, phrases):
     return cleaned_lines
 
 
-def invoke(prompt, phrases):
+def invoke(prompt: str, phrases: list[list[str]]) -> list[str]:
     """Define chat model, then create the chain"""
     options = {"seed": 39}
     response = ollama.generate(
@@ -56,10 +56,12 @@ def invoke(prompt, phrases):
     return cleaned_response
 
 
-def generate(store, phrases):
+def generate(
+    store: dict[str, list[str]], phrases: list[list[str]]
+) -> dict[str, list[str]]:
     """Generate and append new questions to store"""
 
-    def progress(index, total):
+    def progress(index: int, total: int) -> None:
         """Updates generation progress"""
         sys.stdout.write(f"\rGenerating similar queries for: {index}/{total}...")
         sys.stdout.flush()
