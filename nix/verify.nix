@@ -17,13 +17,18 @@ pkgs.writeShellScriptBin "verify" ''
   # verify new output
   if ! [[ $(diff ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup) ]]; then
     echo -e "\033[1;32mVerified.\033[0m"
+    CODE=0
   elif ! [[ $(diff --strip-trailing-cr -y --suppress-common-lines ~/.chatbot-util/Permutated.csv ~/.chatbot-util/Permutated.csv.backup | grep ">\||") ]]; then
     echo -e "\033[1;32mVerified.\033[0m"
+    CODE=0
   else
     echo -e "\033[1;31mUnverified, check diff.\033[0m"
+    CODE=3
   fi
 
   # replace new output with old
   rm ~/.chatbot-util/Permutated.csv
   mv ~/.chatbot-util/Permutated.csv.backup ~/.chatbot-util/Permutated.csv
+
+  exit $CODE
 ''

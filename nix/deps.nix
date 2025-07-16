@@ -4,7 +4,11 @@
 { pkgs }:
 
 {
-  build = with pkgs.python313Packages; [ ollama ];
+  build = with pkgs.python313Packages; [
+    fastapi
+    fastapi-cli
+    ollama
+  ];
   dev =
     with pkgs;
     [

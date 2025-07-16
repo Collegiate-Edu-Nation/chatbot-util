@@ -59,6 +59,26 @@ chatbot-util
 
 ## Advanced Usage
 
+### FastAPI
+
+Follow the steps in [Nix](#nix) then start the uvicorn server
+
+```shell
+uvicorn src.chatbot_util.__main__:app
+```
+
+Then submit a curl request to an endpoint
+
+```shell
+curl -X POST http://127.0.0.1:8000/verify
+```
+
+Which should return
+
+```json
+{"status":"verified"}
+```
+
 ### Verify results
 
 `flake.nix` contains a basic script for verifying that the output of running `chatbot-util` either exactly matches the preexisting `Permutated.csv`, or only contains new and unmodified entries. This is very helpful for ensuring deterministic output over time
