@@ -73,7 +73,7 @@ def generate(
             total += 1
 
     for topic in store:
-        new_questions = []
+        new_questions: list[list[str]] = []
         for question in store[topic]:
             progress(index, total)
             prompt = INSTRUCTION + question

@@ -4,7 +4,10 @@
 import unittest
 
 import ollama
-from mockito import unstub, when
+from mockito import (  # pyright: ignore [reportMissingTypeStubs]
+    unstub,  # pyright: ignore [reportUnknownVariableType]
+    when,  # pyright: ignore [reportUnknownVariableType]
+)
 
 from chatbot_util import chain
 
@@ -22,11 +25,13 @@ class TestChainGenerate(unittest.TestCase):
 
         # mock
         when(ollama).generate(
+            # pyright: ignore [reportUnknownMemberType]
             model="mistral",
             prompt=prompt,
             options=options,
         ).thenReturn(response)
         when(ollama).generate(
+            # pyright: ignore [reportUnknownMemberType]
             model="mistral",
             prompt=prompt2,
             options=options,

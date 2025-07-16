@@ -4,7 +4,10 @@
 import unittest
 
 import ollama
-from mockito import unstub, when
+from mockito import (  # pyright: ignore [reportMissingTypeStubs]
+    unstub,  # pyright: ignore [reportUnknownVariableType]
+    when,  # pyright: ignore [reportUnknownVariableType]
+)
 
 from chatbot_util import chain
 
@@ -16,8 +19,8 @@ class TestChain(unittest.TestCase):
 
         # empty
         response = ""
-        expected = []
-        cleaned = chain.parse(response, expected)
+        expected: list[str] = []
+        cleaned = chain.parse(response, phrases)
         self.assertEqual(cleaned, expected)
 
         # numbers
@@ -41,12 +44,13 @@ class TestChain(unittest.TestCase):
 
         # mock
         when(ollama).generate(
+            # pyright: ignore [reportUnknownMemberType]
             model="mistral",
             prompt=prompt,
             options=options,
         ).thenReturn(response)
 
-        expected = []
+        expected: list[str] = []
         result = chain.invoke(prompt, phrases)
         self.assertEqual(result, expected)
         unstub()

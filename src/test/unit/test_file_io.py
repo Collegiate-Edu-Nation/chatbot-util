@@ -37,7 +37,7 @@ class TestFileIO(unittest.TestCase):
         self.assertEqual(basic_answers, expected)
 
     def test_read_answers(self):
-        lines = [[], [], [], []]
+        lines: list[list[str]] = [[], [], [], []]
         expected: utils.Answers = {
             "cen_answers": {},
             "robotics_answers": [],

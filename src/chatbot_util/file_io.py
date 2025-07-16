@@ -18,7 +18,7 @@ def read_entries(filename: str) -> tuple[dict[str, list[str]], dict[str, int]]:
         # topic = line[0] w/ delimiter = ",") broke Ollama's
         # determinism (checked via $ verify)
         reader = csv.reader(f, delimiter="\t")
-        store = {}
+        store: dict[str, list[str]] = {}
         cur_topic = ""
         nums = {
             "num_cen": 0,
@@ -51,7 +51,7 @@ def read_entries(filename: str) -> tuple[dict[str, list[str]], dict[str, int]]:
 
 def read_employees(lines: list[str]) -> dict[str, list[str]]:
     """Read and return employee list"""
-    employees = {}
+    employees: dict[str, list[str]] = {}
     for line in lines:
         if len(line) >= 3:
             employee, role, pronoun = line[:-1].split(sep=":")
@@ -64,7 +64,7 @@ def read_employees(lines: list[str]) -> dict[str, list[str]]:
 
 def read_phrases(lines: list[str]) -> list[list[str]]:
     """Read and return phrases to find and replace"""
-    phrases = []
+    phrases: list[list[str]] = []
     for line in lines:
         find, replace = line.split(sep=":")
         replace = replace.strip("\n")
@@ -75,7 +75,7 @@ def read_phrases(lines: list[str]) -> list[list[str]]:
 
 def read_cen(lines: list[str]) -> dict[str, list[str]]:
     """Read and return cen_answers"""
-    cen_answers = {}
+    cen_answers: dict[str, list[str]] = {}
     for i, line in enumerate(lines):
         if len(line) >= 3:
             part1, part2 = line[:-1].split(sep=":")
@@ -88,7 +88,7 @@ def read_cen(lines: list[str]) -> dict[str, list[str]]:
 
 def read_basic(lines: list[str]) -> list[str]:
     """Read and return basic answers for topics other than CEN"""
-    basic_answers = []
+    basic_answers: list[str] = []
     for line in lines:
         clean_line = line.strip("\n")
         basic_answers.append(clean_line)
@@ -118,7 +118,7 @@ def read_other(
     """Read and return employees, phrases, and answers"""
     with open(filename, "r", encoding="utf-8") as f:
         raw_lines = f.readlines()
-        lines = [[], [], [], [], [], []]
+        lines: list[list[str]] = [[], [], [], [], [], []]
 
         cur = 0
         for raw_line in raw_lines:
