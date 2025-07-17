@@ -23,7 +23,7 @@ pkgs.writeShellScriptBin "format" ''
 
   echo -e "\n\033[1;33mprettier...\033[0m"
   ${pkgs.nodePackages.prettier}/bin/prettier \
-  --write **/*.yaml **/*.md | box
+  --write **/*.yaml **/*.md **/*.json **/*.tsx **/*.css **/*.ts **/*.html | box
 
   echo -e "\n\033[1;32mFormat succeeded.\033[0m"
 ''

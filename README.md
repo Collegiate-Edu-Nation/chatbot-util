@@ -33,11 +33,16 @@ Before the FAQ can be extended by the LLM, the initial FAQ must be added to `~/.
 
 A list of employees, phrases to substitute, and answers must also be included in `~/.chatbot-util/Other.txt` (see docs for more explanation)
 
-Once there, create the extended FAQ in the same directory by running the app (follow one of [](#nix) or [Non-Nix](#non-nix)) then submitting a post request to the `generate` endpoint
+Once there, create the extended FAQ in the same directory by launching the backend server (follow one of [](#nix) or [Non-Nix](#non-nix)) then starting the frontend server
 
 ```shell
-curl -X POST http://127.0.0.1:8000/generate
+{
+cd front
+npm start
+}
 ```
+
+And navigating to `http://localhost:3000`
 
 ### Nix
 

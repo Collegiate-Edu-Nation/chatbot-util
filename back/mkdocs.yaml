@@ -23,6 +23,8 @@ theme:
 repo_name: collegiate-edu-nation/chatbot-util
 repo_url: https://github.com/collegiate-edu-nation/chatbot-util
 
+docs_dir: ../docs
+
 copyright: Copyright Collegiate Edu-Nation
 
 plugins:

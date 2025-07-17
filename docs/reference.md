@@ -10,6 +10,11 @@ hide:
     ## \_\_main\_\_.py
     ::: src.chatbot_util.__main__
 
+=== "api.py"
+
+    ## api.py
+    ::: src.chatbot_util.api
+
 === "chain.py"
 
     ## chain.py

@@ -13,12 +13,19 @@
   dev =
     with pkgs;
     [
+      # backend
       pyright
+
+      # frontend
+      nodejs
+
+      # scripts
       build
       format
       verify
     ]
     ++ (with pkgs.python313Packages; [
+      # backend
       coverage
       mockito
       mkdocs
