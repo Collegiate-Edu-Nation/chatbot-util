@@ -33,7 +33,11 @@ Before the FAQ can be extended by the LLM, the initial FAQ must be added to `~/.
 
 A list of employees, phrases to substitute, and answers must also be included in `~/.chatbot-util/Other.txt` (see docs for more explanation)
 
-Once there, create the extended FAQ in the same directory by running the app
+Once there, create the extended FAQ in the same directory by running the app (follow one of [](#nix) or [Non-Nix](#non-nix)) then submitting a post request to the `generate` endpoint
+
+```shell
+curl -X POST http://127.0.0.1:8000/generate
+```
 
 ### Nix
 
@@ -58,26 +62,6 @@ chatbot-util
 ```
 
 ## Advanced Usage
-
-### FastAPI
-
-Follow the steps in [Nix](#nix) then start the uvicorn server
-
-```shell
-uvicorn src.chatbot_util.__main__:app
-```
-
-Then submit a curl request to an endpoint
-
-```shell
-curl -X POST http://127.0.0.1:8000/verify
-```
-
-Which should return
-
-```json
-{"status":"verified"}
-```
 
 ### Verify results
 

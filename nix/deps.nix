@@ -8,6 +8,7 @@
     fastapi
     fastapi-cli
     ollama
+    uvicorn
   ];
   dev =
     with pkgs;

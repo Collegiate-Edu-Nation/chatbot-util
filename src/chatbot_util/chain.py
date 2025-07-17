@@ -7,6 +7,30 @@ import sys
 
 import ollama
 
+
+class Progress:
+    """Representation of generation progress with utility methods for updating and displaying"""
+
+    index: int = 0
+    total: int
+
+    def __init__(self, total: int):
+        self.total = total
+
+    def update(self, index: int):
+        """Update generation progress"""
+        self.index = index
+        self.display()
+
+    def display(self) -> None:
+        """Display generation progress"""
+        sys.stdout.write(
+            f"\rGenerating similar queries for: {self.index}/{self.total}..."
+        )
+        sys.stdout.flush()
+
+
+progress: Progress
 INSTRUCTION = """If a question uses an abbreviation, use that abbreviation \
 in your generated questions - NEVER MAKE UP A MEANING FOR AN ABBREVIATION. \
 Generate 5 variations of the following question: """
@@ -61,21 +85,18 @@ def generate(
 ) -> dict[str, list[str]]:
     """Generate and append new questions to store"""
 
-    def progress(index: int, total: int) -> None:
-        """Updates generation progress"""
-        sys.stdout.write(f"\rGenerating similar queries for: {index}/{total}...")
-        sys.stdout.flush()
-
     # Calculate total number of questions to generate
     index, total = 1, 0
     for topic in store:
         for question in store[topic]:
             total += 1
 
+    global progress
+    progress = Progress(total)
     for topic in store:
         new_questions: list[list[str]] = []
         for question in store[topic]:
-            progress(index, total)
+            progress.update(index)
             prompt = INSTRUCTION + question
             new_questions.append(invoke(prompt, phrases))
             index += 1
