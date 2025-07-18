@@ -32,7 +32,7 @@ def start() -> None:
 def main() -> None:
     """Start uvicorn server"""
     host = "127.0.0.1"
-    port = 8000
+    port = 8080
 
     print(f"Starting server on {host}:{port}...\n")
     uvicorn.run(

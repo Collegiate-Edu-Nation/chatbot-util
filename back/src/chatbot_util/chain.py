@@ -30,7 +30,7 @@ class Progress:
         sys.stdout.flush()
 
 
-progress: Progress
+progress: Progress = Progress(0)
 INSTRUCTION = """If a question uses an abbreviation, use that abbreviation \
 in your generated questions - NEVER MAKE UP A MEANING FOR AN ABBREVIATION. \
 Generate 5 variations of the following question: """
@@ -103,4 +103,6 @@ def generate(
         for new_sub_question in new_questions:
             for new_question in new_sub_question:
                 store[topic].append(new_question)
+
+    progress = Progress(0)
     return store

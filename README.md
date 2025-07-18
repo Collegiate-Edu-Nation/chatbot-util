@@ -35,7 +35,7 @@ A list of employees, phrases to substitute, and answers must also be included in
 
 Once there, create the extended FAQ in the same directory by launching both the back and frontends (follow one of [Nix](#nix) or [Non-Nix](#non-nix))
 
-And navigating to `http://localhost:3000`
+And navigating to http://localhost:3000
 
 ### Nix
 
@@ -65,7 +65,7 @@ chatbot-util
 Then serve the frontend in a separate shell (tested with node v22.14.0)
 
 > [!NOTE]
-> Feel free to use a background process instead (that's what I do for the default [Nix package])
+> Feel free to use a background process instead (that's what I do in the default [Nix package])
 
 ```shell
 {

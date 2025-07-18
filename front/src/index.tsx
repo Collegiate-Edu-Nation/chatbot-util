@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Collegiate Edu-Nation
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";

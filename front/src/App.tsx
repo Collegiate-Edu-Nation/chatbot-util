@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Collegiate Edu-Nation
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import React, { useState } from "react";
 import "./App.css";
 
@@ -14,7 +17,7 @@ function App() {
         "Content-Type": "application/json",
       },
     };
-    const url = "http://127.0.0.1:8000/generate";
+    const url = "http://127.0.0.1:8080/generate";
     let response = await fetch(url, settings);
     let result = await response.json();
     console.log(result);
@@ -22,7 +25,7 @@ function App() {
   }
 
   async function health() {
-    const url = "http://127.0.0.1:8000/health";
+    const url = "http://127.0.0.1:8080/health";
     let response = await fetch(url);
     let result = await response.json();
     console.log(result);
@@ -30,7 +33,7 @@ function App() {
   }
 
   async function progress() {
-    const url = "http://127.0.0.1:8000/progress";
+    const url = "http://127.0.0.1:8080/progress";
     let response = await fetch(url);
     let result = await response.json();
     console.log(result);
