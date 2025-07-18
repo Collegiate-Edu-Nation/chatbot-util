@@ -13,17 +13,42 @@ from chatbot_util import chain, file_io
 
 def start() -> None:
     """Create chain, read info from files, append generated questions, then write to new file"""
-    # Expanded file paths
+
+    def handle_interrupt() -> bool:
+        """Helper to reset chain state if interrupted"""
+        interrupted = False
+        if chain.interrupt:
+            chain.interrupt = False
+            chain.progress = chain.Progress(0)
+            print("Interrupted.\n")
+            interrupted = True
+
+        return interrupted
+
     filenames = {
         "readfile": os.path.expanduser("~/.chatbot-util/Chatbot FAQ - Enter Here.csv"),
         "readfile2": os.path.expanduser("~/.chatbot-util/Other.txt"),
         "writefile": os.path.expanduser("~/.chatbot-util/Permutated.csv"),
     }
 
-    # Read info, generate questions, then write final output
+    # Check interrupt status between operations to avoid undesired behavior
+    if handle_interrupt():
+        return
+
+    # Read topics and organic questions
     print("\nReading topics, questions, employees, and answers...")
     store, employees, phrases, answers, nums = file_io.read(filenames)
+
+    if handle_interrupt():
+        return
+
+    # Generate synthetic questions
     permutated_store = chain.generate(store, phrases)
+
+    if handle_interrupt():
+        return
+
+    # Recreate Permutated.csv w/ synthetic questions appended
     print(f'\nWriting to "{filenames["writefile"]}"...')
     file_io.write(filenames, permutated_store, employees, answers, nums)
     print("Done.\n")

@@ -14,10 +14,10 @@ class Progress:
     index: int = 0
     total: int
 
-    def __init__(self, total: int):
+    def __init__(self, total: int) -> None:
         self.total = total
 
-    def update(self, index: int):
+    def update(self, index: int) -> None:
         """Update generation progress"""
         self.index = index
         self.display()
@@ -31,6 +31,7 @@ class Progress:
 
 
 progress: Progress = Progress(0)
+interrupt: bool = False
 INSTRUCTION = """If a question uses an abbreviation, use that abbreviation \
 in your generated questions - NEVER MAKE UP A MEANING FOR AN ABBREVIATION. \
 Generate 5 variations of the following question: """
@@ -91,18 +92,30 @@ def generate(
         for question in store[topic]:
             total += 1
 
+    # Init progress
     global progress
     progress = Progress(total)
+
+    # Iterate over each topic (e.g., 'Reach', 'CEN', etc.)
     for topic in store:
         new_questions: list[list[str]] = []
+
+        # Iterate over each question in the topic, generating 5 new ones / question
         for question in store[topic]:
+            # return early if interrupted
+            if interrupt:
+                return store
+
             progress.update(index)
             prompt = INSTRUCTION + question
             new_questions.append(invoke(prompt, phrases))
             index += 1
+
+        # Append synthetic questions for each organic question in this topic
         for new_sub_question in new_questions:
             for new_question in new_sub_question:
                 store[topic].append(new_question)
 
+    # Reset progress
     progress = Progress(0)
     return store

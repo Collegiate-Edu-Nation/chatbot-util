@@ -155,7 +155,7 @@ def write(
     employees: dict[str, list[str]],
     answers: utils.Answers,
     nums: dict[str, int],
-):
+) -> None:
     """Format questions and topics, write to csv file"""
     with open(filenames["writefile"], "w", encoding="utf-8") as csvfile:
         csvfile.write('"question","answer"\n')

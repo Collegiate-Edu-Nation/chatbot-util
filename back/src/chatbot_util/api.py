@@ -73,3 +73,14 @@ def progress() -> dict[str, int]:
     total = total number of topics to generate queries for
     """
     return {"index": chain.progress.index, "total": chain.progress.total}
+
+
+@app.get("/interrupt")
+def interrupt() -> dict[str, int]:
+    """Interrupt the current generation task
+
+    200 = successfully interrupted generation of Permutated.csv\n
+    500 = generic internal error encountered
+    """
+    chain.interrupt = True
+    return {"detail": 200}
