@@ -3,19 +3,29 @@
 
 { pkgs, deps }:
 
-{
-  default = pkgs.python313Packages.buildPythonApplication {
-    pname = "chatbot-util";
-    version = "1.2.0";
+let
+  pname = "chatbot-util";
+  version = "2.0.0";
+
+  back = pkgs.python313Packages.buildPythonApplication {
+    inherit pname version;
     pyproject = true;
     src = ../back/.;
 
     build-system = with pkgs.python313Packages; [ setuptools ];
     propagatedBuildInputs = deps.build;
-
-    meta = {
-      description = "Utility for generating similar FAQ's a la rag-fusion in a structured format ready for Google's Conversational Agents";
-      maintainers = [ "camdenboren" ];
-    };
   };
+
+  front = pkgs.buildNpmPackage {
+    inherit pname version;
+    src = ../front/.;
+    npmDepsHash = "sha256-UMyHZbT+pB5cmVX3wiQrug5zA+F2okHyK/vPwSl8kZI=";
+  };
+in
+{
+  inherit back front;
+  default = pkgs.writeShellScriptBin "chatbot-util" ''
+    ${back}/bin/chatbot-util &
+    ${pkgs.nodejs}/bin/npm run start --prefix ${front}/lib/node_modules/chatbot-util
+  '';
 }
