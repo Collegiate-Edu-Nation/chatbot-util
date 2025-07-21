@@ -11,6 +11,19 @@ import uvicorn
 from chatbot_util import chain, file_io
 
 
+def main() -> None:
+    """Start uvicorn server"""
+    host = "127.0.0.1"
+    port = 8080
+
+    print(f"Starting server on {host}:{port}...\n")
+    uvicorn.run(
+        "chatbot_util.api:app",
+        host=host,
+        port=port,
+    )
+
+
 def start() -> None:
     """Create chain, read info from files, append generated questions, then write to new file"""
 
@@ -52,19 +65,6 @@ def start() -> None:
     print(f'\nWriting to "{filenames["writefile"]}"...')
     file_io.write(filenames, permutated_store, employees, answers, nums)
     print("Done.\n")
-
-
-def main() -> None:
-    """Start uvicorn server"""
-    host = "127.0.0.1"
-    port = 8080
-
-    print(f"Starting server on {host}:{port}...\n")
-    uvicorn.run(
-        "chatbot_util.api:app",
-        host=host,
-        port=port,
-    )
 
 
 if __name__ == "__main__":

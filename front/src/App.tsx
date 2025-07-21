@@ -8,6 +8,7 @@ function App() {
   const [status, setStatus] = useState(0);
   const [genStatus, setGenStatus] = useState(0);
   const [progStatus, setProgStatus] = useState([0, 0]);
+  const baseURL = "http://127.0.0.1:8080/api";
 
   async function generate() {
     const settings = {
@@ -17,7 +18,7 @@ function App() {
         "Content-Type": "application/json",
       },
     };
-    const url = "http://127.0.0.1:8080/generate";
+    const url = baseURL + "/generate";
     let response = await fetch(url, settings);
     let result = await response.json();
     console.log(result);
@@ -25,7 +26,7 @@ function App() {
   }
 
   async function health() {
-    const url = "http://127.0.0.1:8080/health";
+    const url = baseURL + "/health";
     let response = await fetch(url);
     let result = await response.json();
     console.log(result);
@@ -33,7 +34,7 @@ function App() {
   }
 
   async function progress() {
-    const url = "http://127.0.0.1:8080/progress";
+    const url = baseURL + "/progress";
     let response = await fetch(url);
     let result = await response.json();
     console.log(result);
@@ -41,7 +42,7 @@ function App() {
   }
 
   async function interrupt() {
-    const url = "http://127.0.0.1:8080/interrupt";
+    const url = baseURL + "/interrupt";
     let response = await fetch(url);
     let result = await response.json();
     console.log(result);

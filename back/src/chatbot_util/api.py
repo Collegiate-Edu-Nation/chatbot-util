@@ -3,15 +3,18 @@
 
 """API routes and implementations for the uvicorn server launched in __main__"""
 
+import os
+
 import ollama
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from chatbot_util import __main__, chain
 
 app = FastAPI()
 
-origins = ["http://localhost:3000"]
+origins = ["http://localhost:8080"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -24,7 +27,7 @@ app.add_middleware(
 allow_generate = True
 
 
-@app.get("/health")
+@app.get("/api/health")
 def health() -> dict[str, int]:
     """Health check for both uvicorn and ollama servers
 
@@ -41,7 +44,7 @@ def health() -> dict[str, int]:
     return {"detail": status_code}
 
 
-@app.post("/generate")
+@app.post("/api/generate")
 def generate() -> dict[str, int]:
     """Create chain, read info from files, append generated questions, then write to new file
 
@@ -65,7 +68,7 @@ def generate() -> dict[str, int]:
     return {"detail": status_code}
 
 
-@app.get("/progress")
+@app.get("/api/progress")
 def progress() -> dict[str, int]:
     """Report on generation progress
 
@@ -75,7 +78,7 @@ def progress() -> dict[str, int]:
     return {"index": chain.progress.index, "total": chain.progress.total}
 
 
-@app.get("/interrupt")
+@app.get("/api/interrupt")
 def interrupt() -> dict[str, int]:
     """Interrupt the current generation task
 
@@ -84,3 +87,11 @@ def interrupt() -> dict[str, int]:
     """
     chain.interrupt = True
     return {"detail": 200}
+
+
+# serve react frontend on root
+# mounting order matters - 404 if we mount frontend before establishing api paths
+# creating a separate app for the api is a common approach, but this seems to work
+app.mount(
+    "/", StaticFiles(directory=os.environ["FRONT_DIR"], html=True), name="frontend"
+)

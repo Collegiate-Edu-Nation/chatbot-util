@@ -4,12 +4,19 @@
 { pkgs }:
 
 {
-  build = with pkgs.python313Packages; [
-    fastapi
-    fastapi-cli
-    ollama
-    uvicorn
-  ];
+  build =
+    with pkgs;
+    [
+      makeWrapper
+    ]
+    ++ (with python313Packages; [
+      # backend
+      fastapi
+      fastapi-cli
+      ollama
+      uvicorn
+    ]);
+
   dev =
     with pkgs;
     [
@@ -22,9 +29,10 @@
       # scripts
       build
       format
+      launch
       verify
     ]
-    ++ (with pkgs.python313Packages; [
+    ++ (with python313Packages; [
       # backend
       coverage
       mockito

@@ -9,11 +9,13 @@
     buildInputs = deps.build;
 
     shellHook = ''
+      export FRONT_DIR="$(pwd)/front/build"
       echo -e "\nchatbot-util DevShell via Nix Flake\n"
 
       echo -e "┌───────────────────────────────────────────────┐"
       echo -e "│                Useful Commands                │"
       echo -e "├──────────┬────────────────────────────────────┤"
+      echo -e "│ Launch   │ $ launch                           │"
       echo -e "│ Build    │ $ build                            │"
       echo -e "│ Format   │ $ format                           │"
       echo -e "│ Verify   │ $ verify                           │"

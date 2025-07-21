@@ -35,7 +35,7 @@ A list of employees, phrases to substitute, and answers must also be included in
 
 Once there, create the extended FAQ in the same directory by launching both the back and frontends (follow one of [Nix](#nix) or [Non-Nix](#non-nix))
 
-And navigating to http://localhost:3000
+And navigating to http://localhost:8080
 
 ### Nix
 
@@ -52,26 +52,25 @@ nix.settings.trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObb
 
 ### Non-Nix
 
-Launch the backend (tested with python v3.13.3)
-
-```shell
-{
-cd back
-pip install .
-chatbot-util
-}
-```
-
-Then serve the frontend in a separate shell (tested with node v22.14.0)
-
-> [!NOTE]
-> Feel free to use a background process instead (that's what I do in the default [Nix package])
+Build the frontend (tested with node v22.14.0)
 
 ```shell
 {
 cd front
 npm i
-npm run start
+npm run build
+cd ..
+}
+```
+
+Then build and launch the backend (tested with python v3.13.3)
+
+```shell
+{
+ROOT_DIR=$(pwd)
+cd back
+pip install .
+FRONT_DIR="$ROOT_DIR/front/build" chatbot-util
 }
 ```
 
@@ -109,5 +108,4 @@ If this isn't important for your use-case, leverage the `feat-concurrent-request
 [GPLv3]
 
 [Garnix]: https://garnix.io/
-[Nix package]: nix/package.nix
 [GPLv3]: COPYING
