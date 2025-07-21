@@ -10,7 +10,7 @@ let
   front = pkgs.buildNpmPackage {
     inherit pname version;
     src = ../front/.;
-    npmDepsHash = "sha256-UMyHZbT+pB5cmVX3wiQrug5zA+F2okHyK/vPwSl8kZI=";
+    npmDepsHash = "sha256-+hEb5ba0fKvl4d4nWPmq/PO97SQDNhIqKXq21UlOG4M=";
   };
 in
 {
