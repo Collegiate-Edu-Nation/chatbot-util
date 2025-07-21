@@ -2,13 +2,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import React, { useState } from "react";
+import useInterval from "@use-it/interval";
 import "./App.css";
+import logo from "./logo.png";
 
 function App() {
   const [status, setStatus] = useState(0);
   const [genStatus, setGenStatus] = useState(0);
   const [progStatus, setProgStatus] = useState([0, 0]);
   const baseURL = "http://127.0.0.1:8080/api";
+
+  useInterval(() => progress(), 500);
+  useInterval(() => health(), 500);
 
   async function generate() {
     const settings = {
@@ -52,19 +57,28 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <button onClick={health}>Health</button>
-        <button onClick={generate}>Generate</button>
-        <button onClick={progress}>Progress</button>
-        <button onClick={interrupt}>Interrupt</button>
-        <p>
-          Server Status: {status}
-          <br></br>
-          Generation Status: {genStatus}
-          <br></br>
-          Progress Status: {progStatus[0]}/{progStatus[1]}
-          <br></br>
-        </p>
+        <img src={logo} alt="Logo" width="100px"></img>
+        {status === 200 ? (
+          <div className="green-circle"></div>
+        ) : (
+          <>
+            <div className="red-circle"></div>
+          </>
+        )}
       </header>
+
+      <div className="Generate">
+        {progStatus[0] !== 0 ? (
+          <>
+            <button onClick={interrupt}>Interrupt</button>
+            <progress value={progStatus[0] / progStatus[1]}></progress>
+          </>
+        ) : (
+          <>
+            <button onClick={generate}>Generate</button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

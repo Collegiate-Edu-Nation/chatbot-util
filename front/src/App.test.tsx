@@ -5,8 +5,8 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import App from "./App";
 
-test("renders server status indicator", () => {
+test("renders generate button", () => {
   render(<App />);
-  const linkElement = screen.getByText(/Server status/i);
+  const linkElement = screen.getByText(/Generate/i);
   expect(linkElement).toBeInTheDocument();
 });
