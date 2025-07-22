@@ -10,7 +10,7 @@
 **/.zed
 **/.idea
 **/result*
-**/build
+**/build/
 **/*.egg-info
 **/coverage
 **/node_modules

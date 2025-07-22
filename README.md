@@ -75,16 +75,6 @@ chatbot-util
 
 ## Advanced Usage
 
-### Verify results
-
-`flake.nix` contains a basic script for verifying that the output of running `chatbot-util` either exactly matches the preexisting `Permutated.csv`, or only contains new and unmodified entries. This is very helpful for ensuring deterministic output over time
-
-Run this command to verify. If successful, `verified` will be printed to console
-
-```shell
-nix develop github:collegiate-edu-nation/chatbot-util --command bash -c "verify"
-```
-
 ### Modifications
 
 To edit the code itself, clone this repo

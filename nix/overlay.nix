@@ -3,9 +3,17 @@
 
 { pkgs }:
 
+let
+  # read script by name and patch bash shebang for nix users
+  # see https://ertt.ca/nix/shell-scripts/
+  writePatchedScript =
+    name:
+    (pkgs.writeScriptBin name (builtins.readFile ../script/${name})).overrideAttrs (old: {
+      buildCommand = "${old.buildCommand}\n patchShebangs $out";
+    });
+in
 (final: prev: {
-  build = pkgs.callPackage ./build.nix { };
-  format = pkgs.callPackage ./format.nix { };
-  launch = pkgs.callPackage ./launch.nix { };
-  verify = pkgs.callPackage ./verify.nix { };
+  build = writePatchedScript "build";
+  format = writePatchedScript "format";
+  launch = writePatchedScript "launch";
 })

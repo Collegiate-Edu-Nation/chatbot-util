@@ -30,7 +30,12 @@
       build
       format
       launch
-      verify
+
+      # script deps
+      boxes
+      nixfmt-rfc-style
+      nodePackages.prettier
+      taplo
     ]
     ++ (with python313Packages; [
       # backend
