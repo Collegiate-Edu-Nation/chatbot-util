@@ -24,13 +24,16 @@ function Header() {
   return (
     <header className="App-header">
       <img src={logo} alt="Logo" width="100px"></img>
-      {status === 200 ? (
-        <div className="green-circle"></div>
-      ) : (
-        <>
-          <div className="red-circle"></div>
-        </>
-      )}
+      <button className="Button">
+        Status &nbsp;
+        {status === 200 ? (
+          <div className="circle green-circle"></div>
+        ) : (
+          <>
+            <div className="circle red-circle"></div>
+          </>
+        )}
+      </button>
     </header>
   );
 }

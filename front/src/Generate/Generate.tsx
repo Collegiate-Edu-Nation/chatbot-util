@@ -52,12 +52,16 @@ function Generate() {
     <div className="Generate">
       {progStatus[0] !== 0 ? (
         <>
-          <button onClick={interrupt}>Interrupt</button>
+          <button className="Button" onClick={interrupt}>
+            Interrupt
+          </button>
           <progress value={progStatus[0] / progStatus[1]}></progress>
         </>
       ) : (
         <>
-          <button onClick={generate}>Generate</button>
+          <button className="Button" onClick={generate}>
+            Generate
+          </button>
         </>
       )}
     </div>

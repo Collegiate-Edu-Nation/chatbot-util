@@ -18,3 +18,7 @@ code {
 .App {
   text-align: center;
 }
+
+.Button {
+  border-radius: 6px;
+}
