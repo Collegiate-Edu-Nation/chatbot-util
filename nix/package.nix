@@ -14,6 +14,7 @@ let
   };
 in
 {
+  inherit front;
   default = pkgs.python313Packages.buildPythonApplication {
     inherit pname version;
     pyproject = true;
