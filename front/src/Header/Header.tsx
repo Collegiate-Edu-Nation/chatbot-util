@@ -10,7 +10,8 @@ function Header() {
   const [status, setStatus] = useState(0);
   const baseURL = "http://127.0.0.1:8080/api";
 
-  useInterval(() => health(), 500);
+  let delay = status === 200 ? 5000 : 500;
+  useInterval(() => health(), delay);
 
   async function health() {
     const url = baseURL + "/health";

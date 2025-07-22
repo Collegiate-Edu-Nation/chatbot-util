@@ -33,7 +33,7 @@ def start() -> None:
         if chain.interrupt:
             chain.interrupt = False
             chain.progress = chain.Progress(0)
-            print("Interrupted.\n")
+            print("\nInterrupted.\n")
             interrupted = True
 
         return interrupted

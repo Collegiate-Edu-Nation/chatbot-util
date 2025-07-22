@@ -25,7 +25,7 @@ class Progress:
     def display(self) -> None:
         """Display generation progress"""
         sys.stdout.write(
-            f"\rGenerating similar queries for: {self.index}/{self.total}..."
+            f"\r\nGenerating similar queries for: {self.index}/{self.total}...\n\n"
         )
         sys.stdout.flush()
 

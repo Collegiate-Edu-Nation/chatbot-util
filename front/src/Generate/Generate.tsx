@@ -6,13 +6,14 @@ import useInterval from "@use-it/interval";
 import "./Generate.css";
 
 function Generate() {
-  const [genStatus, setGenStatus] = useState(0);
+  const [genStatus, setGenStatus] = useState(false);
   const [progStatus, setProgStatus] = useState([0, 0]);
   const baseURL = "http://127.0.0.1:8080/api";
 
   useInterval(() => progress(), 500);
 
   async function generate() {
+    setGenStatus(true);
     const settings = {
       method: "POST",
       headers: {
@@ -23,24 +24,28 @@ function Generate() {
     const url = baseURL + "/generate";
     let response = await fetch(url, settings);
     let result = await response.json();
+    if (genStatus) setGenStatus(false);
     console.log(result);
-    setGenStatus(result.detail);
   }
 
   async function progress() {
-    const url = baseURL + "/progress";
-    let response = await fetch(url);
-    let result = await response.json();
-    console.log(result);
-    setProgStatus([result.index, result.total]);
+    if (genStatus) {
+      const url = baseURL + "/progress";
+      let response = await fetch(url);
+      let result = await response.json();
+      setProgStatus([result.index, result.total]);
+      console.log(result);
+    } else if (!genStatus && progStatus[0] !== 0) {
+      setProgStatus([0, 0]);
+    }
   }
 
   async function interrupt() {
     const url = baseURL + "/interrupt";
     let response = await fetch(url);
     let result = await response.json();
+    setGenStatus(false);
     console.log(result);
-    progress();
   }
 
   return (
