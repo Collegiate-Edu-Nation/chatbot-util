@@ -3,10 +3,10 @@
 
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import App from "./App";
+import Header from "./Header";
 
 test("renders generate button", () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Generate/i);
+  render(<Header />);
+  const linkElement = screen.getByAltText(/Logo/i);
   expect(linkElement).toBeInTheDocument();
 });

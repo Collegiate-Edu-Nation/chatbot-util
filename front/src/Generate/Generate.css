@@ -1,0 +1,12 @@
+/* SPDX-FileCopyrightText: Collegiate Edu-Nation */
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+
+.Generate {
+  display: flex;
+  flex-direction: row;
+  background-color: #2f333d;
+  justify-content: center;
+  align-items: center;
+  height: 93vh;
+  gap: 10px;
+}
