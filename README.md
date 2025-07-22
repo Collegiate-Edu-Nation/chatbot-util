@@ -67,10 +67,9 @@ Then build and launch the backend (tested with python v3.13.3)
 
 ```shell
 {
-ROOT_DIR=$(pwd)
 cd back
 pip install .
-FRONT_DIR="$ROOT_DIR/front/build" chatbot-util
+chatbot-util
 }
 ```
 

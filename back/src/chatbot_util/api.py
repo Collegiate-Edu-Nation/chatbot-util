@@ -93,5 +93,7 @@ def interrupt() -> dict[str, int]:
 # mounting order matters - 404 if we mount frontend before establishing api paths
 # creating a separate app for the api is a common approach, but this seems to work
 app.mount(
-    "/", StaticFiles(directory=os.environ["FRONT_DIR"], html=True), name="frontend"
+    "/",
+    StaticFiles(directory=os.getenv("FRONT_DIR", "../front/build"), html=True),
+    name="frontend",
 )
