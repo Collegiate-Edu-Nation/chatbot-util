@@ -14,11 +14,12 @@ from chatbot_util import __main__, chain
 
 app = FastAPI()
 
-origins = ["http://localhost:8080"]
+DEV = True if os.getenv("DEV", "false") == "true" else False
+FRONT_PORT = 3000 if DEV else 8080
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=[f"http://localhost:{FRONT_PORT}"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -89,11 +90,12 @@ def interrupt() -> dict[str, int]:
     return {"detail": 200}
 
 
-# serve react frontend on root
+# serve react frontend on root in production - DEV benefits from live reloads
 # mounting order matters - 404 if we mount frontend before establishing api paths
 # creating a separate app for the api is a common approach, but this seems to work
-app.mount(
-    "/",
-    StaticFiles(directory=os.getenv("FRONT_DIR", "../front/build"), html=True),
-    name="frontend",
-)
+if not DEV:
+    app.mount(
+        "/",
+        StaticFiles(directory=os.getenv("FRONT_DIR", "../front/build"), html=True),
+        name="frontend",
+    )

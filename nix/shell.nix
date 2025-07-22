@@ -9,6 +9,7 @@
     buildInputs = deps.build;
 
     shellHook = ''
+      export DEV=true
       echo -e "\nchatbot-util DevShell via Nix Flake\n"
 
       echo -e "┌───────────────────────────────────────────────┐"

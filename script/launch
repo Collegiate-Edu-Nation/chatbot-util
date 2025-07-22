@@ -6,8 +6,8 @@ failed() {
   exit 1
 }
 interrupted() {
+  kill %%
   echo -e "\n\033[1;33mInterrupted.\033[0m"
-  popd &> /dev/null
   exit 0
 }
 
@@ -15,9 +15,8 @@ trap 'failed' ERR
 trap 'interrupted' INT
 
 echo -e "\033[1;33mfrontend...\033[0m"
-npm run build --prefix front
+npm start --prefix front &
 
 echo -e "\n\033[1;33mbackend...\033[0m"
-pushd . &> /dev/null
 cd back
 python -m src.chatbot_util
