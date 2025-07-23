@@ -3,7 +3,6 @@
 
 import { useState } from "react";
 import useInterval from "react-useinterval";
-import "./Header.css";
 import logo from "../assets/logo.png";
 
 function Header() {
@@ -22,15 +21,15 @@ function Header() {
   }
 
   return (
-    <header className="App-header">
+    <header className="flex justify-between items-center h-[7vh] pl-3 pr-1.5 dark:bg-black light:bg-white text-black dark:text-white">
       <img src={logo} alt="Logo" width="100px"></img>
-      <button className="button">
+      <button className="bg-neutral-100 dark:bg-neutral-900">
         Status &nbsp;
         {status === 200 ? (
-          <div className="circle green-circle"></div>
+          <div className="inline-block w-[1.25vh] h-[1.25vh] rounded-xl  bg-green-500"></div>
         ) : (
           <>
-            <div className="circle red-circle"></div>
+            <div className="inline-block w-[1.25vh] h-[1.25vh] rounded-xl  bg-red-500"></div>
           </>
         )}
       </button>

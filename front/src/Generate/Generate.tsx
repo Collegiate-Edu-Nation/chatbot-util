@@ -3,7 +3,6 @@
 
 import { useState } from "react";
 import useInterval from "react-useinterval";
-import "./Generate.css";
 
 function Generate() {
   const [genStatus, setGenStatus] = useState(false);
@@ -49,17 +48,23 @@ function Generate() {
   }
 
   return (
-    <div className="Generate">
+    <div className="flex justify-center items-center h-[93vh] dark:bg-neutral-900  bg-neutral-100 gap-2.5 text-black dark:text-white">
       {progStatus[0] !== 0 ? (
         <>
-          <button className="button" onClick={interrupt}>
+          <button
+            className="bg-neutral-200 dark:bg-neutral-800"
+            onClick={interrupt}
+          >
             Interrupt
           </button>
           <progress value={progStatus[0] / progStatus[1]}></progress>
         </>
       ) : (
         <>
-          <button className="button" onClick={generate}>
+          <button
+            className="bg-neutral-200 dark:bg-neutral-800"
+            onClick={generate}
+          >
             Generate
           </button>
         </>
