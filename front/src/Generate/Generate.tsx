@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Collegiate Edu-Nation
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import React, { useState } from "react";
-import useInterval from "@use-it/interval";
+import { useState } from "react";
+import useInterval from "react-useinterval";
 import "./Generate.css";
 
 function Generate() {
@@ -22,8 +22,8 @@ function Generate() {
       },
     };
     const url = baseURL + "/generate";
-    let response = await fetch(url, settings);
-    let result = await response.json();
+    const response = await fetch(url, settings);
+    const result = await response.json();
     if (genStatus) setGenStatus(false);
     console.log(result);
   }
@@ -31,8 +31,8 @@ function Generate() {
   async function progress() {
     if (genStatus) {
       const url = baseURL + "/progress";
-      let response = await fetch(url);
-      let result = await response.json();
+      const response = await fetch(url);
+      const result = await response.json();
       setProgStatus([result.index, result.total]);
       console.log(result);
     } else if (!genStatus && progStatus[0] !== 0) {
@@ -42,8 +42,8 @@ function Generate() {
 
   async function interrupt() {
     const url = baseURL + "/interrupt";
-    let response = await fetch(url);
-    let result = await response.json();
+    const response = await fetch(url);
+    const result = await response.json();
     setGenStatus(false);
     console.log(result);
   }
@@ -52,14 +52,14 @@ function Generate() {
     <div className="Generate">
       {progStatus[0] !== 0 ? (
         <>
-          <button className="Button" onClick={interrupt}>
+          <button className="button" onClick={interrupt}>
             Interrupt
           </button>
           <progress value={progStatus[0] / progStatus[1]}></progress>
         </>
       ) : (
         <>
-          <button className="Button" onClick={generate}>
+          <button className="button" onClick={generate}>
             Generate
           </button>
         </>

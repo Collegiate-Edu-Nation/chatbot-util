@@ -15,7 +15,7 @@ trap 'failed' ERR
 trap 'interrupted' INT
 
 echo -e "\033[1;33mfrontend...\033[0m"
-npm start --prefix front &
+npm run dev --prefix front &
 
 echo -e "\n\033[1;33mbackend...\033[0m"
 cd back

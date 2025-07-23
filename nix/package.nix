@@ -10,7 +10,11 @@ let
   front = pkgs.buildNpmPackage {
     inherit pname version;
     src = ../front/.;
-    npmDepsHash = "sha256-+hEb5ba0fKvl4d4nWPmq/PO97SQDNhIqKXq21UlOG4M=";
+
+    npmDepsHash = "sha256-fiQ1MEeXzANs+m9wPzoXUB6vcRP4kuzIRZh9zmu0Mdw=";
+    postInstall = ''
+      cp -r dist/ $out/lib/node_modules/chatbot-util/
+    '';
   };
 in
 {
@@ -24,7 +28,7 @@ in
     propagatedBuildInputs = deps.build;
     postInstall = ''
       wrapProgram "$out/bin/chatbot-util" --set \
-        FRONT_DIR "${front}/lib/node_modules/chatbot-util/build"
+        FRONT_DIR "${front}/lib/node_modules/chatbot-util/dist"
     '';
   };
 }

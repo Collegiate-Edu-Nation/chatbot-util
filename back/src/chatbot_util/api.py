@@ -15,7 +15,7 @@ from chatbot_util import __main__, chain
 app = FastAPI()
 
 DEV = True if os.getenv("DEV", "false") == "true" else False
-FRONT_PORT = 3000 if DEV else 8080
+FRONT_PORT = 5173 if DEV else 8080
 
 app.add_middleware(
     CORSMiddleware,
@@ -96,6 +96,6 @@ def interrupt() -> dict[str, int]:
 if not DEV:
     app.mount(
         "/",
-        StaticFiles(directory=os.getenv("FRONT_DIR", "../front/build"), html=True),
+        StaticFiles(directory=os.getenv("FRONT_DIR", "../front/dist"), html=True),
         name="frontend",
     )
