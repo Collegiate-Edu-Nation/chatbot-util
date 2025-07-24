@@ -4,6 +4,7 @@
 """Reads csv, employees, and answers, and writes generated result to csv"""
 
 import csv
+import os
 
 from chatbot_util import utils
 
@@ -157,6 +158,7 @@ def write(
     nums: dict[str, int],
 ) -> None:
     """Format questions and topics, write to csv file"""
+    os.rename(filenames["writefile"], filenames["writefile"] + ".backup")
     with open(filenames["writefile"], "w", encoding="utf-8") as csvfile:
         csvfile.write('"question","answer"\n')
         indices = {

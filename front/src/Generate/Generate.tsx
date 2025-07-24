@@ -23,7 +23,7 @@ function Generate() {
     const url = baseURL + "/generate";
     const response = await fetch(url, settings);
     const result = await response.json();
-    if (genStatus) setGenStatus(false);
+    setGenStatus(false);
     console.log(result);
   }
 
