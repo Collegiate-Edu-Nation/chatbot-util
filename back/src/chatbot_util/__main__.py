@@ -4,6 +4,7 @@
 """Entry point that launches a uvicorn server and connects the backend reading, generation, and writing functionalities"""
 
 import os
+import subprocess
 import sys
 
 import uvicorn
@@ -65,6 +66,38 @@ def start() -> None:
     print(f'\nWriting to "{filenames["writefile"]}"...')
     file_io.write(filenames, permutated_store, employees, answers, nums)
     print("Done.\n")
+
+
+def verify() -> int:
+    """Determine whether the updated Permutated.csv has any modified or missing entries (and not just new ones)"""
+    return_code: int
+    writefile = os.path.expanduser("~/.chatbot-util/Permutated.csv")
+    backupfile = writefile + ".backup"
+
+    # pipe the diff into grep to ignore added entries
+    diff = subprocess.run(
+        [
+            "diff",
+            "--strip-trailing-cr",
+            "-y",
+            "--suppress-common-lines",
+            writefile,
+            backupfile,
+        ],
+        stdout=subprocess.PIPE,
+    )
+    return_code = subprocess.run(
+        ["grep", ">\\||"],
+        input=diff.stdout,
+        stdout=subprocess.PIPE,
+    ).returncode
+
+    if return_code == 1:
+        verified_code = 201
+    else:
+        verified_code = 409
+
+    return verified_code
 
 
 if __name__ == "__main__":

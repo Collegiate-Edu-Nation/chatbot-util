@@ -17,7 +17,7 @@ def read_entries(filename: str) -> tuple[dict[str, list[str]], dict[str, int]]:
         # matter as long as it's not the default: ",". updating
         # to 3.13 broke "\n", and alternative approaches (e.g.,
         # topic = line[0] w/ delimiter = ",") broke Ollama's
-        # determinism (checked via $ verify)
+        # determinism
         reader = csv.reader(f, delimiter="\t")
         store: dict[str, list[str]] = {}
         cur_topic = ""

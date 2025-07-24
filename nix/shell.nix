@@ -18,7 +18,6 @@
       echo -e "│ Launch   │ $ launch                           │"
       echo -e "│ Build    │ $ build                            │"
       echo -e "│ Format   │ $ format                           │"
-      echo -e "│ Verify   │ $ verify                           │"
       echo -e "│ Run      │ $ python -m src.chatbot_util       │"
       echo -e "│ Test     │ $ python -m unittest               │"
       echo -e "│ Coverage │ $ coverage run -m unittest         │"

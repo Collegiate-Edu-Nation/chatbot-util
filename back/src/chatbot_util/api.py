@@ -49,11 +49,20 @@ def health() -> dict[str, int]:
 def generate() -> dict[str, int]:
     """Create chain, read info from files, append generated questions, then write to new file
 
+    "detail"\n
     201 = successfully generated Permutated.csv\n
     429 = request denied because generation is in progress\n
+    500 = generic internal error encountered\n\n
+    "verified"\n
+    201 = verified\n
+    409 = unverified, check diff\n
     500 = generic internal error encountered
     """
+
     status_code: int
+    verified_code: int
+
+    # generate new Permutated.csv
     try:
         global allow_generate
         if allow_generate:
@@ -66,7 +75,13 @@ def generate() -> dict[str, int]:
     except Exception:
         status_code = 500
 
-    return {"detail": status_code}
+    # identify whether new Permutated.csv is verified
+    try:
+        verified_code = __main__.verify()
+    except Exception:
+        verified_code = 500
+
+    return {"detail": status_code, "verified": verified_code}
 
 
 @app.get("/api/progress")
