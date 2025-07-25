@@ -5,7 +5,7 @@ import { useState } from "react";
 import useInterval from "react-useinterval";
 import logo from "../assets/logo.png";
 
-function Header() {
+function Header({ verStatus }: { verStatus: boolean }) {
   const [status, setStatus] = useState(0);
   const baseURL = "http://127.0.0.1:8080/api";
 
@@ -23,6 +23,7 @@ function Header() {
   return (
     <header className="flex justify-between items-center h-[7vh] pl-3 pr-1.5 dark:bg-black light:bg-white text-black dark:text-white">
       <img src={logo} alt="Logo" width="100px"></img>
+      <>{verStatus === true ? <></> : <>Unverified</>}</>
       <button className="bg-neutral-100 dark:bg-neutral-900">
         Status &nbsp;
         {status === 200 ? (

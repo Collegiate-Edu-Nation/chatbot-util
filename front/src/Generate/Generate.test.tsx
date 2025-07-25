@@ -5,7 +5,7 @@ import { render, screen } from "@testing-library/react";
 import Generate from "./Generate";
 
 test("renders generate button", () => {
-  render(<Generate />);
+  render(<Generate setVerStatus={() => {}} />);
   const linkElement = screen.getByText(/Generate/i);
   expect(linkElement).toBeInTheDocument();
 });

@@ -4,7 +4,7 @@
 import { useState } from "react";
 import useInterval from "react-useinterval";
 
-function Generate() {
+function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
   const [genStatus, setGenStatus] = useState(false);
   const [progStatus, setProgStatus] = useState([0, 0]);
   const baseURL = "http://127.0.0.1:8080/api";
@@ -23,6 +23,7 @@ function Generate() {
     const url = baseURL + "/generate";
     const response = await fetch(url, settings);
     const result = await response.json();
+    setVerStatus(result.verified === 201 ? true : false);
     setGenStatus(false);
     console.log(result);
   }

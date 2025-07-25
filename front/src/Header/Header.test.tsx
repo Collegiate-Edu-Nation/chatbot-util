@@ -5,7 +5,7 @@ import { render, screen } from "@testing-library/react";
 import Header from "./Header";
 
 test("renders generate button", () => {
-  render(<Header />);
+  render(<Header verStatus={false} />);
   const linkElement = screen.getByAltText(/Logo/i);
   expect(linkElement).toBeInTheDocument();
 });
