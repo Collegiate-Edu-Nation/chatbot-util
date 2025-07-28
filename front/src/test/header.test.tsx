@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import { render, screen } from "@testing-library/react";
-import Header from "./Header";
+import Header from "../header.tsx";
 
 test("renders generate button", () => {
   render(<Header verStatus={false} />);

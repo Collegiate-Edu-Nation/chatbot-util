@@ -3,13 +3,13 @@
 
 import { useState } from "react";
 import useInterval from "react-useinterval";
-import logo from "../assets/logo.png";
+import logo from "./assets/logo.png";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../components/ui/popover.tsx";
-import { Button } from "../components/ui/button.tsx";
+} from "./components/ui/popover.tsx";
+import { Button } from "./components/ui/button.tsx";
 
 function Header({ verStatus }: { verStatus: boolean }) {
   const [LLMStatus, setLLMStatus] = useState(0);

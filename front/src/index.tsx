@@ -5,8 +5,8 @@ import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./components/theme-provider.tsx";
-import Header from "./Header/Header.tsx";
-import Generate from "./Generate/Generate.tsx";
+import Header from "./header.tsx";
+import Generate from "./generate.tsx";
 
 // lift the state from children
 export default function App() {

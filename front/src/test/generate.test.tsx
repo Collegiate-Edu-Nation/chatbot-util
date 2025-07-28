@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import { render, screen } from "@testing-library/react";
-import Generate from "./Generate";
+import Generate from "../generate.tsx";
 
 test("renders generate button", () => {
   render(<Generate setVerStatus={() => {}} />);

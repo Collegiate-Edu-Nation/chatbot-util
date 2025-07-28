@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import useInterval from "react-useinterval";
-import { Button } from "../components/ui/button.tsx";
+import { Button } from "./components/ui/button.tsx";
 
 function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
   const [genStatus, setGenStatus] = useState(false);
