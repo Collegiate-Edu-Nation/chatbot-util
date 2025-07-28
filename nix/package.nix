@@ -11,7 +11,7 @@ let
     inherit pname version;
     src = ../front/.;
 
-    npmDepsHash = "sha256-bAb/RTUdWVa3SVunEq4V36gOdOhWG1w7JEeuoQdLHBQ=";
+    npmDepsHash = "sha256-w9q67Z/cISkrc0jr0aCnpfWW5w6+h6yzsAJ4mVbcMG4=";
     postInstall = ''
       cp -r dist/ $out/lib/node_modules/chatbot-util/
     '';
@@ -21,9 +21,9 @@ in
   inherit front;
   default = pkgs.python313Packages.buildPythonApplication {
     inherit pname version;
-    pyproject = true;
     src = ../back/.;
 
+    pyproject = true;
     build-system = with pkgs.python313Packages; [ setuptools ];
     propagatedBuildInputs = deps.build;
     postInstall = ''

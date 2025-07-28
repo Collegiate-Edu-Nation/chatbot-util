@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import useInterval from "react-useinterval";
+import { Button } from "../components/ui/button.tsx";
 
 function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
   const [genStatus, setGenStatus] = useState(false);
@@ -49,26 +50,18 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
   }
 
   return (
-    <div className="flex justify-center items-center h-[93vh] dark:bg-neutral-900  bg-neutral-100 gap-2.5 text-black dark:text-white">
+    <div className="flex justify-center items-center h-[93vh] dark:bg-neutral-900  bg-neutral-100 gap-2.5">
       {progStatus[0] !== 0 ? (
         <>
-          <button
-            className="bg-neutral-200 dark:bg-neutral-800"
-            onClick={interrupt}
-          >
+          <Button onClick={interrupt} variant="outline">
             Interrupt
-          </button>
+          </Button>
           <progress value={progStatus[0] / progStatus[1]}></progress>
         </>
       ) : (
-        <>
-          <button
-            className="bg-neutral-200 dark:bg-neutral-800"
-            onClick={generate}
-          >
-            Generate
-          </button>
-        </>
+        <Button onClick={generate} variant="outline">
+          Generate
+        </Button>
       )}
     </div>
   );

@@ -4,6 +4,7 @@
 import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
+import { ThemeProvider } from "./components/theme-provider.tsx";
 import Header from "./Header/Header.tsx";
 import Generate from "./Generate/Generate.tsx";
 
@@ -11,10 +12,10 @@ import Generate from "./Generate/Generate.tsx";
 export default function App() {
   const [verStatus, setVerStatus] = useState(true);
   return (
-    <>
+    <ThemeProvider>
       <Header verStatus={verStatus} />
       <Generate setVerStatus={(val) => setVerStatus(val)} />
-    </>
+    </ThemeProvider>
   );
 }
 
