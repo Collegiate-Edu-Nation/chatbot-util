@@ -4,6 +4,7 @@
 """API routes and implementations for the uvicorn server launched in __main__"""
 
 import os
+import time
 
 import ollama
 from fastapi import FastAPI
@@ -102,6 +103,8 @@ def interrupt() -> dict[str, int]:
     500 = generic internal error encountered
     """
     chain.interrupt = True
+    while chain.progress.index != 0:
+        time.sleep(0.1)
     return {"detail": 200}
 
 

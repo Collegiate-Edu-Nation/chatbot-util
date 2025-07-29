@@ -4,10 +4,13 @@
 import { useState } from "react";
 import useInterval from "react-useinterval";
 import { Button } from "./components/ui/button.tsx";
+import { Progress } from "./components/ui/progress.tsx";
+import { Loader2Icon } from "lucide-react";
 
 function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
   const [genStatus, setGenStatus] = useState(false);
   const [progStatus, setProgStatus] = useState([0, 0]);
+  const [interruptStatus, setInterruptStatus] = useState(false);
   const baseURL = "http://127.0.0.1:8080/api";
 
   useInterval(() => progress(), 500);
@@ -38,25 +41,36 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
       console.log(result);
     } else if (!genStatus && progStatus[0] !== 0) {
       setProgStatus([0, 0]);
+      setInterruptStatus(false);
     }
   }
 
   async function interrupt() {
+    setInterruptStatus(true);
     const url = baseURL + "/interrupt";
     const response = await fetch(url);
     const result = await response.json();
-    setGenStatus(false);
     console.log(result);
   }
 
   return (
     <div className="flex justify-center items-center h-[93vh] dark:bg-neutral-900  bg-neutral-100 gap-2.5">
-      {progStatus[0] !== 0 ? (
+      {genStatus ? (
         <>
-          <Button onClick={interrupt} variant="outline">
+          <Button
+            onClick={interrupt}
+            variant="outline"
+            disabled={interruptStatus}
+          >
             Interrupt
+            {interruptStatus ? <Loader2Icon className="animate-spin" /> : <></>}
           </Button>
-          <progress value={progStatus[0] / progStatus[1]}></progress>
+          <div className="text-xs w-1/8">
+            <div className="flex justify-center">
+              {progStatus[0]} / {progStatus[1]}
+            </div>
+            <Progress value={(progStatus[0] / progStatus[1]) * 100}></Progress>
+          </div>
         </>
       ) : (
         <Button onClick={generate} variant="outline">
