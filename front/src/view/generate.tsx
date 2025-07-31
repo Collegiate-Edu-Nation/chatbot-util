@@ -3,8 +3,8 @@
 
 import { useState } from "react";
 import useInterval from "react-useinterval";
-import { Button } from "./components/ui/button.tsx";
-import { Progress } from "./components/ui/progress.tsx";
+import { Button } from "../comp/ui/button.tsx";
+import { Progress } from "../comp/ui/progress.tsx";
 import { Loader2Icon } from "lucide-react";
 
 function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {

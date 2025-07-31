@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import { render, screen } from "@testing-library/react";
-import Generate from "../generate.tsx";
+import Header from "./header.tsx";
 
 test("renders generate button", () => {
-  render(<Generate setVerStatus={() => {}} />);
-  const linkElement = screen.getByText(/Generate/i);
+  render(<Header verStatus={false} />);
+  const linkElement = screen.getByAltText(/Logo/i);
   expect(linkElement).toBeInTheDocument();
 });

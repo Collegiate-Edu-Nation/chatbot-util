@@ -3,12 +3,12 @@
 
 import { useState } from "react";
 import useInterval from "react-useinterval";
-import logo from "./assets/logo.png";
+import logo from "../assets/logo.png";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "./components/ui/popover.tsx";
+} from "../comp/ui/popover.tsx";
 import {
   CheckCircle2Icon,
   HelpCircleIcon,
