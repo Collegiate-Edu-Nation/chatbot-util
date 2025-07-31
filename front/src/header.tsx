@@ -9,7 +9,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "./components/ui/popover.tsx";
-import { Button } from "./components/ui/button.tsx";
+import {
+  CheckCircle2Icon,
+  HelpCircleIcon,
+  BrainIcon,
+  FileCheckIcon,
+} from "lucide-react";
 
 function Header({ verStatus }: { verStatus: boolean }) {
   const [LLMStatus, setLLMStatus] = useState(0);
@@ -29,43 +34,63 @@ function Header({ verStatus }: { verStatus: boolean }) {
   return (
     <header className="flex justify-between items-center h-[7vh] pl-4 pr-2.5">
       <img src={logo} alt="Logo" width="100px"></img>
-      <Popover>
-        <PopoverTrigger>
-          <Button variant="outline">
-            Status
+      <div className="flex items-center gap-2">
+        <a
+          href="https://collegiate-edu-nation.github.io/chatbot-util/instructions/"
+          target="_blank"
+          className="cursor-default"
+        >
+          <HelpCircleIcon
+            size="32"
+            strokeWidth="1.25"
+            className="hover:fill-accent hover:text-accent-foreground"
+          ></HelpCircleIcon>
+        </a>
+        <Popover>
+          <PopoverTrigger>
+            <div className="flex items-end">
+              <CheckCircle2Icon
+                size="32"
+                strokeWidth="1.25"
+                className="hover:fill-accent hover:text-accent-foreground"
+              ></CheckCircle2Icon>
+              <div
+                className={
+                  "w-[1vh] h-[1vh] rounded-xl " +
+                  (LLMStatus === 200
+                    ? verStatus === true
+                      ? "bg-green-500"
+                      : "bg-yellow-500"
+                    : "bg-red-500")
+                }
+              ></div>
+            </div>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto">
+            <div title="Ollama status" className="flex items-end gap-1 pb-1.5">
+              <BrainIcon size="24" strokeWidth="1.25"></BrainIcon>
+              <div
+                className={
+                  "inline-block w-[1vh] h-[1vh] rounded-xl " +
+                  (LLMStatus === 200 ? "bg-green-500" : "bg-red-500")
+                }
+              ></div>
+            </div>
             <div
-              className={
-                "inline-block w-[1.25vh] h-[1.25vh] rounded-xl " +
-                (LLMStatus === 200
-                  ? verStatus === true
-                    ? "bg-green-500"
-                    : "bg-yellow-500"
-                  : "bg-red-500")
-              }
-            ></div>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto">
-          <div className="flex items-center justify-between">
-            Ollama
-            <div
-              className={
-                "inline-block w-[1.25vh] h-[1.25vh] rounded-xl " +
-                (LLMStatus === 200 ? "bg-green-500" : "bg-red-500")
-              }
-            ></div>
-          </div>
-          <div className="flex items-center justify-between gap-2">
-            Verified
-            <div
-              className={
-                "inline-block w-[1.25vh] h-[1.25vh] rounded-xl " +
-                (verStatus === true ? "bg-green-500" : "bg-red-500")
-              }
-            ></div>
-          </div>
-        </PopoverContent>
-      </Popover>
+              title="Verified status"
+              className="flex items-end gap-1 pt-1.5"
+            >
+              <FileCheckIcon size="24" strokeWidth="1.25"></FileCheckIcon>
+              <div
+                className={
+                  "inline-block w-[1vh] h-[1vh] rounded-xl " +
+                  (verStatus === true ? "bg-green-500" : "bg-red-500")
+                }
+              ></div>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
     </header>
   );
 }
