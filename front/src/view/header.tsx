@@ -15,6 +15,11 @@ import {
   BrainIcon,
   FileCheckIcon,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../comp/ui/tooltip.tsx";
 
 function Header({ verStatus }: { verStatus: boolean }) {
   const [LLMStatus, setLLMStatus] = useState(0);
@@ -67,8 +72,13 @@ function Header({ verStatus }: { verStatus: boolean }) {
             </div>
           </PopoverTrigger>
           <PopoverContent className="w-auto">
-            <div title="Ollama status" className="flex items-end gap-1 pb-1.5">
-              <BrainIcon size="24" strokeWidth="1.25"></BrainIcon>
+            <div className="flex items-end gap-1 pb-1.5">
+              <Tooltip>
+                <TooltipTrigger asChild={true}>
+                  <BrainIcon size="24" strokeWidth="1.25"></BrainIcon>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">Ollama status</TooltipContent>
+              </Tooltip>
               <div
                 className={
                   "inline-block w-[1vh] h-[1vh] rounded-xl " +
@@ -76,11 +86,13 @@ function Header({ verStatus }: { verStatus: boolean }) {
                 }
               ></div>
             </div>
-            <div
-              title="Verified status"
-              className="flex items-end gap-1 pt-1.5"
-            >
-              <FileCheckIcon size="24" strokeWidth="1.25"></FileCheckIcon>
+            <div className="flex items-end gap-1 pt-1.5">
+              <Tooltip>
+                <TooltipTrigger asChild={true} className="flex">
+                  <FileCheckIcon size="24" strokeWidth="1.25"></FileCheckIcon>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">Verified status</TooltipContent>
+              </Tooltip>
               <div
                 className={
                   "inline-block w-[1vh] h-[1vh] rounded-xl " +
