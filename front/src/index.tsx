@@ -5,6 +5,7 @@ import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./comp/theme-provider.tsx";
+import { Toaster } from "./comp/ui/sonner";
 import Header from "./view/header.tsx";
 import Generate from "./view/generate.tsx";
 
@@ -13,7 +14,8 @@ export default function App() {
   const [verStatus, setVerStatus] = useState(true);
   return (
     <ThemeProvider>
-      <Header verStatus={verStatus} />
+      <Toaster position="top-center" visibleToasts={1} />
+      <Header verStatus={verStatus} setVerStatus={(val) => setVerStatus(val)} />
       <Generate setVerStatus={(val) => setVerStatus(val)} />
     </ThemeProvider>
   );

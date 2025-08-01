@@ -20,8 +20,15 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "../comp/ui/tooltip.tsx";
+import { toast } from "sonner";
 
-function Header({ verStatus }: { verStatus: boolean }) {
+function Header({
+  verStatus,
+  setVerStatus,
+}: {
+  verStatus: boolean;
+  setVerStatus: (val: boolean) => void;
+}) {
   const [LLMStatus, setLLMStatus] = useState(0);
   const baseURL = "http://127.0.0.1:8080/api";
   const delay = LLMStatus === 200 ? 5000 : 500;
@@ -89,14 +96,35 @@ function Header({ verStatus }: { verStatus: boolean }) {
             <div className="flex items-end gap-1 pt-1.5">
               <Tooltip>
                 <TooltipTrigger asChild={true} className="flex">
-                  <FileCheckIcon size="24" strokeWidth="1.25"></FileCheckIcon>
+                  <FileCheckIcon
+                    size="24"
+                    strokeWidth="1.25"
+                    className={
+                      verStatus
+                        ? ""
+                        : "hover:fill-accent hover:text-accent-foreground"
+                    }
+                    onClick={
+                      verStatus
+                        ? () => void 0
+                        : () =>
+                            toast("Unverified", {
+                              description:
+                                "Newly generated Permutated.csv is missing entries",
+                              action: {
+                                label: "Okay",
+                                onClick: () => setVerStatus(true),
+                              },
+                            })
+                    }
+                  ></FileCheckIcon>
                 </TooltipTrigger>
                 <TooltipContent side="bottom">Verified status</TooltipContent>
               </Tooltip>
               <div
                 className={
                   "inline-block w-[1vh] h-[1vh] rounded-xl " +
-                  (verStatus === true ? "bg-green-500" : "bg-red-500")
+                  (verStatus ? "bg-green-500" : "bg-red-500")
                 }
               ></div>
             </div>

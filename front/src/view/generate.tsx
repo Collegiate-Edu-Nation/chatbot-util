@@ -6,6 +6,7 @@ import useInterval from "react-useinterval";
 import { Button } from "../comp/ui/button.tsx";
 import { Progress } from "../comp/ui/progress.tsx";
 import { Loader2Icon } from "lucide-react";
+import { toast } from "sonner";
 
 function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
   const [genStatus, setGenStatus] = useState(false);
@@ -27,7 +28,16 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
     const url = baseURL + "/generate";
     const response = await fetch(url, settings);
     const result = await response.json();
-    setVerStatus(result.verified === 201 ? true : false);
+    const verified = result.verified === 201 ? true : false;
+    setVerStatus(verified);
+    if (!verified)
+      toast("Unverified", {
+        description: "Newly generated Permutated.csv is missing entries",
+        action: {
+          label: "Okay",
+          onClick: () => setVerStatus(true),
+        },
+      });
     setGenStatus(false);
     console.log(result);
   }
