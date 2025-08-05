@@ -7,7 +7,7 @@ hide:
 
 Before the README sections 'Setup' and 'Usage' are completed, you must first add two files from the shared CEN Google Drive to `~/.chatbot-util/` on your computer
 
-## `Chatbot FAQ - Enter Here.csv`
+## `FAQ - Enter Here.csv`
 
 This file contains a list of topics/people and common questions that may be asked about it/them
 

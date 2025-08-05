@@ -40,7 +40,7 @@ def start() -> None:
         return interrupted
 
     filenames = {
-        "readfile": os.path.expanduser("~/.chatbot-util/Chatbot FAQ - Enter Here.csv"),
+        "readfile": os.path.expanduser("~/.chatbot-util/FAQ - Enter Here.csv"),
         "readfile2": os.path.expanduser("~/.chatbot-util/Other.txt"),
         "writefile": os.path.expanduser("~/.chatbot-util/Permutated.csv"),
     }
