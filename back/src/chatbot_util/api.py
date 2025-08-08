@@ -7,7 +7,7 @@ import os
 import time
 
 import ollama
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
@@ -106,6 +106,43 @@ def interrupt() -> dict[str, int]:
     while chain.progress.index != 0:
         time.sleep(0.1)
     return {"detail": 200}
+
+
+@app.post("/api/upload")
+def upload(files: list[UploadFile]) -> dict[str, list[int]]:
+    """Replace data files via upload and return list of status codes
+
+    200 = no relevant files uploaded\n
+    201 = successfully replaced file(s)\n
+    500 = generic internal error encountered
+    """
+    status_codes: list[int] = [200] * len(files)
+    for i, f in enumerate(files):
+        # determine whether anything should be done with the uploaded file
+        filename: str | None = None
+        faq = str("FAQ - Enter Here.csv")
+        other = str("Other.txt")
+        dir = "~/.chatbot-util"
+        if str(f.filename) == faq:
+            filename = os.path.expanduser(f"{dir}/{faq}")
+        elif str(f.filename) == other:
+            filename = os.path.expanduser(f"{dir}/{other}")
+
+        # try to replace the relevant file bytewise
+        if filename is not None:
+            try:
+                contents = f.file.read()
+                os.rename(
+                    filename,
+                    filename + ".backup",
+                )
+                with open(filename, "wb") as openfile:
+                    openfile.write(contents)
+                status_codes[i] = 201
+            except Exception:
+                status_codes[i] = 500
+
+    return {"detail": status_codes}
 
 
 # serve react frontend on root in production - DEV benefits from live reloads

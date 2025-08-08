@@ -15,6 +15,7 @@
       fastapi-cli
       ollama
       uvicorn
+      python-multipart
     ]);
 
   dev =
