@@ -5,6 +5,11 @@ import { useState } from "react";
 import useInterval from "react-useinterval";
 import { Button } from "../comp/ui/button.tsx";
 import { Progress } from "../comp/ui/progress.tsx";
+import {
+  Dropzone,
+  DropzoneContent,
+  DropzoneEmptyState,
+} from "../comp/ui/dropzone.tsx";
 import { Loader2Icon } from "lucide-react";
 import {
   Card,
@@ -21,9 +26,14 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
   const [genStatus, setGenStatus] = useState(false);
   const [progStatus, setProgStatus] = useState([0, 0]);
   const [interruptStatus, setInterruptStatus] = useState(false);
+  const [files, setFiles] = useState<File[] | undefined>();
   const baseURL = "http://127.0.0.1:8080/api";
 
   useInterval(() => progress(), 500);
+  const handleDrop = (files: File[]) => {
+    console.log(files);
+    setFiles(files);
+  };
 
   async function generate() {
     setGenStatus(true);
@@ -72,6 +82,24 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
     console.log(result);
   }
 
+  async function upload() {
+    if (files !== undefined) {
+      const data = new FormData();
+      for (const f of files) {
+        data.append("files", f);
+      }
+      const settings = {
+        method: "POST",
+        body: data,
+      };
+      const url = baseURL + "/upload";
+      const response = await fetch(url, settings);
+      const result = await response.json();
+      console.log(result);
+      setFiles(undefined);
+    }
+  }
+
   return (
     <div className="flex justify-center items-center h-[93vh] dark:bg-neutral-900  bg-neutral-100 gap-2.5">
       <Card className="w-full max-w-sm">
@@ -102,8 +130,28 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
             </Button>
           </CardAction>
         </CardHeader>
-        <CardContent></CardContent>
-        <CardFooter>
+        <CardContent>
+          <Dropzone
+            accept={{ "text/*": [] }}
+            maxFiles={10}
+            maxSize={1024 * 1024 * 10}
+            minSize={1}
+            onDrop={handleDrop}
+            onError={console.error}
+            src={files}
+          >
+            <DropzoneEmptyState />
+            <DropzoneContent />
+          </Dropzone>
+        </CardContent>
+        <CardFooter className="flex-col gap-2">
+          {files !== undefined ? (
+            <Button onClick={upload} variant="outline" className="w-auto">
+              Replace
+            </Button>
+          ) : (
+            <></>
+          )}
           {genStatus ? (
             <div className="flex w-full items-center gap-2">
               <Button
