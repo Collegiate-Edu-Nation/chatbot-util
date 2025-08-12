@@ -84,10 +84,9 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
 
   async function upload() {
     if (files !== undefined) {
+      // convert files to FormData() so we can send them to the endpoint
       const data = new FormData();
-      for (const f of files) {
-        data.append("files", f);
-      }
+      for (const f of files) data.append("files", f);
       const settings = {
         method: "POST",
         body: data,
@@ -95,8 +94,17 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
       const url = baseURL + "/upload";
       const response = await fetch(url, settings);
       const result = await response.json();
-      console.log(result);
+
+      // toast based on upload success of ALL files before resetting files
+      let success = true;
+      for (const s of result.detail) if (s !== 201) success = false;
+      const title = success ? "Updated file(s)" : "Failed to update file(s)";
+      const desc = success
+        ? "The data file(s) you uploaded have been saved to ~/.chatbot-util/"
+        : "The data file(s) you uploaded have NOT been saved to ~/.chatbot-util/";
+      toast(title, { description: desc });
       setFiles(undefined);
+      console.log("Upload received " + JSON.stringify(result));
     }
   }
 

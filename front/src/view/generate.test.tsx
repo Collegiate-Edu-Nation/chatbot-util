@@ -6,6 +6,6 @@ import Generate from "./generate.tsx";
 
 test("renders generate button", () => {
   render(<Generate setVerStatus={() => {}} />);
-  const linkElement = screen.getByText(/Generate/i);
+  const linkElement = screen.getByText(/Upload and Generate/i);
   expect(linkElement).toBeInTheDocument();
 });

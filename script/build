@@ -27,7 +27,7 @@ cd back
 coverage run -m unittest 2> /dev/null | box
 popd &> /dev/null
 
-echo -e "\n\n\033[1;33mnpm tests...\033[0m"
+echo -e "\n\033[1;33mnpm tests...\033[0m"
 pushd . &> /dev/null
 cd front
 CI=true npm test &> /dev/null | box
