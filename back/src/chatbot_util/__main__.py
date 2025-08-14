@@ -3,13 +3,13 @@
 
 """Entry point that launches a uvicorn server and connects the backend reading, generation, and writing functionalities"""
 
-import os
 import subprocess
 import sys
 
 import uvicorn
 
 from chatbot_util import chain, file_io
+from chatbot_util.file_io import FILENAMES
 
 
 def main() -> None:
@@ -39,19 +39,13 @@ def start() -> None:
 
         return interrupted
 
-    filenames = {
-        "readfile": os.path.expanduser("~/.chatbot-util/FAQ - Enter Here.csv"),
-        "readfile2": os.path.expanduser("~/.chatbot-util/Other.txt"),
-        "writefile": os.path.expanduser("~/.chatbot-util/Permutated.csv"),
-    }
-
     # Check interrupt status between operations to avoid undesired behavior
     if handle_interrupt():
         return
 
     # Read topics and organic questions
     print("\nReading topics, questions, employees, and answers...")
-    store, employees, phrases, answers, nums = file_io.read(filenames)
+    store, employees, phrases, answers, nums = file_io.read()
 
     if handle_interrupt():
         return
@@ -63,15 +57,15 @@ def start() -> None:
         return
 
     # Recreate Permutated.csv w/ synthetic questions appended
-    print(f'\nWriting to "{filenames["writefile"]}"...')
-    file_io.write(filenames, permutated_store, employees, answers, nums)
+    print(f'\nWriting to "{FILENAMES["permutated"]}"...')
+    file_io.write(permutated_store, employees, answers, nums)
     print("Done.\n")
 
 
 def verify() -> int:
     """Determine whether the updated Permutated.csv has any modified or missing entries (and not just new ones)"""
     return_code: int
-    writefile = os.path.expanduser("~/.chatbot-util/Permutated.csv")
+    writefile = FILENAMES["permutated"]
     backupfile = writefile + ".backup"
 
     # pipe the diff into grep to ignore added entries

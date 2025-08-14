@@ -11,7 +11,8 @@ from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from chatbot_util import __main__, chain
+from chatbot_util import __main__, chain, file_io
+from chatbot_util.file_io import FILENAMES
 
 app = FastAPI()
 
@@ -112,40 +113,13 @@ def interrupt() -> dict[str, int]:
 def upload(files: list[UploadFile]) -> dict[str, list[int]]:
     """Replace data files via upload and return list of status codes
 
-    200 = no relevant files uploaded\n
-    201 = successfully replaced file(s)\n
-    500 = generic internal error encountered
+    [200] = no relevant files uploaded\n
+    [201] = successfully replaced file(s)\n
+    [500] = generic internal error encountered
     """
     status_codes: list[int] = [200] * len(files)
     for i, f in enumerate(files):
-        # determine whether anything should be done with the uploaded file
-        filename: str | None = None
-        faq = str("FAQ - Enter Here.csv")
-        other = str("Other.txt")
-        dir = "~/.chatbot-util"
-        if str(f.filename) == faq:
-            filename = os.path.expanduser(f"{dir}/{faq}")
-        elif str(f.filename) == other:
-            filename = os.path.expanduser(f"{dir}/{other}")
-
-        # try to replace the relevant file bytewise
-        if filename is not None:
-            try:
-                contents = f.file.read()
-
-                # move the old file if it exists
-                if os.path.exists(filename):
-                    os.rename(
-                        filename,
-                        filename + ".backup",
-                    )
-
-                with open(filename, "wb") as openfile:
-                    openfile.write(contents)
-
-                status_codes[i] = 201
-            except Exception:
-                status_codes[i] = 500
+        status_codes[i] = file_io.create_file(f)
 
     return {"detail": status_codes}
 
@@ -158,9 +132,7 @@ def files() -> dict[str, int]:
     500 = some files are missing
     """
     status_code = 200
-    dir = "~/.chatbot-util"
-    filenames = [str("FAQ - Enter Here.csv"), str("Other.txt")]
-    filenames = map(lambda f: os.path.expanduser(f"{dir}/{f}"), filenames)
+    filenames = [FILENAMES["faq"], FILENAMES["other"]]
 
     for f in filenames:
         if not os.path.exists(f):

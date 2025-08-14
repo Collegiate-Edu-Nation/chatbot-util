@@ -6,12 +6,60 @@
 import csv
 import os
 
+from fastapi import UploadFile
+
 from chatbot_util import utils
+
+DIR = os.path.expanduser("~/.chatbot-util")
+FAQ = "FAQ - Enter Here.csv"
+OTHER = "Other.txt"
+PERMUTATED = "Permutated.csv"
+FILENAMES = {
+    "faq": f"{DIR}/{FAQ}",
+    "other": f"{DIR}/{OTHER}",
+    "permutated": f"{DIR}/{PERMUTATED}",
+}
+
+
+def create_file(f: UploadFile) -> int:
+    """Create or replace a data file"""
+    # determine whether anything should be done with the uploaded file
+    status_code = 200
+    filename: str | None = None
+    if str(f.filename) == FAQ:
+        filename = FILENAMES["faq"]
+    elif str(f.filename) == OTHER:
+        filename = FILENAMES["other"]
+
+    # try to replace the relevant file bytewise
+    if filename is not None:
+        try:
+            contents = f.file.read()
+
+            # create the data dir if it doesn't exist
+            if not os.path.exists(DIR):
+                os.makedirs(DIR)
+
+            # move the old file if it exists
+            if os.path.exists(filename):
+                os.rename(
+                    filename,
+                    filename + ".backup",
+                )
+
+            with open(filename, "wb") as openfile:
+                openfile.write(contents)
+
+            status_code = 201
+
+        except Exception:
+            status_code = 500
+
+    return status_code
 
 
 def read_entries(filename: str) -> tuple[dict[str, list[str]], dict[str, int]]:
     """Read and return topics and basic answers"""
-
     with open(filename, "r", encoding="utf-8") as f:
         # it seems as though the delimiter doesn't actually
         # matter as long as it's not the default: ",". updating
@@ -134,9 +182,7 @@ def read_other(
     return employees, phrases, answers
 
 
-def read(
-    filenames: dict[str, str],
-) -> tuple[
+def read() -> tuple[
     dict[str, list[str]],
     dict[str, list[str]],
     list[list[str]],
@@ -144,22 +190,21 @@ def read(
     dict[str, int],
 ]:
     """Read questions from csv file, read employees, phrases and answers from text files"""
-    store, nums = read_entries(filenames["readfile"])
-    employees, phrases, answers = read_other(filenames["readfile2"])
+    store, nums = read_entries(FILENAMES["faq"])
+    employees, phrases, answers = read_other(FILENAMES["other"])
 
     return store, employees, phrases, answers, nums
 
 
 def write(
-    filenames: dict[str, str],
     store: dict[str, list[str]],
     employees: dict[str, list[str]],
     answers: utils.Answers,
     nums: dict[str, int],
 ) -> None:
     """Format questions and topics, write to csv file"""
-    os.rename(filenames["writefile"], filenames["writefile"] + ".backup")
-    with open(filenames["writefile"], "w", encoding="utf-8") as csvfile:
+    os.rename(FILENAMES["permutated"], FILENAMES["permutated"] + ".backup")
+    with open(FILENAMES["permutated"], "w", encoding="utf-8") as csvfile:
         csvfile.write('"question","answer"\n')
         indices = {
             "cen_index": 0,
