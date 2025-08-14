@@ -132,17 +132,42 @@ def upload(files: list[UploadFile]) -> dict[str, list[int]]:
         if filename is not None:
             try:
                 contents = f.file.read()
-                os.rename(
-                    filename,
-                    filename + ".backup",
-                )
+
+                # move the old file if it exists
+                if os.path.exists(filename):
+                    os.rename(
+                        filename,
+                        filename + ".backup",
+                    )
+
                 with open(filename, "wb") as openfile:
                     openfile.write(contents)
+
                 status_codes[i] = 201
             except Exception:
                 status_codes[i] = 500
 
     return {"detail": status_codes}
+
+
+@app.get("/api/files")
+def files() -> dict[str, int]:
+    """Report on data file status
+
+    200 = all files are present\n
+    500 = some files are missing
+    """
+    status_code = 200
+    dir = "~/.chatbot-util"
+    filenames = [str("FAQ - Enter Here.csv"), str("Other.txt")]
+    filenames = map(lambda f: os.path.expanduser(f"{dir}/{f}"), filenames)
+
+    for f in filenames:
+        if not os.path.exists(f):
+            status_code = 500
+            break
+
+    return {"detail": status_code}
 
 
 # serve react frontend on root in production - DEV benefits from live reloads
