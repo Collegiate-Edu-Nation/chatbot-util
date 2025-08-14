@@ -15,8 +15,13 @@ export default function App() {
   return (
     <ThemeProvider>
       <Toaster position="top-center" visibleToasts={1} />
-      <Header verStatus={verStatus} setVerStatus={(val) => setVerStatus(val)} />
-      <Generate setVerStatus={(val) => setVerStatus(val)} />
+      <div className="flex flex-col min-h-screen">
+        <Header
+          verStatus={verStatus}
+          setVerStatus={(val) => setVerStatus(val)}
+        />
+        <Generate setVerStatus={(val) => setVerStatus(val)} />
+      </div>
     </ThemeProvider>
   );
 }

@@ -110,8 +110,9 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
   }
 
   return (
-    <div className="flex justify-center items-center h-[93vh] dark:bg-neutral-900  bg-neutral-100 gap-2.5">
+    <div className="flex flex-grow justify-center items-center dark:bg-neutral-900  bg-neutral-100 gap-2.5">
       <Card className="w-full max-w-sm">
+        {/* info and links */}
         <CardHeader>
           <CardTitle>Upload and Generate</CardTitle>
           <CardDescription>
@@ -139,6 +140,8 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
             </Button>
           </CardAction>
         </CardHeader>
+
+        {/* upload */}
         <CardContent>
           <Dropzone
             accept={{ "text/*": [] }}
@@ -153,6 +156,8 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
             <DropzoneContent />
           </Dropzone>
         </CardContent>
+
+        {/* buttons */}
         <CardFooter className="flex-col gap-2">
           {files !== undefined ? (
             <Button onClick={upload} variant="outline" className="w-auto">
