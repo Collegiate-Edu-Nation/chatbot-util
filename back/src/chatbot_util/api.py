@@ -7,7 +7,7 @@ import os
 import time
 
 import ollama
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, Response, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
@@ -31,65 +31,48 @@ allow_generate = True
 
 
 @app.get("/api/health")
-def health() -> dict[str, int]:
+def health() -> None:
     """Health check for both uvicorn and ollama servers
 
-    200 = uvicorn and ollama are ready\n
-    500 = generic internal error encountered
+    status\n
+    200 = uvicorn and ollama are ready
     """
-    status_code: int
-    try:
-        ollama.show("mistral")
-        status_code = 200
-    except Exception:
-        status_code = 500
-
-    return {"detail": status_code}
+    ollama.show("mistral")
 
 
-@app.post("/api/generate")
-def generate() -> dict[str, int]:
+@app.post("/api/generate", status_code=status.HTTP_201_CREATED)
+def generate(response: Response) -> dict[str, bool]:
     """Create chain, read info from files, append generated questions, then write to new file
 
-    "detail"\n
+    status\n
     201 = successfully generated Permutated.csv\n
-    429 = request denied because generation is in progress\n
-    500 = generic internal error encountered\n\n
-    "verified"\n
-    201 = verified\n
-    409 = unverified, check diff\n
-    500 = generic internal error encountered
+    429 = request denied because generation is in progress\n\n
+    verified\n
+    True = verified\n
+    False = unverified, check diff
     """
 
-    status_code: int
-    verified_code: int
-
     # generate new Permutated.csv
-    try:
-        global allow_generate
-        if allow_generate:
-            allow_generate = False
-            __main__.start()
-            allow_generate = True
-            status_code = 201
-        else:
-            status_code = 429
-    except Exception:
-        status_code = 500
+    global allow_generate
+    if allow_generate:
+        allow_generate = False
+        __main__.start()
+        allow_generate = True
+    else:
+        response.status_code = status.HTTP_429_TOO_MANY_REQUESTS
 
     # identify whether new Permutated.csv is verified
-    try:
-        verified_code = __main__.verify()
-    except Exception:
-        verified_code = 500
+    verified = __main__.verify()
 
-    return {"detail": status_code, "verified": verified_code}
+    return {"verified": verified}
 
 
 @app.get("/api/progress")
 def progress() -> dict[str, int]:
     """Report on generation progress
 
+    status\n
+    200 = successfully retrieved progress status\n\n
     index = index of topic currently generating queries for,  [1-total]\n
     total = total number of topics to generate queries for
     """
@@ -97,49 +80,55 @@ def progress() -> dict[str, int]:
 
 
 @app.get("/api/interrupt")
-def interrupt() -> dict[str, int]:
+def interrupt() -> None:
     """Interrupt the current generation task
 
-    200 = successfully interrupted generation of Permutated.csv\n
-    500 = generic internal error encountered
+    200 = successfully interrupted generation of Permutated.csv
     """
     chain.interrupt = True
     while chain.progress.index != 0:
         time.sleep(0.1)
-    return {"detail": 200}
 
 
-@app.post("/api/upload")
-def upload(files: list[UploadFile]) -> dict[str, list[int]]:
+@app.post("/api/upload", status_code=status.HTTP_201_CREATED)
+def upload(files: list[UploadFile]) -> dict[str, bool]:
     """Replace data files via upload and return list of status codes
 
-    [200] = no relevant files uploaded\n
-    [201] = successfully replaced file(s)\n
-    [500] = generic internal error encountered
+    status\n
+    201 = no errors encountered when replacing file(s)\n
+    422 = validation error while processing file(s)\n\n
+    uploaded\n
+    True = succssfully replaced all files\n
+    False = some files failed to be replaced
     """
-    status_codes: list[int] = [200] * len(files)
-    for i, f in enumerate(files):
-        status_codes[i] = file_io.create_file(f)
+    uploaded = True
+    for f in files:
+        if not file_io.create_file(f):
+            uploaded = False
+            break
 
-    return {"detail": status_codes}
+    return {"uploaded": uploaded}
 
 
 @app.get("/api/files")
-def files() -> dict[str, int]:
+def files() -> dict[str, bool]:
     """Report on data file status
 
-    200 = all files are present\n
-    500 = some files are missing
+    status\n
+    200 = no errors encountered while scanning for files\n
+    present\n
+    True = all files are present\n
+    False = some files are missing
     """
-    status_code = 200
+    present = True
     filenames = [FILENAMES["faq"], FILENAMES["other"]]
 
     for f in filenames:
         if not os.path.exists(f):
-            status_code = 500
+            present = False
             break
 
-    return {"detail": status_code}
+    return {"present": present}
 
 
 # serve react frontend on root in production - DEV benefits from live reloads

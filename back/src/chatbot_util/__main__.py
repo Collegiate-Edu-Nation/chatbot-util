@@ -62,9 +62,9 @@ def start() -> None:
     print("Done.\n")
 
 
-def verify() -> int:
+def verify() -> bool:
     """Determine whether the updated Permutated.csv has any modified or missing entries (and not just new ones)"""
-    return_code: int
+    verified = True
     writefile = FILENAMES["permutated"]
     backupfile = writefile + ".backup"
 
@@ -86,12 +86,10 @@ def verify() -> int:
         stdout=subprocess.PIPE,
     ).returncode
 
-    if return_code == 1:
-        verified_code = 201
-    else:
-        verified_code = 409
+    if return_code != 1:
+        verified = False
 
-    return verified_code
+    return verified
 
 
 if __name__ == "__main__":

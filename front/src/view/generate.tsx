@@ -48,9 +48,8 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
     const url = baseURL + "/generate";
     const response = await fetch(url, settings);
     const result = await response.json();
-    const verified = result.verified === 201 ? true : false;
-    setVerStatus(verified);
-    if (!verified)
+    setVerStatus(result.verified);
+    if (!result.verified)
       toast("Unverified", {
         description: "Newly generated Permutated.csv is missing entries",
         action: {
@@ -97,10 +96,10 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
       const result = await response.json();
 
       // toast based on upload success of ALL files before resetting files
-      let success = true;
-      for (const s of result.detail) if (s !== 201) success = false;
-      const title = success ? "Updated file(s)" : "Failed to update file(s)";
-      const desc = success
+      const title = result.uploaded
+        ? "Updated file(s)"
+        : "Failed to update file(s)";
+      const desc = result.uploaded
         ? "The data file(s) you uploaded have been saved to ~/.chatbot-util/"
         : "The data file(s) you uploaded have NOT been saved to ~/.chatbot-util/";
       toast(title, { description: desc });

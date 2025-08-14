@@ -21,10 +21,10 @@ FILENAMES = {
 }
 
 
-def create_file(f: UploadFile) -> int:
+def create_file(f: UploadFile) -> bool:
     """Create or replace a data file"""
     # determine whether anything should be done with the uploaded file
-    status_code = 200
+    created = True
     filename: str | None = None
     if str(f.filename) == FAQ:
         filename = FILENAMES["faq"]
@@ -50,12 +50,10 @@ def create_file(f: UploadFile) -> int:
             with open(filename, "wb") as openfile:
                 openfile.write(contents)
 
-            status_code = 201
-
         except Exception:
-            status_code = 500
+            created = False
 
-    return status_code
+    return created
 
 
 def read_entries(filename: str) -> tuple[dict[str, list[str]], dict[str, int]]:

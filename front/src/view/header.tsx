@@ -33,17 +33,17 @@ function Header({
   const baseURL = "http://127.0.0.1:8080/api";
 
   const [LLMStatus, setLLMStatus] = useState(0);
-  const [fileStatus, setFileStatus] = useState(0);
+  const [fileStatus, setFileStatus] = useState(false);
 
   useInterval(() => health(), LLMStatus === 200 ? 5000 : 500);
-  useInterval(() => files(), fileStatus === 200 ? 50000 : 500);
+  useInterval(() => files(), fileStatus ? 50000 : 500);
 
   async function health() {
     const url = baseURL + "/health";
     const response = await fetch(url);
-    const result = await response.json();
+    const result = response.status;
     console.log(result);
-    setLLMStatus(result.detail);
+    setLLMStatus(result);
   }
 
   async function files() {
@@ -51,7 +51,7 @@ function Header({
     const response = await fetch(url);
     const result = await response.json();
     console.log(result);
-    setFileStatus(result.detail);
+    setFileStatus(result.present);
   }
 
   return (
@@ -91,7 +91,7 @@ function Header({
               <div
                 className={
                   "size-2 rounded-xl " +
-                  (LLMStatus === 200 && fileStatus === 200
+                  (LLMStatus === 200 && fileStatus
                     ? verStatus === true
                       ? "bg-green-500"
                       : "bg-yellow-500"
@@ -128,7 +128,7 @@ function Header({
               <div
                 className={
                   "inline-block size-2 rounded-xl " +
-                  (fileStatus === 200 ? "bg-green-500" : "bg-red-500")
+                  (fileStatus ? "bg-green-500" : "bg-red-500")
                 }
               ></div>
             </div>

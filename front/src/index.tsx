@@ -12,6 +12,7 @@ import Generate from "./view/generate.tsx";
 // lift the state from children
 export default function App() {
   const [verStatus, setVerStatus] = useState(true);
+
   return (
     <ThemeProvider>
       <Toaster position="top-center" visibleToasts={1} />
