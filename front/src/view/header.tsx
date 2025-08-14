@@ -56,7 +56,13 @@ function Header({
 
   return (
     <header className="flex justify-between items-center h-14 pl-4 pr-2.5">
-      <img src={logo} alt="Logo" width="100px"></img>
+      <a
+        href="https://edu-nation.org"
+        target="_blank"
+        className="cursor-default"
+      >
+        <img src={logo} alt="Logo" width="100px"></img>
+      </a>
 
       {/* help */}
       <div className="flex items-center gap-2">
