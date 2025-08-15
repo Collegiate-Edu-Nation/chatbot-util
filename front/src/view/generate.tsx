@@ -22,7 +22,15 @@ import {
   CardTitle,
 } from "@/comp/ui/card.tsx";
 
-function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
+function Generate({
+  setVerStatus,
+  LLMStatus,
+  fileStatus,
+}: {
+  setVerStatus: (val: boolean) => void;
+  LLMStatus: number;
+  fileStatus: boolean;
+}) {
   const baseURL = "http://127.0.0.1:8080/api";
 
   const [genStatus, setGenStatus] = useState(false);
@@ -190,7 +198,12 @@ function Generate({ setVerStatus }: { setVerStatus: (val: boolean) => void }) {
               </div>
             </div>
           ) : (
-            <Button onClick={generate} variant="outline" className="w-auto">
+            <Button
+              onClick={generate}
+              variant="outline"
+              disabled={!(fileStatus && LLMStatus === 200)}
+              className="w-auto"
+            >
               Generate
             </Button>
           )}

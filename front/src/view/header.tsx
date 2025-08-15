@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: Collegiate Edu-Nation
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import { useState } from "react";
 import useInterval from "react-useinterval";
 import { toast } from "sonner";
 import logo from "../assets/logo.png";
@@ -26,14 +25,19 @@ import {
 function Header({
   verStatus,
   setVerStatus,
+  LLMStatus,
+  setLLMStatus,
+  fileStatus,
+  setFileStatus,
 }: {
   verStatus: boolean;
   setVerStatus: (val: boolean) => void;
+  LLMStatus: number;
+  setLLMStatus: (val: number) => void;
+  fileStatus: boolean;
+  setFileStatus: (val: boolean) => void;
 }) {
   const baseURL = "http://127.0.0.1:8080/api";
-
-  const [LLMStatus, setLLMStatus] = useState(0);
-  const [fileStatus, setFileStatus] = useState(false);
 
   useInterval(() => health(), LLMStatus === 200 ? 5000 : 500);
   useInterval(() => files(), fileStatus ? 50000 : 500);

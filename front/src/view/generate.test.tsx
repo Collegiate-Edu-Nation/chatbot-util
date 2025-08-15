@@ -5,7 +5,10 @@ import { render, screen } from "@testing-library/react";
 import Generate from "./generate.tsx";
 
 test("renders generate button", () => {
-  render(<Generate setVerStatus={() => {}} />);
+  render(
+    <Generate setVerStatus={() => {}} LLMStatus={200} fileStatus={false} />,
+  );
+
   const linkElement = screen.getByText(/Upload and Generate/i);
   expect(linkElement).toBeInTheDocument();
 });

@@ -11,7 +11,9 @@ import Generate from "./view/generate.tsx";
 
 // lift the state from children
 export default function App() {
+  const [LLMStatus, setLLMStatus] = useState(0);
   const [verStatus, setVerStatus] = useState(true);
+  const [fileStatus, setFileStatus] = useState(false);
 
   return (
     <ThemeProvider>
@@ -20,8 +22,16 @@ export default function App() {
         <Header
           verStatus={verStatus}
           setVerStatus={(val) => setVerStatus(val)}
+          LLMStatus={LLMStatus}
+          setLLMStatus={(val) => setLLMStatus(val)}
+          fileStatus={fileStatus}
+          setFileStatus={(val) => setFileStatus(val)}
         />
-        <Generate setVerStatus={(val) => setVerStatus(val)} />
+        <Generate
+          setVerStatus={(val) => setVerStatus(val)}
+          LLMStatus={LLMStatus}
+          fileStatus={fileStatus}
+        />
       </div>
     </ThemeProvider>
   );
