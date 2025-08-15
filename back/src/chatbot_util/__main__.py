@@ -26,8 +26,8 @@ def main() -> None:
     )
 
 
-def start() -> None:
-    """Create chain, read info from files, append generated questions, then write to new file"""
+def start() -> bool:
+    """Create chain, read info from files, append generated questions, then write to new file, indicating whether the run was interrupted"""
 
     def handle_interrupt() -> bool:
         """Helper to reset chain state if interrupted"""
@@ -42,25 +42,27 @@ def start() -> None:
 
     # Check interrupt status between operations to avoid undesired behavior
     if handle_interrupt():
-        return
+        return True
 
     # Read topics and organic questions
     print("\nReading topics, questions, employees, and answers...")
     store, employees, phrases, answers, nums = file_io.read()
 
     if handle_interrupt():
-        return
+        return True
 
     # Generate synthetic questions
     permutated_store = chain.generate(store, phrases)
 
     if handle_interrupt():
-        return
+        return True
 
     # Recreate Permutated.csv w/ synthetic questions appended
     print(f'\nWriting to "{FILENAMES["permutated"]}"...')
     file_io.write(permutated_store, employees, answers, nums)
     print("Done.\n")
+
+    return False
 
 
 def verify() -> bool:

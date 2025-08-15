@@ -53,16 +53,19 @@ def generate(response: Response) -> dict[str, bool]:
     """
 
     # generate new Permutated.csv
+    verified = True
+    interrupted = False
     global allow_generate
     if allow_generate:
         allow_generate = False
-        __main__.start()
+        interrupted = __main__.start()
         allow_generate = True
     else:
         response.status_code = status.HTTP_429_TOO_MANY_REQUESTS
 
-    # identify whether new Permutated.csv is verified
-    verified = __main__.verify()
+    # identify whether new Permutated.csv is verified, ignoring interruption case
+    if not interrupted:
+        verified = __main__.verify()
 
     return {"verified": verified}
 
