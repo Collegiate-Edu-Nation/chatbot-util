@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import { useState } from "react";
+import { useSessionStorage } from "usehooks-ts";
 import useInterval from "react-useinterval";
 import { toast } from "sonner";
 import { Button } from "../comp/ui/button.tsx";
@@ -33,16 +34,30 @@ function Generate({
 }) {
   const baseURL = "http://127.0.0.1:8080/api";
 
-  const [genStatus, setGenStatus] = useState(false);
-  const [progStatus, setProgStatus] = useState([0, 0]);
-  const [interruptStatus, setInterruptStatus] = useState(false);
   const [files, setFiles] = useState<File[] | undefined>();
+  const [genStatus, setGenStatus] = useSessionStorage("genStatus", false);
+  const [progStatus, setProgStatus] = useSessionStorage("progStatus", [0, 0]);
+  const [interruptStatus, setInterruptStatus] = useSessionStorage(
+    "interruptStatus",
+    false,
+  );
 
   useInterval(() => progress(), 500);
   const handleDrop = (files: File[]) => {
     console.log(files);
     setFiles(files);
   };
+
+  // reset status if interruption completed while refreshing to avoid getting stuck
+  if (
+    genStatus &&
+    interruptStatus &&
+    progStatus[0] === 0 &&
+    progStatus[1] === 0
+  ) {
+    setInterruptStatus(false);
+    setGenStatus(false);
+  }
 
   async function generate() {
     setGenStatus(true);
