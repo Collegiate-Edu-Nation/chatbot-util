@@ -201,7 +201,9 @@ def write(
     nums: dict[str, int],
 ) -> None:
     """Format questions and topics, write to csv file"""
-    os.rename(FILENAMES["permutated"], FILENAMES["permutated"] + ".backup")
+    if os.path.exists(FILENAMES["permutated"]):
+        os.rename(FILENAMES["permutated"], FILENAMES["permutated"] + ".backup")
+
     with open(FILENAMES["permutated"], "w", encoding="utf-8") as csvfile:
         csvfile.write('"question","answer"\n')
         indices = {

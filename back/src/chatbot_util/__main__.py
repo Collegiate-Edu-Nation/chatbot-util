@@ -3,6 +3,7 @@
 
 """Entry point that launches a uvicorn server and connects the backend reading, generation, and writing functionalities"""
 
+import os
 import subprocess
 import sys
 
@@ -67,6 +68,10 @@ def verify() -> bool:
     verified = True
     writefile = FILENAMES["permutated"]
     backupfile = writefile + ".backup"
+
+    # return early when there's nothing to verify against
+    if not os.path.exists(backupfile):
+        return verified
 
     # pipe the diff into grep to ignore added entries
     diff = subprocess.run(
