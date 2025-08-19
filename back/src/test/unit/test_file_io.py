@@ -40,7 +40,6 @@ class TestFileIO(unittest.TestCase):
         lines: list[list[str]] = [[], [], [], []]
         expected: utils.Answers = {
             "cen_answers": {},
-            "robotics_answers": [],
             "instr_answers": [],
             "reach_answers": [],
         }
@@ -53,8 +52,6 @@ class TestFileIO(unittest.TestCase):
             "Person/Entity,Questions\n",
             "CEN,What is CEN?\n",
             ",\n",
-            "Robotics,We need help\n",
-            ",\n",
             "A Bcdef,We also need help\n",
             ",\n",
             "Instructional,We also also need help\n",
@@ -66,14 +63,12 @@ class TestFileIO(unittest.TestCase):
 
             expected_store = {
                 "CEN": ["What is CEN?"],
-                "Robotics": ["We need help"],
                 "A Bcdef": ["We also need help"],
                 "Instructional": ["We also also need help"],
                 "Edu-Reach": ["We also also need help"],
             }
             expected_nums = {
                 "num_cen": 1,
-                "num_robotics": 1,
                 "num_instr": 1,
                 "num_reach": 1,
             }

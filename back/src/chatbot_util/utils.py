@@ -10,7 +10,6 @@ class Answers(TypedDict):
     """Representation of the answer dict variants expected for each topic"""
 
     cen_answers: dict[str, list[str]]
-    robotics_answers: list[str]
     instr_answers: list[str]
     reach_answers: list[str]
 
@@ -83,12 +82,6 @@ def create_answer(
             answers["cen_answers"],
             nums["num_cen"],
             indices["cen_index"],
-        )
-    elif topic == "Robotics":
-        answer, indices["robotics_index"] = create_other_answer(
-            answers["robotics_answers"],
-            nums["num_robotics"],
-            indices["robotics_index"],
         )
     elif topic == "Instructional":
         answer, indices["instr_index"] = create_other_answer(

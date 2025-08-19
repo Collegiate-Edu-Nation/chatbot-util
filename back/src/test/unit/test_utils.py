@@ -60,18 +60,15 @@ class TestUtils(unittest.TestCase):
         employees = {"A Bcdef": ["G Hijk", "His"]}
         answers: utils.Answers = {
             "cen_answers": {"cen_0": ["abc", "def"]},
-            "robotics_answers": ["abc"],
             "instr_answers": ["abc"],
             "reach_answers": ["abc"],
         }
         nums = {
             "num_cen": 1,
-            "num_robotics": 1,
             "num_instr": 1,
         }
         indices = {
             "cen_index": 0,
-            "robotics_index": 0,
             "instr_index": 0,
         }
 
@@ -87,20 +84,10 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(answer, expected)
         self.assertEqual(rec_indices, expected_indices)
 
-        # Robotics
-        topic = "Robotics"
-        question = "abc"
-        expected = "abc"
-        expected_indices = indices
-        expected_indices["robotics_index"] += 1
-        answer, rec_indices = utils.create_answer(
-            topic, question, employees, answers, nums, indices
-        )
-        self.assertEqual(answer, expected)
-        self.assertEqual(rec_indices, expected_indices)
-
         # Instructional
         topic = "Instructional"
+        question = "abc"
+        expected = "abc"
         expected_indices = indices
         expected_indices["instr_index"] += 1
         answer, rec_indices = utils.create_answer(

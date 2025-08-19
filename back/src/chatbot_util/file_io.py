@@ -69,7 +69,6 @@ def read_entries(filename: str) -> tuple[dict[str, list[str]], dict[str, int]]:
         cur_topic = ""
         nums = {
             "num_cen": 0,
-            "num_robotics": 0,
             "num_instr": 0,
             "num_reach": 0,
         }
@@ -86,8 +85,6 @@ def read_entries(filename: str) -> tuple[dict[str, list[str]], dict[str, int]]:
                         store[cur_topic].append(question)
                         if cur_topic == "CEN":
                             nums["num_cen"] += 1
-                        elif cur_topic == "Robotics":
-                            nums["num_robotics"] += 1
                         elif cur_topic == "Instructional":
                             nums["num_instr"] += 1
                         elif cur_topic == "Edu-Reach":
@@ -144,15 +141,13 @@ def read_basic(lines: list[str]) -> list[str]:
 
 
 def read_answers(lines: list[list[str]]) -> utils.Answers:
-    """Read and return answers for cen, robotics, instr"""
+    """Read and return answers for cen, instr, reach"""
     cen_answers = read_cen(lines[0])
-    robotics_answers = read_basic(lines[1])
-    instr_answers = read_basic(lines[2])
-    reach_answers = read_basic(lines[3])
+    instr_answers = read_basic(lines[1])
+    reach_answers = read_basic(lines[2])
 
     answers: utils.Answers = {
         "cen_answers": cen_answers,
-        "robotics_answers": robotics_answers,
         "instr_answers": instr_answers,
         "reach_answers": reach_answers,
     }
@@ -208,7 +203,6 @@ def write(
         csvfile.write('"question","answer"\n')
         indices = {
             "cen_index": 0,
-            "robotics_index": 0,
             "instr_index": 0,
             "reach_index": 0,
         }
