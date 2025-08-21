@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import { StrictMode, useState } from "react";
+import { useSessionStorage } from "usehooks-ts";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { ThemeProvider } from "./comp/theme-provider.tsx";
@@ -12,7 +13,7 @@ import Generate from "./view/generate.tsx";
 // lift the state from children
 export default function App() {
   const [LLMStatus, setLLMStatus] = useState(0);
-  const [verStatus, setVerStatus] = useState(true);
+  const [verStatus, setVerStatus] = useSessionStorage("verStatus", true);
   const [fileStatus, setFileStatus] = useState(false);
 
   return (
