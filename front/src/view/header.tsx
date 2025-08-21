@@ -30,8 +30,8 @@ function Header({
   fileStatus,
   setFileStatus,
 }: {
-  verStatus: boolean;
-  setVerStatus: (val: boolean) => void;
+  verStatus: boolean | null;
+  setVerStatus: (val: boolean | null) => void;
   LLMStatus: number;
   setLLMStatus: (val: number) => void;
   fileStatus: boolean;
@@ -96,7 +96,7 @@ function Header({
                 className={
                   "size-2 rounded-xl " +
                   (LLMStatus === 200 && fileStatus
-                    ? verStatus === true
+                    ? verStatus === true || verStatus === null
                       ? "bg-green-500"
                       : "bg-yellow-500"
                     : "bg-red-500")
@@ -145,22 +145,26 @@ function Header({
                     size="24"
                     strokeWidth="1.25"
                     className={
-                      verStatus
+                      verStatus === null
                         ? ""
-                        : "hover:fill-accent hover:text-accent-foreground"
+                        : verStatus
+                          ? ""
+                          : "hover:fill-accent hover:text-accent-foreground"
                     }
                     onClick={
-                      verStatus
+                      verStatus === null
                         ? () => void 0
-                        : () =>
-                            toast("Unverified", {
-                              description:
-                                "Newly generated Permutated.csv is missing entries",
-                              action: {
-                                label: "Okay",
-                                onClick: () => setVerStatus(true),
-                              },
-                            })
+                        : verStatus
+                          ? () => void 0
+                          : () =>
+                              toast("Unverified", {
+                                description:
+                                  "Newly generated Permutated.csv is missing entries",
+                                action: {
+                                  label: "Okay",
+                                  onClick: () => setVerStatus(true),
+                                },
+                              })
                     }
                   ></ListChecksIcon>
                 </TooltipTrigger>
@@ -169,7 +173,11 @@ function Header({
               <div
                 className={
                   "inline-block size-2 rounded-xl " +
-                  (verStatus ? "bg-green-500" : "bg-red-500")
+                  (verStatus === null
+                    ? "bg-neutral-500"
+                    : verStatus
+                      ? "bg-green-500"
+                      : "bg-red-500")
                 }
               ></div>
             </div>

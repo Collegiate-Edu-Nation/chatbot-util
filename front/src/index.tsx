@@ -13,8 +13,11 @@ import Generate from "./view/generate.tsx";
 // lift the state from children
 export default function App() {
   const [LLMStatus, setLLMStatus] = useState(0);
-  const [verStatus, setVerStatus] = useSessionStorage("verStatus", true);
   const [fileStatus, setFileStatus] = useState(false);
+  const [verStatus, setVerStatus] = useSessionStorage<boolean | null>(
+    "verStatus",
+    null,
+  );
 
   return (
     <ThemeProvider>

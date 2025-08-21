@@ -28,7 +28,7 @@ function Generate({
   LLMStatus,
   fileStatus,
 }: {
-  setVerStatus: (val: boolean) => void;
+  setVerStatus: (val: boolean | null) => void;
   LLMStatus: number;
   fileStatus: boolean;
 }) {
