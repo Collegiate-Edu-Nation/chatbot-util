@@ -72,7 +72,7 @@ function Generate({
     const response = await fetch(url, settings);
     const result = await response.json();
     setVerStatus(result.verified);
-    if (!result.verified)
+    if (result.verified === false)
       toast("Unverified", {
         description: "Newly generated Permutated.csv is missing entries",
         action: {

@@ -41,7 +41,7 @@ def health() -> None:
 
 
 @app.post("/api/generate", status_code=status.HTTP_201_CREATED)
-def generate(response: Response) -> dict[str, bool]:
+def generate(response: Response) -> dict[str, bool | None]:
     """Create chain, read info from files, append generated questions, then write to new file
 
     status\n
@@ -49,11 +49,12 @@ def generate(response: Response) -> dict[str, bool]:
     429 = request denied because generation is in progress\n\n
     verified\n
     True = verified\n
-    False = unverified, check diff
+    False = unverified, check diff\n
+    None = generation interrupted
     """
 
     # generate new Permutated.csv
-    verified = True
+    verified = None
     interrupted = False
     global allow_generate
     if allow_generate:
