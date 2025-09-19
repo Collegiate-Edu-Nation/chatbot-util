@@ -14,7 +14,7 @@ import {
   HelpCircleIcon,
   BrainIcon,
   FileCheckIcon,
-  ListChecksIcon,
+  FolderOpenIcon,
 } from "lucide-react";
 import {
   Tooltip,
@@ -27,20 +27,20 @@ function Header({
   setVerStatus,
   LLMStatus,
   setLLMStatus,
-  fileStatus,
-  setFileStatus,
+  folderStatus,
+  setFolderStatus,
 }: {
   verStatus: boolean | null;
   setVerStatus: (val: boolean | null) => void;
   LLMStatus: number;
   setLLMStatus: (val: number) => void;
-  fileStatus: boolean;
-  setFileStatus: (val: boolean) => void;
+  folderStatus: boolean;
+  setFolderStatus: (val: boolean) => void;
 }) {
   const baseURL = "http://127.0.0.1:8080/api";
 
   useInterval(() => health(), LLMStatus === 200 ? 5000 : 500);
-  useInterval(() => files(), fileStatus ? 50000 : 500);
+  useInterval(() => files(), folderStatus ? 50000 : 500);
 
   async function health() {
     const url = baseURL + "/health";
@@ -55,7 +55,7 @@ function Header({
     const response = await fetch(url);
     const result = await response.json();
     console.log(result);
-    setFileStatus(result.present);
+    setFolderStatus(result.present);
   }
 
   return (
@@ -95,7 +95,7 @@ function Header({
               <div
                 className={
                   "size-2 rounded-xl " +
-                  (LLMStatus === 200 && fileStatus
+                  (LLMStatus === 200 && folderStatus
                     ? verStatus === true || verStatus === null
                       ? "bg-green-500"
                       : "bg-yellow-500"
@@ -121,18 +121,18 @@ function Header({
               ></div>
             </div>
 
-            {/* fileStatus */}
+            {/* folderStatus */}
             <div className="flex items-end gap-1 pt-1.5 pb-1.5">
               <Tooltip>
                 <TooltipTrigger asChild={true}>
-                  <FileCheckIcon size="24" strokeWidth="1.25"></FileCheckIcon>
+                  <FolderOpenIcon size="24" strokeWidth="1.25"></FolderOpenIcon>
                 </TooltipTrigger>
-                <TooltipContent side="bottom">File status</TooltipContent>
+                <TooltipContent side="bottom">Folder status</TooltipContent>
               </Tooltip>
               <div
                 className={
                   "inline-block size-2 rounded-xl " +
-                  (fileStatus ? "bg-green-500" : "bg-red-500")
+                  (folderStatus ? "bg-green-500" : "bg-red-500")
                 }
               ></div>
             </div>
@@ -141,7 +141,7 @@ function Header({
             <div className="flex items-end gap-1 pt-1.5">
               <Tooltip>
                 <TooltipTrigger asChild={true} className="flex">
-                  <ListChecksIcon
+                  <FileCheckIcon
                     size="24"
                     strokeWidth="1.25"
                     className={
@@ -166,7 +166,7 @@ function Header({
                                 },
                               })
                     }
-                  ></ListChecksIcon>
+                  ></FileCheckIcon>
                 </TooltipTrigger>
                 <TooltipContent side="bottom">Verified status</TooltipContent>
               </Tooltip>

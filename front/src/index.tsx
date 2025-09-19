@@ -13,7 +13,7 @@ import Generate from "./view/generate.tsx";
 // lift the state from children
 export default function App() {
   const [LLMStatus, setLLMStatus] = useState(0);
-  const [fileStatus, setFileStatus] = useState(false);
+  const [folderStatus, setFolderStatus] = useState(false);
   const [verStatus, setVerStatus] = useSessionStorage<boolean | null>(
     "verStatus",
     null,
@@ -28,13 +28,13 @@ export default function App() {
           setVerStatus={(val) => setVerStatus(val)}
           LLMStatus={LLMStatus}
           setLLMStatus={(val) => setLLMStatus(val)}
-          fileStatus={fileStatus}
-          setFileStatus={(val) => setFileStatus(val)}
+          folderStatus={folderStatus}
+          setFolderStatus={(val) => setFolderStatus(val)}
         />
         <Generate
           setVerStatus={(val) => setVerStatus(val)}
           LLMStatus={LLMStatus}
-          fileStatus={fileStatus}
+          folderStatus={folderStatus}
         />
       </div>
     </ThemeProvider>

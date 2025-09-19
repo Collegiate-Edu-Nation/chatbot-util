@@ -26,11 +26,11 @@ import {
 function Generate({
   setVerStatus,
   LLMStatus,
-  fileStatus,
+  folderStatus,
 }: {
   setVerStatus: (val: boolean | null) => void;
   LLMStatus: number;
-  fileStatus: boolean;
+  folderStatus: boolean;
 }) {
   const baseURL = "http://127.0.0.1:8080/api";
 
@@ -216,7 +216,7 @@ function Generate({
             <Button
               onClick={generate}
               variant="outline"
-              disabled={!(fileStatus && LLMStatus === 200)}
+              disabled={!(folderStatus && LLMStatus === 200)}
               className="w-auto"
             >
               Generate

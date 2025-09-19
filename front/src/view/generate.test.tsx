@@ -6,7 +6,7 @@ import Generate from "./generate.tsx";
 
 test("renders generate button", () => {
   render(
-    <Generate setVerStatus={() => {}} LLMStatus={200} fileStatus={false} />,
+    <Generate setVerStatus={() => {}} LLMStatus={200} folderStatus={false} />,
   );
 
   const linkElement = screen.getByText(/Upload and Generate/i);

@@ -11,8 +11,8 @@ test("renders generate button", () => {
       setVerStatus={() => {}}
       LLMStatus={200}
       setLLMStatus={() => {}}
-      fileStatus={false}
-      setFileStatus={() => {}}
+      folderStatus={false}
+      setFolderStatus={() => {}}
     />,
   );
 
