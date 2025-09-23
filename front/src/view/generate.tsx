@@ -70,8 +70,19 @@ function Generate({
     };
     const url = baseURL + "/generate";
     const response = await fetch(url, settings);
+    const status = response.status;
     const result = await response.json();
     setVerStatus(result.verified);
+
+    if (status === 429)
+      toast("Rate-limited", {
+        description: "You've been rate-limited. Try again in a few minutes",
+        action: {
+          label: "Okay",
+          onClick: () => void 0,
+        },
+      });
+
     if (result.verified === false)
       toast("Unverified", {
         description: "Newly generated Permutated.csv is missing entries",
@@ -80,6 +91,7 @@ function Generate({
           onClick: () => setVerStatus(true),
         },
       });
+
     setGenStatus(false);
     console.log(result);
   }
