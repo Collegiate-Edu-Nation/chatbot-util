@@ -14,11 +14,20 @@ DIR = os.path.expanduser("~/.chatbot-util")
 FAQ = "FAQ - Enter Here.csv"
 OTHER = "Other.txt"
 PERMUTATED = "Permutated.csv"
+CONFIG = "config.toml"
 FILENAMES = {
     "faq": f"{DIR}/{FAQ}",
     "other": f"{DIR}/{OTHER}",
     "permutated": f"{DIR}/{PERMUTATED}",
+    "config": f"{DIR}/{CONFIG}",
 }
+
+
+def read_config() -> dict[str, str]:
+    return {
+        "faq": "https://docs.google.com/spreadsheets/d/1hQ1oN2r6J-03jDaF0-ol7Cof6kv_6De8N7icbi7dmv8/edit?usp=drive_link",
+        "other": "https://drive.google.com/file/d/1CsRu9C-xpROe9OhvENCAJ3uAZ79rjUXW/view?usp=drive_link",
+    }
 
 
 def create_file(f: UploadFile) -> bool:

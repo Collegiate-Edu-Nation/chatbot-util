@@ -125,7 +125,7 @@ def files() -> dict[str, bool]:
     False = some files are missing
     """
     present = True
-    filenames = [FILENAMES["faq"], FILENAMES["other"]]
+    filenames = [FILENAMES["faq"], FILENAMES["other"], FILENAMES["config"]]
 
     for f in filenames:
         if not os.path.exists(f):
@@ -133,6 +133,18 @@ def files() -> dict[str, bool]:
             break
 
     return {"present": present}
+
+
+@app.get("/api/config")
+def config() -> dict[str, str]:
+    """Return CDN links to 'FAQ - Enter Here.csv' and 'Other.txt'
+
+    status\n
+    200 = no errors encountered while reading links from config\n\n
+    faq = CDN link to 'FAQ - Enter Here.csv'\n
+    other = CDN link to 'Other.txt'\n
+    """
+    return file_io.read_config()
 
 
 # serve react frontend on root in production - DEV benefits from live reloads
