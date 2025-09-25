@@ -5,6 +5,7 @@
 
 import csv
 import os
+import tomllib
 
 from fastapi import UploadFile
 
@@ -24,10 +25,11 @@ FILENAMES = {
 
 
 def read_config() -> dict[str, str]:
-    return {
-        "faq": "https://docs.google.com/spreadsheets/d/1hQ1oN2r6J-03jDaF0-ol7Cof6kv_6De8N7icbi7dmv8/edit?usp=drive_link",
-        "other": "https://drive.google.com/file/d/1CsRu9C-xpROe9OhvENCAJ3uAZ79rjUXW/view?usp=drive_link",
-    }
+    with open(FILENAMES["config"], "rb") as f:
+        config = tomllib.load(f)
+
+    links: dict[str, str] = config["links"]
+    return links
 
 
 def create_file(f: UploadFile) -> bool:
@@ -39,6 +41,8 @@ def create_file(f: UploadFile) -> bool:
         filename = FILENAMES["faq"]
     elif str(f.filename) == OTHER:
         filename = FILENAMES["other"]
+    elif str(f.filename) == CONFIG:
+        filename = FILENAMES["config"]
 
     # try to replace the relevant file bytewise
     if filename is not None:

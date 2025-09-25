@@ -35,6 +35,7 @@ function Generate({
   const baseURL = "http://127.0.0.1:8080/api";
 
   const [files, setFiles] = useState<File[] | undefined>();
+  const [appConfig, setAppConfig] = useState(["", ""]);
   const [genStatus, setGenStatus] = useSessionStorage("genStatus", false);
   const [progStatus, setProgStatus] = useSessionStorage("progStatus", [0, 0]);
   const [interruptStatus, setInterruptStatus] = useSessionStorage(
@@ -43,6 +44,7 @@ function Generate({
   );
 
   useInterval(() => progress(), 500);
+  useInterval(() => config(), folderStatus ? 50000 : 500);
   const handleDrop = (files: File[]) => {
     console.log(files);
     setFiles(files);
@@ -143,6 +145,14 @@ function Generate({
     }
   }
 
+  async function config() {
+    const url = baseURL + "/config";
+    const response = await fetch(url);
+    const result = await response.json();
+    setAppConfig([result.faq, result.other]);
+    console.log(result);
+  }
+
   return (
     <div className="flex flex-grow justify-center items-center dark:bg-neutral-900  bg-neutral-100 gap-2.5">
       <Card className="w-full max-w-sm">
@@ -155,20 +165,12 @@ function Generate({
           </CardDescription>
           <CardAction className="flex flex-col">
             <Button variant="link" asChild>
-              <a
-                href="https://docs.google.com/spreadsheets/d/1hQ1oN2r6J-03jDaF0-ol7Cof6kv_6De8N7icbi7dmv8/edit?usp=drive_link"
-                target="_blank"
-                className="cursor-default"
-              >
+              <a href={appConfig[0]} target="_blank" className="cursor-default">
                 FAQ
               </a>
             </Button>
             <Button variant="link" asChild>
-              <a
-                href="https://drive.google.com/file/d/1CsRu9C-xpROe9OhvENCAJ3uAZ79rjUXW/view?usp=drive_link"
-                target="_blank"
-                className="cursor-default"
-              >
+              <a href={appConfig[1]} target="_blank" className="cursor-default">
                 Other
               </a>
             </Button>
