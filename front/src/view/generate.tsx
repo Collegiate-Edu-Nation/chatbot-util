@@ -180,7 +180,7 @@ function Generate({
         {/* upload */}
         <CardContent>
           <Dropzone
-            accept={{ "text/*": [] }}
+            accept={{ "text/*": [".txt", ".csv"], "application/*": [".toml"] }}
             maxFiles={10}
             maxSize={1024 * 1024 * 10}
             minSize={1}
