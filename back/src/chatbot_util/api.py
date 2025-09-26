@@ -107,7 +107,7 @@ def upload(files: list[UploadFile]) -> dict[str, bool]:
     """
     uploaded = True
     for f in files:
-        if not file_io.create_file(f):
+        if file_io.create_file(f) is not True:
             uploaded = False
             break
 

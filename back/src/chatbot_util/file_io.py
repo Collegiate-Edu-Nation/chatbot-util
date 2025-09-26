@@ -32,10 +32,10 @@ def read_config() -> dict[str, str]:
     return links
 
 
-def create_file(f: UploadFile) -> bool:
+def create_file(f: UploadFile) -> bool | None:
     """Create or replace a data file"""
     # determine whether anything should be done with the uploaded file
-    created = True
+    created: bool | None = True
     filename: str | None = None
     if str(f.filename) == FAQ:
         filename = FILENAMES["faq"]
@@ -65,6 +65,8 @@ def create_file(f: UploadFile) -> bool:
 
         except Exception:
             created = False
+    else:
+        created = None
 
     return created
 
