@@ -153,6 +153,27 @@ function Generate({
     console.log(result);
   }
 
+  function links() {
+    if (appConfig[0] === "") {
+      return false;
+    }
+
+    return (
+      <CardAction className="flex flex-col">
+        <Button variant="link" asChild>
+          <a href={appConfig[0]} target="_blank" className="cursor-default">
+            FAQ
+          </a>
+        </Button>
+        <Button variant="link" asChild>
+          <a href={appConfig[1]} target="_blank" className="cursor-default">
+            Other
+          </a>
+        </Button>
+      </CardAction>
+    );
+  }
+
   return (
     <div className="flex flex-grow justify-center items-center dark:bg-neutral-900  bg-neutral-100 gap-2.5">
       <Card className="w-full max-w-sm">
@@ -163,18 +184,7 @@ function Generate({
             Upload 'FAQ - Enter Here.csv' + 'Other.txt' and generate
             'Permutated.csv'
           </CardDescription>
-          <CardAction className="flex flex-col">
-            <Button variant="link" asChild>
-              <a href={appConfig[0]} target="_blank" className="cursor-default">
-                FAQ
-              </a>
-            </Button>
-            <Button variant="link" asChild>
-              <a href={appConfig[1]} target="_blank" className="cursor-default">
-                Other
-              </a>
-            </Button>
-          </CardAction>
+          {links()}
         </CardHeader>
 
         {/* upload */}

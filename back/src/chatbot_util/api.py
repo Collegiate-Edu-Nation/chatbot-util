@@ -125,7 +125,7 @@ def files() -> dict[str, bool]:
     False = some files are missing
     """
     present = True
-    filenames = [FILENAMES["faq"], FILENAMES["other"], FILENAMES["config"]]
+    filenames = [FILENAMES["faq"], FILENAMES["other"]]
 
     for f in filenames:
         if not os.path.exists(f):
