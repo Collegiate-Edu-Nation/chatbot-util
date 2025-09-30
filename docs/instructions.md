@@ -5,7 +5,7 @@ hide:
 
 # Instructions
 
-Before the README sections 'Setup' and 'Usage' are completed, you must first add two files from the shared CEN Google Drive to `~/.chatbot-util/` on your computer
+Before the README sections 'Setup' and 'Usage' are completed, you must first add two files from the shared CEN Google Drive to `~/.chatbot-util/` on your computer. Optionally, adding links to these files in `config.toml` will streamline direct access in the future
 
 ## `FAQ - Enter Here.csv`
 
@@ -101,3 +101,22 @@ The changes should propagate after a short period of time (~15 minutes)
       "question","answer"
       "What is CEN?","CEN is a non-profit organization engaging whole communities to reinvigorate education, revitalize local economies, and reimagine what's possible for rural America. We're preparing rural communities to connect and thrive in a fast-moving future."
       ```
+
+## `config.toml`
+
+This basic (and optional) TOML configuration file contains links to `FAQ - Enter Here.csv` and `Other.txt` that enables convenient access via buttons in the Generate card on the UI
+
+### Format
+
+- The first row is an indicator for the `[links]` section
+- The second and third rows contain direct links (enclosed in quotes) to the `faq` and `other` files
+
+      ```text
+      [links]
+      faq = "https://docs.google.com/spreadsheets/d/identifier/edit?usp=drive_link"
+      other = "https://drive.google.com/file/d/identifier/view?usp=drive_link"
+      ```
+
+### Update
+
+If the direct links to the files change (which happens often with `Other.txt`), simply update the links in this file. Any changes will be automatically reflected on the UI within a short period of time
