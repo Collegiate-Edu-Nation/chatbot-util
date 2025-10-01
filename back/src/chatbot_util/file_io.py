@@ -25,10 +25,17 @@ FILENAMES = {
 
 
 def read_config() -> dict[str, str]:
-    with open(FILENAMES["config"], "rb") as f:
-        config = tomllib.load(f)
+    links: dict[str, str] = {"faq": "", "other": ""}
 
-    links: dict[str, str] = config["links"]
+    try:
+        with open(FILENAMES["config"], "rb") as f:
+            config = tomllib.load(f)
+
+        links: dict[str, str] = config["links"]
+
+    except Exception:
+        print("\nFailed to load config.toml. Defaulting to empty links\n")
+
     return links
 
 

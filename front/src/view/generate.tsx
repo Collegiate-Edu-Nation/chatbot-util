@@ -43,6 +43,10 @@ function Generate({
     false,
   );
 
+  // config isn't actually dependent on folderStatus since its primary
+  // purpose is preventing generating w/ missing data files (which causes
+  // crashes). however, since it defaults to false, this is a decent hack
+  // for ensuring the config is always read on startup w/o polling nonstop
   useInterval(() => progress(), 500);
   useInterval(() => config(), folderStatus ? 50000 : 500);
   const handleDrop = (files: File[]) => {
