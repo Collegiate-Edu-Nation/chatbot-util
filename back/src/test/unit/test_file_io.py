@@ -40,8 +40,7 @@ class TestFileIO(unittest.TestCase):
         lines: list[list[str]] = [[], [], [], []]
         expected: utils.Answers = {
             "cen_answers": {},
-            "instr_answers": [],
-            "reach_answers": [],
+            "other_answers": [[], []],
         }
 
         answers = file_io.read_answers(lines)
@@ -58,6 +57,7 @@ class TestFileIO(unittest.TestCase):
             ",\n",
             "Edu-Reach,We also also need help\n",
         ]
+        teams = ["Instructional", "Edu-Reach"]
         with tempfile.NamedTemporaryFile() as temp_file:
             open(temp_file.name, "w", encoding="utf-8").writelines(lines)
 
@@ -69,11 +69,10 @@ class TestFileIO(unittest.TestCase):
             }
             expected_nums = {
                 "num_cen": 1,
-                "num_instr": 1,
-                "num_reach": 1,
+                "num_other": [1, 1],
             }
 
-            store, nums = file_io.read_entries(temp_file.name)
+            store, nums = file_io.read_entries(temp_file.name, teams)
             self.assertEqual(store, expected_store)
             self.assertEqual(nums, expected_nums)
             temp_file.close()

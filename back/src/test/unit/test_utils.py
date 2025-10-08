@@ -57,19 +57,19 @@ class TestUtils(unittest.TestCase):
 
     def test_create_answer(self):
         # setup
+        teams = ["Instructional", "Edu-Reach"]
         employees = {"A Bcdef": ["G Hijk", "His"]}
         answers: utils.Answers = {
             "cen_answers": {"cen_0": ["abc", "def"]},
-            "instr_answers": ["abc"],
-            "reach_answers": ["abc"],
+            "other_answers": [["abc"], ["abc"]],
         }
-        nums = {
+        nums: utils.Nums = {
             "num_cen": 1,
-            "num_instr": 1,
+            "num_other": [1, 1],
         }
-        indices = {
+        indices: utils.Indices = {
             "cen_index": 0,
-            "instr_index": 0,
+            "other_index": [0, 0],
         }
 
         # CEN
@@ -79,7 +79,7 @@ class TestUtils(unittest.TestCase):
         expected_indices = indices
         expected_indices["cen_index"] += 1
         answer, rec_indices = utils.create_answer(
-            topic, question, employees, answers, nums, indices
+            topic, question, teams, employees, answers, nums, indices
         )
         self.assertEqual(answer, expected)
         self.assertEqual(rec_indices, expected_indices)
@@ -89,9 +89,9 @@ class TestUtils(unittest.TestCase):
         question = "abc"
         expected = "abc"
         expected_indices = indices
-        expected_indices["instr_index"] += 1
+        expected_indices["other_index"][0] += 1
         answer, rec_indices = utils.create_answer(
-            topic, question, employees, answers, nums, indices
+            topic, question, teams, employees, answers, nums, indices
         )
         self.assertEqual(answer, expected)
         self.assertEqual(rec_indices, expected_indices)
@@ -101,7 +101,7 @@ class TestUtils(unittest.TestCase):
         expected = "A Bcdef, CEN's G Hijk, can help with that. His contact is abcdef@edu-nation.org"
         expected_indices = indices
         answer, rec_indices = utils.create_answer(
-            topic, question, employees, answers, nums, indices
+            topic, question, teams, employees, answers, nums, indices
         )
         self.assertEqual(answer, expected)
         self.assertEqual(rec_indices, expected_indices)

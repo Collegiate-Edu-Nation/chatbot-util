@@ -46,7 +46,7 @@ def start() -> bool:
 
     # Read topics and organic questions
     print("\nReading topics, questions, employees, and answers...")
-    store, employees, phrases, answers, nums = file_io.read()
+    store, teams, employees, phrases, answers, nums = file_io.read()
 
     if handle_interrupt():
         return True
@@ -59,7 +59,7 @@ def start() -> bool:
 
     # Recreate Permutated.csv w/ synthetic questions appended
     print(f'\nWriting to "{FILENAMES["permutated"]}"...')
-    file_io.write(permutated_store, employees, answers, nums)
+    file_io.write(permutated_store, teams, employees, answers, nums)
     print("Done.\n")
 
     return False

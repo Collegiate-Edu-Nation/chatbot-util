@@ -10,6 +10,7 @@ import tomllib
 from fastapi import UploadFile
 
 from chatbot_util import utils
+from chatbot_util.utils import Indices, Nums
 
 DIR = os.path.expanduser("~/.chatbot-util")
 FAQ = "FAQ - Enter Here.csv"
@@ -78,7 +79,12 @@ def create_file(f: UploadFile) -> bool | None:
     return created
 
 
-def read_entries(filename: str) -> tuple[dict[str, list[str]], dict[str, int]]:
+def read_teams(lines: list[str]) -> list[str]:
+    """Read and return teams"""
+    return [line.strip() for line in lines]
+
+
+def read_entries(filename: str, teams: list[str]) -> tuple[dict[str, list[str]], Nums]:
     """Read and return topics and basic answers"""
     with open(filename, "r", encoding="utf-8") as f:
         # it seems as though the delimiter doesn't actually
@@ -89,10 +95,9 @@ def read_entries(filename: str) -> tuple[dict[str, list[str]], dict[str, int]]:
         reader = csv.reader(f, delimiter="\t")
         store: dict[str, list[str]] = {}
         cur_topic = ""
-        nums = {
+        nums: Nums = {
             "num_cen": 0,
-            "num_instr": 0,
-            "num_reach": 0,
+            "num_other": [0] * len(teams),
         }
 
         for i, line in enumerate(reader):
@@ -107,10 +112,8 @@ def read_entries(filename: str) -> tuple[dict[str, list[str]], dict[str, int]]:
                         store[cur_topic].append(question)
                         if cur_topic == "CEN":
                             nums["num_cen"] += 1
-                        elif cur_topic == "Instructional":
-                            nums["num_instr"] += 1
-                        elif cur_topic == "Edu-Reach":
-                            nums["num_reach"] += 1
+                        elif cur_topic in teams:
+                            nums["num_other"][teams.index(cur_topic)] += 1
 
     return store, nums
 
@@ -165,24 +168,22 @@ def read_basic(lines: list[str]) -> list[str]:
 def read_answers(lines: list[list[str]]) -> utils.Answers:
     """Read and return answers for cen, instr, reach"""
     cen_answers = read_cen(lines[0])
-    instr_answers = read_basic(lines[1])
-    reach_answers = read_basic(lines[2])
+    other_answers = [read_basic(lines[1]), read_basic(lines[2])]
 
     answers: utils.Answers = {
         "cen_answers": cen_answers,
-        "instr_answers": instr_answers,
-        "reach_answers": reach_answers,
+        "other_answers": other_answers,
     }
     return answers
 
 
 def read_other(
     filename: str,
-) -> tuple[dict[str, list[str]], list[list[str]], utils.Answers]:
+) -> tuple[list[str], dict[str, list[str]], list[list[str]], utils.Answers]:
     """Read and return employees, phrases, and answers"""
     with open(filename, "r", encoding="utf-8") as f:
         raw_lines = f.readlines()
-        lines: list[list[str]] = [[], [], [], [], [], []]
+        lines: list[list[str]] = [[], [], [], [], [], [], []]
 
         cur = 0
         for raw_line in raw_lines:
@@ -191,31 +192,34 @@ def read_other(
                 continue
             lines[cur].append(raw_line)
 
-    employees = read_employees(lines[0])
-    phrases = read_phrases(lines[1])
-    answers = read_answers(lines[2:])
-    return employees, phrases, answers
+    teams = read_teams(lines[0])
+    employees = read_employees(lines[1])
+    phrases = read_phrases(lines[2])
+    answers = read_answers(lines[3:])
+    return teams, employees, phrases, answers
 
 
 def read() -> tuple[
     dict[str, list[str]],
+    list[str],
     dict[str, list[str]],
     list[list[str]],
     utils.Answers,
-    dict[str, int],
+    Nums,
 ]:
-    """Read questions from csv file, read employees, phrases and answers from text files"""
-    store, nums = read_entries(FILENAMES["faq"])
-    employees, phrases, answers = read_other(FILENAMES["other"])
+    """Read questions from csv file, read teams, employees, phrases and answers from text files"""
+    teams, employees, phrases, answers = read_other(FILENAMES["other"])
+    store, nums = read_entries(FILENAMES["faq"], teams)
 
-    return store, employees, phrases, answers, nums
+    return store, teams, employees, phrases, answers, nums
 
 
 def write(
     store: dict[str, list[str]],
+    teams: list[str],
     employees: dict[str, list[str]],
     answers: utils.Answers,
-    nums: dict[str, int],
+    nums: Nums,
 ) -> None:
     """Format questions and topics, write to csv file"""
     if os.path.exists(FILENAMES["permutated"]):
@@ -223,10 +227,9 @@ def write(
 
     with open(FILENAMES["permutated"], "w", encoding="utf-8") as csvfile:
         csvfile.write('"question","answer"\n')
-        indices = {
+        indices: Indices = {
             "cen_index": 0,
-            "instr_index": 0,
-            "reach_index": 0,
+            "other_index": [0] * len(teams),
         }
         for topic in store:
             for question in store[topic]:
@@ -234,6 +237,7 @@ def write(
                 answer, indices = utils.create_answer(
                     topic,
                     question,
+                    teams,
                     employees,
                     answers,
                     nums,

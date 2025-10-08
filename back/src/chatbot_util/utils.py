@@ -10,8 +10,21 @@ class Answers(TypedDict):
     """Representation of the answer dict variants expected for each topic"""
 
     cen_answers: dict[str, list[str]]
-    instr_answers: list[str]
-    reach_answers: list[str]
+    other_answers: list[list[str]]
+
+
+class Nums(TypedDict):
+    """Representation of the nums dict variants expected for each topic"""
+
+    num_cen: int
+    num_other: list[int]
+
+
+class Indices(TypedDict):
+    """Representation of the indices dict variants expected for each topic"""
+
+    cen_index: int
+    other_index: list[int]
 
 
 def create_person_answer(topic: str, employees: dict[str, list[str]]) -> str:
@@ -70,11 +83,12 @@ def create_other_answer(answers: list[str], num: int, index: int) -> tuple[str, 
 def create_answer(
     topic: str,
     question: str,
+    teams: list[str],
     employees: dict[str, list[str]],
     answers: Answers,
-    nums: dict[str, int],
-    indices: dict[str, int],
-) -> tuple[str, dict[str, int]]:
+    nums: Nums,
+    indices: Indices,
+) -> tuple[str, Indices]:
     """Convert topics to answers depending on whether the topic is a person, CEN, or other"""
     if topic == "CEN":
         answer, indices["cen_index"] = create_cen_answer(
@@ -83,17 +97,11 @@ def create_answer(
             nums["num_cen"],
             indices["cen_index"],
         )
-    elif topic == "Instructional":
-        answer, indices["instr_index"] = create_other_answer(
-            answers["instr_answers"],
-            nums["num_instr"],
-            indices["instr_index"],
-        )
-    elif topic == "Edu-Reach":
-        answer, indices["reach_index"] = create_other_answer(
-            answers["reach_answers"],
-            nums["num_reach"],
-            indices["reach_index"],
+    elif topic in teams:
+        answer, indices["other_index"][teams.index(topic)] = create_other_answer(
+            answers["other_answers"][teams.index(topic)],
+            nums["num_other"][teams.index(topic)],
+            indices["other_index"][teams.index(topic)],
         )
     else:
         answer = create_person_answer(topic, employees)
