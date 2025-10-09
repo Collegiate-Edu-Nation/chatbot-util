@@ -35,7 +35,7 @@ This file contains a list of topics/people and common questions that may be aske
 
 ## `Other.txt`
 
-This file contains a list of our employees and their roles, phrases to find and substitutes to replace them with (in the LLM-generated output), and answers for each of the CEN/Instructional/Edu-Reach questions
+This file contains a list of our teams, employees and their roles, phrases to find and substitutes to replace them with (in the LLM-generated output), and answers for each of the CEN/Team questions
 
 ### Retrieval
 
@@ -45,20 +45,22 @@ This file contains a list of our employees and their roles, phrases to find and 
 ### Format
 
 - Each section is separated by a newline
-- The first section requires that each entry contains parts 1-3, separated by a colon (like `part 1:part 2:part 3`)
-- The second and third sections require that each entry contains parts 1-2, separated by a colon (like `part 1:part 2`)
+- The second section requires that each entry contains parts 1-3, separated by a colon (like `part 1:part 2:part 3`)
+- The third and fourth sections require that each entry contains parts 1-2, separated by a colon (like `part 1:part 2`)
 - Do not use unnecessary quotes or spaces
 - Each section accepts 1+ entries
 - Example
 
       ```text
+      Team Name
+
       Employee Name:Employee Title:Employee Pronoun
 
       Phrase to replace:Phrase to replace it with
 
       Phrase before 'CEN' or 'Collegiate Edu-Nation':Phrase after 'CEN' or 'Collegiate Edu-Nation'
 
-      Answer to Instructional Question
+      Answer to Team Question
       ```
 
 ### Update
