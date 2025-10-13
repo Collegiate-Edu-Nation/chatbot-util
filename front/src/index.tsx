@@ -21,7 +21,15 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <Toaster position="top-center" visibleToasts={1} />
+      <Toaster
+        position="top-center"
+        visibleToasts={1}
+        toastOptions={{
+          classNames: {
+            actionButton: "!cursor-default",
+          },
+        }}
+      />
       <div className="flex flex-col min-h-screen">
         <Header
           verStatus={verStatus}
