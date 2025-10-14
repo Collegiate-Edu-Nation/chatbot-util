@@ -9,9 +9,13 @@ Utility for generating similar FAQ's a la rag-fusion in a structured format read
 Docs deployed at https://collegiate-edu-nation.github.io/chatbot-util<br>
 _Docs cover instructions and source code reference_
 
+## Showcase
+
+<img width="674" alt="Image" src="https://storage.googleapis.com/chatbot_util/chatbot-util.png" />
+
 ## Setup
 
-**Must install Ollama and flake-enabled Nix before running anything**
+**Must install Ollama before running anything**
 
 Start Ollama server<br>
 _I recommend running Ollama as a system service to avoid running this all the time_
@@ -73,6 +77,49 @@ chatbot-util
 }
 ```
 
+## Installation
+
+### Nix
+
+Add the following to your `flake.nix`
+
+```nix
+inputs = {
+  nixpkgs = {
+    url = "github:nixos/nixpkgs/nixos-unstable";
+  };
+  chatbot-util = {
+    url = "github:collegiate-edu-nation/chatbot-util";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+  ...
+}
+```
+
+Then, add alc-calc to your packages
+
+> For system wide installation in `configuration.nix`
+
+```nix
+environment.systemPackages = with pkgs; [
+  inputs.chatbot-util.packages.${system}.default
+];
+```
+
+> For user level installation in `home.nix`
+
+```nix
+home.packages = with pkgs; [
+  inputs.chatbot-util.packages.${system}.default
+];
+```
+
+### Non-Nix
+
+As this is currently just an internal tool, we don't have plans to streamline the installation process for non-Nix users
+
+However, wrapping the backend's python executable with the location of the built `FRONT_DIR` before adding it to your path should do the trick. See the `postInstall` script in [package.nix] for further reference
+
 ## Advanced Usage
 
 ### Modifications
@@ -98,3 +145,4 @@ If this isn't important for your use-case, leverage the `feat-concurrent-request
 
 [Garnix]: https://garnix.io/
 [GPLv3]: COPYING
+[package.nix]: nix/package.nix
