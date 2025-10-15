@@ -11,7 +11,7 @@ _Docs cover instructions and source code reference_
 
 ## Showcase
 
-<img width="674" alt="Image" src="https://storage.googleapis.com/chatbot_util/chatbot-util.png" />
+<img width="1763" alt="Image" src="https://storage.googleapis.com/chatbot_util/chatbot-util.png" />
 
 ## Setup
 
@@ -33,13 +33,15 @@ ollama pull mistral
 
 ## Usage
 
-Before the FAQ can be extended by the LLM, the initial FAQ must be added to `~/.chatbot-util/`
+Before the FAQ can be extended by the LLM, download the initial FAQ and a list of teams, employees, phrases to substitute, and answers. An optional configuration file can also be downloaded to enable faster access in the future (see docs for more explanation)
 
-A list of employees, phrases to substitute, and answers must also be included in `~/.chatbot-util/Other.txt` (see docs for more explanation)
+Once downloaded, create the extended FAQ in `~/.chatbot-util/` by
 
-Once there, create the extended FAQ in the same directory by launching both the back and frontends (follow one of [Nix](#nix) or [Non-Nix](#non-nix))
+- Launching both the back and frontends (follow one of [Nix](#nix) or [Non-Nix](#non-nix))
+- Navigating to http://localhost:8080
+- Then upload these files and click `Generate`
 
-And navigating to http://localhost:8080
+Once the operation completes, the extended FAQ will be available to upload via Google Cloud Console
 
 ### Nix
 
@@ -121,6 +123,12 @@ As this is currently just an internal tool, we don't have plans to streamline th
 However, wrapping the backend's python executable with the location of the built `FRONT_DIR` before adding it to your path should do the trick. See the `postInstall` script in [package.nix] for further reference
 
 ## Advanced Usage
+
+### Verification
+
+After `Generate` finishes, `chatbot-util` will automatically display a toast message if any previous entries in the extended FAQ are missing or modified, indicating the new FAQ is not verified
+
+This can be very helpful for identifying regressions when you're just intending on adding new teams, employees, and/or questions
 
 ### Modifications
 

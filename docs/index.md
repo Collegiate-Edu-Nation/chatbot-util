@@ -13,5 +13,7 @@ hide:
 ## What's in the README?
 
 - Basic project info
+- Showcase
 - Setup
 - Usage
+- Installation

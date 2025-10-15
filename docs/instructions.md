@@ -5,7 +5,7 @@ hide:
 
 # Instructions
 
-Before the README sections 'Setup' and 'Usage' are completed, you must first add two files from the shared CEN Google Drive to `~/.chatbot-util/` on your computer. Optionally, adding links to these files in `config.toml` will streamline direct access in the future
+Before the README sections 'Setup' and 'Usage' are completed, you must first download two files from the shared CEN Google Drive. Optionally, adding links to these files in `config.toml` will streamline direct access in the future
 
 ## `FAQ - Enter Here.csv`
 
@@ -14,9 +14,7 @@ This file contains a list of topics/people and common questions that may be aske
 ### Retrieval
 
 - This file is from the Google Sheet named 'FAQ' in `CEN/AI/Chatbot/`
-- Simply download the tab named 'Enter Here' as a `.csv` file (Comma Separated Values)
-- Create the directory `.chatbot-util/` in your Home folder
-- Move this downloaded file to `~/.chatbot-util/`
+- Open the Sheet, then download the tab named 'Enter Here' as a `.csv` file (Comma Separated Values)
 
 ### Format
 
@@ -39,8 +37,7 @@ This file contains a list of our teams, employees and their roles, phrases to fi
 
 ### Retrieval
 
-- This file is from the text file named `Other.txt` in `CEN/AI/Chatbot`
-- Download this file and place in `~/chatbot-util`
+- Download the text file named `Other.txt` in `CEN/AI/Chatbot/`
 
 ### Format
 
@@ -65,7 +62,7 @@ This file contains a list of our teams, employees and their roles, phrases to fi
 
 ### Update
 
-Since this file contains employee info, it will need to be manually kept in sync with our current employees, roles, and teams. As long as the current version is always in `CEN/AI/Chatbot`, we can be sure there are at least two copies of this file at all times (with the other being on the Chatbot maintainer's local computer)
+Since this file contains employee info, it will need to be manually kept in sync with our current employees, roles, and teams. As long as the current version is always in `CEN/AI/Chatbot/`, we can be sure there are at least two copies of this file at all times (with the other being on the Chatbot maintainer's local computer)
 
 The recommended process for updating this file is to
 
@@ -77,7 +74,7 @@ The recommended process for updating this file is to
 
 ## `Permutated.csv`
 
-This file is the output of successfully running `chatbot-util` on the above files
+This file is the output of successfully running `Generate` on the above files
 
 ### Retrieval and Usage
 
@@ -106,7 +103,7 @@ The changes should propagate after a short period of time (~15 minutes)
 
 ## `config.toml`
 
-This basic (and optional) TOML configuration file contains links to `FAQ - Enter Here.csv` and `Other.txt` that enables convenient access via buttons in the Generate card on the UI
+This basic (and optional) TOML configuration file contains links to `FAQ - Enter Here.csv` and `Other.txt` that enables convenient access via buttons in the `Generate` card on the UI
 
 ### Format
 
