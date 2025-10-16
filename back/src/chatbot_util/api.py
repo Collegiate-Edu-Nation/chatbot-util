@@ -6,21 +6,20 @@
 import os
 import time
 
+import fastapi
+import fastapi.middleware.cors
+import fastapi.staticfiles
 import ollama
-from fastapi import FastAPI, Response, UploadFile, status
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 
 from chatbot_util import __main__, chain, file_io
-from chatbot_util.file_io import FILENAMES
 
-app = FastAPI()
+app = fastapi.FastAPI()
 
 DEV = True if os.getenv("DEV", "false") == "true" else False
 FRONT_PORT = 5173 if DEV else 8080
 
 app.add_middleware(
-    CORSMiddleware,
+    fastapi.middleware.cors.CORSMiddleware,
     allow_origins=[f"http://localhost:{FRONT_PORT}"],
     allow_credentials=True,
     allow_methods=["*"],
@@ -40,8 +39,8 @@ def health() -> None:
     ollama.show("mistral")
 
 
-@app.post("/api/generate", status_code=status.HTTP_201_CREATED)
-def generate(response: Response) -> dict[str, bool | None]:
+@app.post("/api/generate", status_code=fastapi.status.HTTP_201_CREATED)
+def generate(response: fastapi.Response) -> dict[str, bool | None]:
     """Create chain, read info from files, append generated questions, then write to new file
 
     status\n
@@ -62,7 +61,7 @@ def generate(response: Response) -> dict[str, bool | None]:
         interrupted = __main__.start()
         allow_generate = True
     else:
-        response.status_code = status.HTTP_429_TOO_MANY_REQUESTS
+        response.status_code = fastapi.status.HTTP_429_TOO_MANY_REQUESTS
 
     # identify whether new Permutated.csv is verified, ignoring interruption case
     if not interrupted:
@@ -94,8 +93,8 @@ def interrupt() -> None:
         time.sleep(0.1)
 
 
-@app.post("/api/upload", status_code=status.HTTP_201_CREATED)
-def upload(files: list[UploadFile]) -> dict[str, bool]:
+@app.post("/api/upload", status_code=fastapi.status.HTTP_201_CREATED)
+def upload(files: list[fastapi.UploadFile]) -> dict[str, bool]:
     """Replace data files via upload and return list of status codes
 
     status\n
@@ -125,7 +124,7 @@ def files() -> dict[str, bool]:
     False = some files are missing
     """
     present = True
-    filenames = [FILENAMES["faq"], FILENAMES["other"]]
+    filenames = [file_io.FILENAMES["faq"], file_io.FILENAMES["other"]]
 
     for f in filenames:
         if not os.path.exists(f):
@@ -153,6 +152,8 @@ def config() -> dict[str, str]:
 if not DEV:
     app.mount(
         "/",
-        StaticFiles(directory=os.getenv("FRONT_DIR", "../front/dist"), html=True),
+        fastapi.staticfiles.StaticFiles(
+            directory=os.getenv("FRONT_DIR", "../front/dist"), html=True
+        ),
         name="frontend",
     )

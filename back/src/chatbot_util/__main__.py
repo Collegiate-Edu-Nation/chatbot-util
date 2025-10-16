@@ -10,7 +10,6 @@ import sys
 import uvicorn
 
 from chatbot_util import chain, file_io
-from chatbot_util.file_io import FILENAMES
 
 
 def main() -> None:
@@ -58,7 +57,7 @@ def start() -> bool:
         return True
 
     # Recreate Permutated.csv w/ synthetic questions appended
-    print(f'\nWriting to "{FILENAMES["permutated"]}"...')
+    print(f'\nWriting to "{file_io.FILENAMES["permutated"]}"...')
     file_io.write(permutated_store, teams, employees, answers, nums)
     print("Done.\n")
 
@@ -68,7 +67,7 @@ def start() -> bool:
 def verify() -> bool:
     """Determine whether the updated Permutated.csv has any modified or missing entries (and not just new ones)"""
     verified = True
-    writefile = FILENAMES["permutated"]
+    writefile = file_io.FILENAMES["permutated"]
     backupfile = writefile + ".backup"
 
     # return early when there's nothing to verify against

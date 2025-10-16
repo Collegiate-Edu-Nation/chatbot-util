@@ -7,10 +7,9 @@ import csv
 import os
 import tomllib
 
-from fastapi import UploadFile
+import fastapi
 
 from chatbot_util import utils
-from chatbot_util.utils import Indices, Nums
 
 DIR = os.path.expanduser("~/.chatbot-util")
 FAQ = "FAQ - Enter Here.csv"
@@ -26,6 +25,7 @@ FILENAMES = {
 
 
 def read_config() -> dict[str, str]:
+    """Read links from config file"""
     links: dict[str, str] = {"faq": "", "other": ""}
 
     try:
@@ -40,7 +40,7 @@ def read_config() -> dict[str, str]:
     return links
 
 
-def create_file(f: UploadFile) -> bool | None:
+def create_file(f: fastapi.UploadFile) -> bool | None:
     """Create or replace a data file"""
     # determine whether anything should be done with the uploaded file
     created: bool | None = True
@@ -84,7 +84,9 @@ def read_teams(lines: list[str]) -> list[str]:
     return [line.strip() for line in lines]
 
 
-def read_entries(filename: str, teams: list[str]) -> tuple[dict[str, list[str]], Nums]:
+def read_entries(
+    filename: str, teams: list[str]
+) -> tuple[dict[str, list[str]], utils.Nums]:
     """Read and return topics and basic answers"""
     with open(filename, "r", encoding="utf-8") as f:
         # it seems as though the delimiter doesn't actually
@@ -95,7 +97,7 @@ def read_entries(filename: str, teams: list[str]) -> tuple[dict[str, list[str]],
         reader = csv.reader(f, delimiter="\t")
         store: dict[str, list[str]] = {}
         cur_topic = ""
-        nums: Nums = {
+        nums: utils.Nums = {
             "num_cen": 0,
             "num_other": [0] * len(teams),
         }
@@ -205,7 +207,7 @@ def read() -> tuple[
     dict[str, list[str]],
     list[list[str]],
     utils.Answers,
-    Nums,
+    utils.Nums,
 ]:
     """Read questions from csv file, read teams, employees, phrases and answers from text files"""
     teams, employees, phrases, answers = read_other(FILENAMES["other"])
@@ -219,7 +221,7 @@ def write(
     teams: list[str],
     employees: dict[str, list[str]],
     answers: utils.Answers,
-    nums: Nums,
+    nums: utils.Nums,
 ) -> None:
     """Format questions and topics, write to csv file"""
     if os.path.exists(FILENAMES["permutated"]):
@@ -227,7 +229,7 @@ def write(
 
     with open(FILENAMES["permutated"], "w", encoding="utf-8") as csvfile:
         csvfile.write('"question","answer"\n')
-        indices: Indices = {
+        indices: utils.Indices = {
             "cen_index": 0,
             "other_index": [0] * len(teams),
         }

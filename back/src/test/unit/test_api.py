@@ -2,9 +2,9 @@ import unittest
 
 from fastapi.testclient import TestClient
 
-from chatbot_util.api import app
+from chatbot_util import api
 
-client = TestClient(app)
+client = TestClient(api.app)
 
 
 class TestChain(unittest.TestCase):
