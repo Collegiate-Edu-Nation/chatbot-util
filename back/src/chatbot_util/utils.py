@@ -98,10 +98,11 @@ def create_answer(
             indices["cen_index"],
         )
     elif topic in teams:
-        answer, indices["other_index"][teams.index(topic)] = create_other_answer(
-            answers["other_answers"][teams.index(topic)],
-            nums["num_other"][teams.index(topic)],
-            indices["other_index"][teams.index(topic)],
+        i = teams.index(topic)
+        answer, indices["other_index"][i] = create_other_answer(
+            answers["other_answers"][i],
+            nums["num_other"][i],
+            indices["other_index"][i],
         )
     else:
         answer = create_person_answer(topic, employees)
