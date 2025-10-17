@@ -3,6 +3,9 @@
 
 { pkgs }:
 
+let
+  mkdocstrings-typescript = pkgs.callPackage ./mkdocstrings-typescript {};
+in
 {
   build =
     with pkgs;
@@ -46,6 +49,7 @@
       mkdocs-material
       mkdocstrings
       mkdocstrings-python
+      mkdocstrings-typescript
       ruff
     ]);
 }
