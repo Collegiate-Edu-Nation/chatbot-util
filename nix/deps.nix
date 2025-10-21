@@ -3,9 +3,6 @@
 
 { pkgs }:
 
-let
-  mkdocstrings-typescript = pkgs.callPackage ./mkdocstrings-typescript {};
-in
 {
   build =
     with pkgs;
@@ -40,6 +37,9 @@ in
       nixfmt-rfc-style
       nodePackages.prettier
       taplo
+
+      # docs
+      typedoc
     ]
     ++ (with python313Packages; [
       # backend

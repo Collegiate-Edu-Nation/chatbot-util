@@ -15,4 +15,8 @@ in
   build = writePatchedScript "build";
   format = writePatchedScript "format";
   launch = writePatchedScript "launch";
+  python313Packages = prev.python313Packages // {
+    mkdocstrings-typescript = prev.callPackage ./mkdocstrings-typescript { };
+  };
+  typedoc = prev.callPackage ./typedoc { };
 }

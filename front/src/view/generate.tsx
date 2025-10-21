@@ -23,6 +23,10 @@ import {
   CardTitle,
 } from "@/comp/ui/card.tsx";
 
+/**
+ * View containing generate card and page body
+ * @returns JSX.Element
+ */
 function Generate({
   setVerStatus,
   LLMStatus,

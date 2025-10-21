@@ -22,6 +22,10 @@ import {
   TooltipTrigger,
 } from "../comp/ui/tooltip.tsx";
 
+/**
+ * View containing logo, help icon, and status popover
+ * @returns JSX.Element
+ */
 function Header({
   verStatus,
   setVerStatus,

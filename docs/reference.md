@@ -29,3 +29,9 @@ hide:
 
     ## utils.py
     ::: src.chatbot_util.utils
+
+=== "index.tsx"
+
+    ## index.tsx
+    ::: index
+        handler: typescript
