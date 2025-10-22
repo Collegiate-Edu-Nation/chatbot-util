@@ -35,6 +35,9 @@ const buttonVariants = cva(
   },
 );
 
+/**
+ * <a href="https://ui.shadcn.com/docs/components/button" target="_blank">Usage</a>
+ */
 function Button({
   className,
   variant,

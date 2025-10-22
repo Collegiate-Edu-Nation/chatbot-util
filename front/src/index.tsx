@@ -11,8 +11,11 @@ import Header from "./view/header.tsx";
 import Generate from "./view/generate.tsx";
 
 /**
- * Lift the state from children
- * @returns JSX.Element
+ * Simple parent component to lift the state from children
+ *
+ * ```tsx
+ * <App />
+ * ```
  */
 export default function App() {
   const [LLMStatus, setLLMStatus] = useState(0);

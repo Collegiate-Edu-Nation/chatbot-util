@@ -8,7 +8,7 @@ hide:
 ## What's here?
 
 - Instructions
-- Source code reference
+- Source code reference for both the backend and frontend
 
 ## What's in the README?
 

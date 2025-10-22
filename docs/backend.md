@@ -3,7 +3,7 @@ hide:
   - toc
 ---
 
-# Reference
+# Backend
 
 === "\_\_main\_\_.py"
 
@@ -29,9 +29,3 @@ hide:
 
     ## utils.py
     ::: src.chatbot_util.utils
-
-=== "index.tsx"
-
-    ## index.tsx
-    ::: index
-        handler: typescript

@@ -1,5 +1,14 @@
 {
-  "extends": ["./typedoc.base.json"],
+  "$schema": "https://typedoc.org/schema.json",
   "entryPointStrategy": "expand",
-  "entryPoints": ["./src/index.tsx"]
+  "entryPoints": ["./src"],
+  "exclude": ["**/*.test.tsx", "src/vite-env.d.ts"],
+  "intentionallyNotExported": ["ThemeProviderState", "ThemeProviderProps"],
+  "out": "../docs/front",
+  "cleanOutputDir": true,
+  "favicon": "public/cen.svg",
+  "titleLink": "https://collegiate-edu-nation.github.io/chatbot-util/",
+  "navigationLinks": {
+    "collegiate-edu-nation/chatbot-util": "https://github.com/collegiate-edu-nation/chatbot-util"
+  }
 }

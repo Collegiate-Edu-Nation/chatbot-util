@@ -13,10 +13,7 @@ let
 in
 {
   build = writePatchedScript "build";
+  docs = writePatchedScript "docs";
   format = writePatchedScript "format";
   launch = writePatchedScript "launch";
-  python313Packages = prev.python313Packages // {
-    mkdocstrings-typescript = prev.callPackage ./mkdocstrings-typescript { };
-  };
-  typedoc = prev.callPackage ./typedoc { };
 }

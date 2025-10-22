@@ -3,6 +3,9 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 
 import { cn } from "@/util/utils";
 
+/**
+ * <a href="https://ui.shadcn.com/docs/components/popover" target="_blank">Usage</a>
+ */
 function Popover({
   ...props
 }: React.ComponentProps<typeof PopoverPrimitive.Root>) {

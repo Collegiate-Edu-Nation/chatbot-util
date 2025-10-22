@@ -24,7 +24,17 @@ import {
 
 /**
  * View containing logo, help icon, and status popover
- * @returns JSX.Element
+ *
+ * ```tsx
+ * <Header
+ *   verStatus={verStatus}
+ *   setVerStatus={(val) => setVerStatus(val)}
+ *   LLMStatus={LLMStatus}
+ *   setLLMStatus={(val) => setLLMStatus(val)}
+ *   folderStatus={folderStatus}
+ *   setFolderStatus={(val) => setFolderStatus(val)}
+ * />
+ * ```
  */
 function Header({
   verStatus,

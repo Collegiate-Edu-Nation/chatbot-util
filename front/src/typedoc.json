@@ -1,5 +1,0 @@
-{
-  "extends": ["../typedoc.base.json"],
-  "entryPointStrategy": "resolve",
-  "entryPoints": ["index.tsx"]
-}

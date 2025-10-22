@@ -44,6 +44,9 @@ export type DropzoneProps = Omit<DropzoneOptions, "onDrop"> & {
   children?: ReactNode;
 };
 
+/**
+ * <a href="https://www.shadcn.io/components/forms/dropzone" target="_blank">Usage</a>
+ */
 export const Dropzone = ({
   accept,
   maxFiles = 1,

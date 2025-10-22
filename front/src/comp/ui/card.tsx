@@ -2,6 +2,9 @@ import * as React from "react";
 
 import { cn } from "@/util/utils";
 
+/**
+ * <a href="https://ui.shadcn.com/docs/components/card" target="_blank">Usage</a>
+ */
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div

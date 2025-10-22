@@ -3,6 +3,9 @@ import * as ProgressPrimitive from "@radix-ui/react-progress";
 
 import { cn } from "@/util/utils";
 
+/**
+ * <a href="https://ui.shadcn.com/docs/components/progress" target="_blank">Usage</a>
+ */
 function Progress({
   className,
   value,

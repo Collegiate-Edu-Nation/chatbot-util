@@ -25,7 +25,14 @@ import {
 
 /**
  * View containing generate card and page body
- * @returns JSX.Element
+ *
+ * ```tsx
+ * <Generate
+ *   setVerStatus={(val) => setVerStatus(val)}
+ *   LLMStatus={LLMStatus}
+ *   folderStatus={folderStatus}
+ * />
+ * ```
  */
 function Generate({
   setVerStatus,

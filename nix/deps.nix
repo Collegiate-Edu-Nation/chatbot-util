@@ -29,6 +29,7 @@
 
       # scripts
       build
+      docs
       format
       launch
 
@@ -37,9 +38,6 @@
       nixfmt-rfc-style
       nodePackages.prettier
       taplo
-
-      # docs
-      typedoc
     ]
     ++ (with python313Packages; [
       # backend
@@ -49,7 +47,6 @@
       mkdocs-material
       mkdocstrings
       mkdocstrings-python
-      mkdocstrings-typescript
       ruff
     ]);
 }

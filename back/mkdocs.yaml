@@ -30,10 +30,7 @@ docs_dir: ../docs
 copyright: Copyright Collegiate Edu-Nation
 
 plugins:
-  - mkdocstrings:
-      handlers:
-        python:
-          paths: ["../back"]
+  - mkdocstrings
 
 markdown_extensions:
   - tables
@@ -44,5 +41,6 @@ markdown_extensions:
 nav:
   - Welcome: index.md
   - instructions.md
-  - reference.md
+  - backend.md
+  - Frontend: front/index.html
   - license.md
