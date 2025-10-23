@@ -1,0 +1,22 @@
+:root {
+  --light-color-background: white;
+  --dark-color-background: #1e2129;
+  --light-color-icon-text: white;
+  --dim-footer-height: 4.5rem;
+}
+
+.tsd-page-toolbar {
+  background: black;
+  border-bottom: black;
+}
+.tsd-page-toolbar a {
+  color: white;
+}
+.tsd-toolbar-contents {
+  height: 3rem;
+  margin: 0 2em;
+}
+footer > p {
+  margin: 0.75em 5.5em;
+  font-size: 12px;
+}
