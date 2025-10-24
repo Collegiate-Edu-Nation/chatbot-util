@@ -20,6 +20,9 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
+/**
+ * <a href="https://ui.shadcn.com/docs/dark-mode/vite" target="_blank">Usage</a>
+ */
 export function ThemeProvider({
   children,
   defaultTheme = "system",

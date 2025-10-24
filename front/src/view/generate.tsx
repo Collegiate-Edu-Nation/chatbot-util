@@ -23,6 +23,17 @@ import {
   CardTitle,
 } from "@/comp/ui/card.tsx";
 
+/**
+ * View containing generate card and page body
+ *
+ * ```tsx
+ * <Generate
+ *   setVerStatus={(val) => setVerStatus(val)}
+ *   LLMStatus={LLMStatus}
+ *   folderStatus={folderStatus}
+ * />
+ * ```
+ */
 function Generate({
   setVerStatus,
   LLMStatus,

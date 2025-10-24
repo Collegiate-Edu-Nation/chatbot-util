@@ -2,6 +2,9 @@ import { useTheme } from "next-themes";
 import { Toaster as Sonner } from "sonner";
 import type { ToasterProps } from "sonner";
 
+/**
+ * <a href="https://ui.shadcn.com/docs/components/sonner" target="_blank">Usage</a>
+ */
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme();
 

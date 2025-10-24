@@ -5,8 +5,8 @@ site_name: chatbot-util docs
 
 theme:
   name: "material"
-  logo: img/logo.png
-  favicon: img/cen.svg
+  logo: assets/img/logo.png
+  favicon: assets/img/cen.svg
   palette:
     # Palette toggle for light mode
     - scheme: default
@@ -41,5 +41,6 @@ markdown_extensions:
 nav:
   - Welcome: index.md
   - instructions.md
-  - reference.md
+  - backend.md
+  - Frontend: front/index.html
   - license.md

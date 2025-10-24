@@ -1,0 +1,17 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPointStrategy": "expand",
+  "entryPoints": ["./src"],
+  "exclude": ["**/*.test.tsx", "src/vite-env.d.ts"],
+  "intentionallyNotExported": ["ThemeProviderState", "ThemeProviderProps"],
+  "out": "../docs/front",
+  "cleanOutputDir": true,
+  "favicon": "public/cen.svg",
+  "customFooterHtml": "Copyright Collegiate Edu-Nation",
+  "hideGenerator": true,
+  "customCss": "../docs/assets/custom.css",
+  "titleLink": "https://collegiate-edu-nation.github.io/chatbot-util/",
+  "navigationLinks": {
+    "collegiate-edu-nation/chatbot-util": "https://github.com/collegiate-edu-nation/chatbot-util"
+  }
+}

@@ -29,6 +29,7 @@
 
       # scripts
       build
+      docs
       format
       launch
 

@@ -16,6 +16,9 @@ function TooltipProvider({
   );
 }
 
+/**
+ * <a href="https://ui.shadcn.com/docs/components/tooltip" target="_blank">Usage</a>
+ */
 function Tooltip({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Root>) {

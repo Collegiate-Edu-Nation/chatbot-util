@@ -13,6 +13,7 @@ let
 in
 {
   build = writePatchedScript "build";
+  docs = writePatchedScript "docs";
   format = writePatchedScript "format";
   launch = writePatchedScript "launch";
 }

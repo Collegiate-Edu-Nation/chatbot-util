@@ -10,7 +10,13 @@ import { Toaster } from "./comp/ui/sonner";
 import Header from "./view/header.tsx";
 import Generate from "./view/generate.tsx";
 
-// lift the state from children
+/**
+ * Simple parent component to lift the state from children
+ *
+ * ```tsx
+ * <App />
+ * ```
+ */
 export default function App() {
   const [LLMStatus, setLLMStatus] = useState(0);
   const [folderStatus, setFolderStatus] = useState(false);

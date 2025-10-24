@@ -22,6 +22,20 @@ import {
   TooltipTrigger,
 } from "../comp/ui/tooltip.tsx";
 
+/**
+ * View containing logo, help icon, and status popover
+ *
+ * ```tsx
+ * <Header
+ *   verStatus={verStatus}
+ *   setVerStatus={(val) => setVerStatus(val)}
+ *   LLMStatus={LLMStatus}
+ *   setLLMStatus={(val) => setLLMStatus(val)}
+ *   folderStatus={folderStatus}
+ *   setFolderStatus={(val) => setFolderStatus(val)}
+ * />
+ * ```
+ */
 function Header({
   verStatus,
   setVerStatus,
