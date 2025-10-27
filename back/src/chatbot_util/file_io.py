@@ -9,7 +9,7 @@ import tomllib
 
 import fastapi
 
-from chatbot_util import utils
+from chatbot_util import __main__, utils
 
 DIR = os.path.expanduser("~/.chatbot-util")
 FAQ = "FAQ - Enter Here.csv"
@@ -35,7 +35,7 @@ def read_config() -> dict[str, str]:
         links: dict[str, str] = config["links"]
 
     except Exception:
-        print("\nFailed to load config.toml. Defaulting to empty links\n")
+        __main__.logger.warning("Failed to load config.toml. Defaulting to empty links")
 
     return links
 

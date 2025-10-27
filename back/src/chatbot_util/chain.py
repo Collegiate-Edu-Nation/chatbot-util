@@ -3,9 +3,9 @@
 
 """Setup language model and output parser, then generate and append new questions"""
 
-import sys
-
 import ollama
+
+from chatbot_util import __main__
 
 
 class Progress:
@@ -20,14 +20,9 @@ class Progress:
     def update(self, index: int) -> None:
         """Update generation progress"""
         self.index = index
-        self.display()
-
-    def display(self) -> None:
-        """Display generation progress"""
-        sys.stdout.write(
-            f"\r\nGenerating similar queries for: {self.index}/{self.total}...\n\n"
+        __main__.logger.info(
+            f"Generating similar queries for: {self.index}/{self.total}."
         )
-        sys.stdout.flush()
 
 
 progress: Progress = Progress(0)

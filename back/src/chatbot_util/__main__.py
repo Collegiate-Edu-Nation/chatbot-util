@@ -3,6 +3,7 @@
 
 """Entry point that launches a uvicorn server and connects the backend reading, generation, and writing functionalities"""
 
+import logging
 import os
 import subprocess
 import sys
@@ -11,13 +12,15 @@ import uvicorn
 
 from chatbot_util import chain, file_io
 
+logging.basicConfig(level=logging.INFO, format="%(levelname)s:     %(message)s")
+logger = logging.getLogger("fastapi")
+
 
 def main() -> None:
     """Start uvicorn server"""
     host = "127.0.0.1"
     port = 8080
 
-    print(f"Starting server on {host}:{port}...\n")
     uvicorn.run(
         "chatbot_util.api:app",
         host=host,
@@ -34,7 +37,7 @@ def start() -> bool:
         if chain.interrupt:
             chain.interrupt = False
             chain.progress = chain.Progress(0)
-            print("\nInterrupted.\n")
+            logger.info("Interrupted")
             interrupted = True
 
         return interrupted
@@ -44,7 +47,7 @@ def start() -> bool:
         return True
 
     # Read topics and organic questions
-    print("\nReading topics, questions, employees, and answers...")
+    logger.info("Reading topics, questions, employees, and answers.")
     store, teams, employees, phrases, answers, nums = file_io.read()
 
     if handle_interrupt():
@@ -57,9 +60,9 @@ def start() -> bool:
         return True
 
     # Recreate Permutated.csv w/ synthetic questions appended
-    print(f'\nWriting to "{file_io.FILENAMES["permutated"]}"...')
+    logger.info(f'Writing to "{file_io.FILENAMES["permutated"]}."')
     file_io.write(permutated_store, teams, employees, answers, nums)
-    print("Done.\n")
+    logger.info("Done")
 
     return False
 
