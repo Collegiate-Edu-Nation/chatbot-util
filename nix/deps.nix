@@ -11,6 +11,7 @@
     ]
     ++ (with python313Packages; [
       # backend
+      coloredlogs
       fastapi
       fastapi-cli
       ollama

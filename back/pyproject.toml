@@ -9,6 +9,7 @@ build-backend = "setuptools.build_meta"
 name = "chatbot-util"
 version = "2.0.0"
 dependencies = [
+  "coloredlogs==15.0.1",
   "fastapi==0.115.12",
   "ollama==0.5.1",
   "uvicorn==0.34.0",

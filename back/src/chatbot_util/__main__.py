@@ -8,12 +8,23 @@ import os
 import subprocess
 import sys
 
+import coloredlogs  # pyright: ignore [reportMissingTypeStubs]
 import uvicorn
 
 from chatbot_util import chain, file_io
 
-logging.basicConfig(level=logging.INFO, format="%(levelname)s:     %(message)s")
+# override logger's config in order to show non-uvicorn entries while attaching to it.
+# setting the formatting and colors make it match for info msgs
+format = "%(levelname)s:     chatbot_util    - %(message)s"
+logging.basicConfig(level=logging.INFO, format=format)
 logger = logging.getLogger("fastapi")
+colors = coloredlogs.DEFAULT_FIELD_STYLES
+colors["levelname"] = {"bold": False, "color": "green"}
+coloredlogs.install(level="INFO", fmt=format, field_styles=colors)  # pyright: ignore [reportUnknownMemberType]
+
+# not interested in info logs for httpx or ollama
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("ollama").setLevel(logging.WARNING)
 
 
 def main() -> None:
