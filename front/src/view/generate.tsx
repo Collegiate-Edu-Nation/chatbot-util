@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useSessionStorage } from "usehooks-ts";
 import useInterval from "react-useinterval";
 import { toast } from "sonner";
+import logger from "../util/logger.ts";
 import { Button } from "../comp/ui/button.tsx";
 import { Progress } from "../comp/ui/progress.tsx";
 import {
@@ -61,7 +62,7 @@ function Generate({
   useInterval(() => progress(), 500);
   useInterval(() => config(), folderStatus ? 50000 : 500);
   const handleDrop = (files: File[]) => {
-    console.log(files);
+    logger.info(files);
     setFiles(files);
   };
 
@@ -110,7 +111,7 @@ function Generate({
       });
 
     setGenStatus(false);
-    console.log(result);
+    logger.info(result);
   }
 
   async function progress() {
@@ -119,7 +120,7 @@ function Generate({
       const response = await fetch(url);
       const result = await response.json();
       setProgStatus([result.index, result.total]);
-      console.log(result);
+      logger.info(result);
     } else if (!genStatus && progStatus[0] !== 0) {
       setProgStatus([0, 0]);
       setInterruptStatus(false);
@@ -131,7 +132,7 @@ function Generate({
     const url = baseURL + "/interrupt";
     const response = await fetch(url);
     const result = await response.json();
-    console.log(result);
+    logger.info(result);
   }
 
   async function upload() {
@@ -156,7 +157,7 @@ function Generate({
         : "The data file(s) you uploaded have NOT been saved to ~/.chatbot-util/";
       toast(title, { description: desc });
       setFiles(undefined);
-      console.log("Upload received " + JSON.stringify(result));
+      logger.info("Upload received " + JSON.stringify(result));
     }
   }
 
@@ -165,7 +166,7 @@ function Generate({
     const response = await fetch(url);
     const result = await response.json();
     setAppConfig([result.faq, result.other]);
-    console.log(result);
+    logger.info(result);
   }
 
   function links() {
