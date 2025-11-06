@@ -11,7 +11,7 @@ let
     inherit pname version;
     src = ../front/.;
 
-    npmDepsHash = "sha256-ShgLB0jmq0IRBovRiR92FR3v6s8v9QPByP0TRBWT3Vc=";
+    npmDepsHash = "sha256-DP/uvXBo9AuV+5dS/4tURfuVhe1gXz7B9thu5dhPDmg=";
     postInstall = ''
       cp -r dist/ $out/lib/node_modules/chatbot-util/
     '';
