@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useSessionStorage } from "usehooks-ts";
 import useInterval from "react-useinterval";
 import { toast } from "sonner";
-import logger from "../util/logger.ts";
+import logger, { message } from "../util/logger.ts";
 import { Button } from "../comp/ui/button.tsx";
 import { Progress } from "../comp/ui/progress.tsx";
 import {
@@ -61,10 +61,7 @@ function Generate({
   // for ensuring the config is always read on startup w/o polling nonstop
   useInterval(() => progress(), 500);
   useInterval(() => config(), folderStatus ? 50000 : 500);
-  const handleDrop = (files: File[]) => {
-    logger.info(files);
-    setFiles(files);
-  };
+  const handleDrop = (files: File[]) => setFiles(files);
 
   // reset status if interruption completed while refreshing to avoid getting stuck
   if (
@@ -87,31 +84,35 @@ function Generate({
       },
     };
     const url = baseURL + "/generate";
-    const response = await fetch(url, settings);
-    const status = response.status;
-    const result = await response.json();
-    setVerStatus(result.verified);
 
-    if (status === 429)
-      toast("Rate-limited", {
-        description: "You've been rate-limited. Try again in a few minutes",
-        action: {
-          label: "Okay",
-          onClick: () => void 0,
-        },
-      });
+    try {
+      const response = await fetch(url, settings);
+      const status = response.status;
+      const result = await response.json();
+      setVerStatus(result.verified);
 
-    if (result.verified === false)
-      toast("Unverified", {
-        description: "Newly generated Permutated.csv is missing entries",
-        action: {
-          label: "Okay",
-          onClick: () => setVerStatus(true),
-        },
-      });
+      if (status === 429)
+        toast("Rate-limited", {
+          description: "You've been rate-limited. Try again in a few minutes",
+          action: {
+            label: "Okay",
+            onClick: () => void 0,
+          },
+        });
+
+      if (result.verified === false)
+        toast("Unverified", {
+          description: "Newly generated Permutated.csv is missing entries",
+          action: {
+            label: "Okay",
+            onClick: () => setVerStatus(true),
+          },
+        });
+    } catch (error) {
+      logger.error(message("post", "generate", error));
+    }
 
     setGenStatus(false);
-    logger.info(result);
   }
 
   async function progress() {
@@ -120,7 +121,6 @@ function Generate({
       const response = await fetch(url);
       const result = await response.json();
       setProgStatus([result.index, result.total]);
-      logger.info(result);
     } else if (!genStatus && progStatus[0] !== 0) {
       setProgStatus([0, 0]);
       setInterruptStatus(false);
@@ -130,9 +130,7 @@ function Generate({
   async function interrupt() {
     setInterruptStatus(true);
     const url = baseURL + "/interrupt";
-    const response = await fetch(url);
-    const result = await response.json();
-    logger.info(result);
+    await fetch(url);
   }
 
   async function upload() {
@@ -145,19 +143,23 @@ function Generate({
         body: data,
       };
       const url = baseURL + "/upload";
-      const response = await fetch(url, settings);
-      const result = await response.json();
 
-      // toast based on upload success of ALL files before resetting files
-      const title = result.uploaded
-        ? "Updated file(s)"
-        : "Failed to update file(s)";
-      const desc = result.uploaded
-        ? "The data file(s) you uploaded have been saved to ~/.chatbot-util/"
-        : "The data file(s) you uploaded have NOT been saved to ~/.chatbot-util/";
-      toast(title, { description: desc });
+      try {
+        const response = await fetch(url, settings);
+        const result = await response.json();
+
+        // toast based on upload success of ALL files before resetting files
+        const title = result.uploaded
+          ? "Updated file(s)"
+          : "Failed to update file(s)";
+        const desc = result.uploaded
+          ? "The data file(s) you uploaded have been saved to ~/.chatbot-util/"
+          : "The data file(s) you uploaded have NOT been saved to ~/.chatbot-util/";
+        toast(title, { description: desc });
+      } catch (error) {
+        logger.error(message("post", "upload", error));
+      }
       setFiles(undefined);
-      logger.info("Upload received " + JSON.stringify(result));
     }
   }
 
@@ -166,7 +168,6 @@ function Generate({
     const response = await fetch(url);
     const result = await response.json();
     setAppConfig([result.faq, result.other]);
-    logger.info(result);
   }
 
   function links() {

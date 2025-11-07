@@ -4,7 +4,7 @@
 import useInterval from "react-useinterval";
 import { toast } from "sonner";
 import logo from "../assets/logo.png";
-import logger from "../util/logger.ts";
+import logger, { message } from "../util/logger.ts";
 import {
   Popover,
   PopoverContent,
@@ -61,16 +61,18 @@ function Header({
     const url = baseURL + "/health";
     const response = await fetch(url);
     const result = response.status;
-    logger.info(result);
     setLLMStatus(result);
   }
 
   async function files() {
     const url = baseURL + "/files";
-    const response = await fetch(url);
-    const result = await response.json();
-    logger.info(result);
-    setFolderStatus(result.present);
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+      setFolderStatus(result.present);
+    } catch (error) {
+      logger.error(message("get", "files", error));
+    }
   }
 
   return (
