@@ -5,7 +5,7 @@
 
 import ollama
 
-from chatbot_util import __main__
+from chatbot_util import utils
 
 
 class Progress:
@@ -20,9 +20,7 @@ class Progress:
     def update(self, index: int) -> None:
         """Update generation progress"""
         self.index = index
-        __main__.logger.info(
-            f"Generating similar queries for: {self.index}/{self.total}."
-        )
+        utils.logger.info(f"Generating similar queries for: {self.index}/{self.total}.")
 
 
 progress: Progress = Progress(0)
@@ -30,6 +28,20 @@ interrupt: bool = False
 INSTRUCTION = """If a question uses an abbreviation, use that abbreviation \
 in your generated questions - NEVER MAKE UP A MEANING FOR AN ABBREVIATION. \
 Generate 5 variations of the following question: """
+
+
+def handle_interrupt() -> bool:
+    """Helper to reset chain state if interrupted"""
+    interrupted = False
+    global interrupt
+    global progress
+    if interrupt:
+        interrupt = False
+        progress = Progress(0)
+        utils.logger.info("Interrupted")
+        interrupted = True
+
+    return interrupted
 
 
 def parse(response: str, phrases: list[list[str]]) -> list[str]:
