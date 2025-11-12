@@ -31,6 +31,8 @@ echo -e "\n\033[1;33mnpm tests...\033[0m"
 pushd . &> /dev/null
 cd front
 CI=true npm test &> /dev/null | box
+echo -e "\n\033[1;33meslint...\033[0m"
+npx eslint . | box
 popd &> /dev/null
 
 echo -e "\n\033[1;33mbuild...\033[0m"
