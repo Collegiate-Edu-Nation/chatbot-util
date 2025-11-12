@@ -63,6 +63,9 @@ def generate(response: fastapi.Response) -> dict[str, bool | None]:
     else:
         response.status_code = fastapi.status.HTTP_429_TOO_MANY_REQUESTS
 
+        # involuntary interruption prevents setting verStatus when rate-limited
+        interrupted = True
+
     # identify whether new Permutated.csv is verified, ignoring interruption case
     if not interrupted:
         verified = __main__.verify()
@@ -76,7 +79,7 @@ def progress() -> dict[str, int]:
 
     status\n
     200 = successfully retrieved progress status\n\n
-    index = index of topic currently generating queries for,  [1-total]\n
+    index = index of topic currently generating queries for, [1-total]\n
     total = total number of topics to generate queries for
     """
     return {"index": chain.progress.index, "total": chain.progress.total}
