@@ -16,4 +16,15 @@ in
   docs = writePatchedScript "docs";
   format = writePatchedScript "format";
   launch = writePatchedScript "launch";
+  cypress = prev.cypress.overrideAttrs (o: {
+    installPhase =
+      o.installPhase or ""
+      +
+        # cli usage via npx works on macOS once binary_state.json is writable
+        # CYPRESS_SKIP_VERIFY=true didnt' work for me
+        prev.lib.optionalString prev.stdenv.hostPlatform.isDarwin ''
+          cp $out/binary_state.json $out/opt/cypress/binary_state.json
+          chmod +w $out/opt/cypress/binary_state.json
+        '';
+  });
 }

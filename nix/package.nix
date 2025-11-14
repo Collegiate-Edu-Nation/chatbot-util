@@ -11,7 +11,8 @@ let
     inherit pname version;
     src = ../front/.;
 
-    npmDepsHash = "sha256-XtiAxBirxq17Y7s/ym9ROsa20nmNhiQlRGp06Ibs0V8=";
+    env.CYPRESS_INSTALL_BINARY = 0;
+    npmDepsHash = "sha256-AAzF41Rjnk9bHQ5VQ+jLG5e5lDh+CPWAMwuVXKqWb04=";
     postInstall = ''
       cp -r dist/ $out/lib/node_modules/chatbot-util/
     '';

@@ -28,6 +28,9 @@
       # frontend
       nodejs
 
+      # testing
+      cypress
+
       # scripts
       build
       docs
