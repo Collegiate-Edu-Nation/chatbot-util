@@ -27,15 +27,24 @@ cd back
 coverage run -m unittest 2> /dev/null | box
 popd &> /dev/null
 
-echo -e "\n\033[1;33mnpm tests...\033[0m"
 pushd . &> /dev/null
 cd front
-CI=true npm test &> /dev/null | box
 echo -e "\n\033[1;33meslint...\033[0m"
 npx eslint . | box
+echo -e "\n\033[1;33mnpm tests...\033[0m"
+CI=true npm test &> /dev/null | box
 popd &> /dev/null
 
 echo -e "\n\033[1;33mbuild...\033[0m"
 nix build 2> /dev/null | box
+
+echo -e "\n\033[1;33mcypress tests...\033[0m"
+nix run &> /dev/null &
+SERVER_PID=$!
+pushd . &> /dev/null
+cd front
+npx cypress run 2> /dev/null | box
+popd &> /dev/null
+kill $SERVER_PID
 
 echo -e "\n\033[1;32mBuild succeeded.\033[0m"
