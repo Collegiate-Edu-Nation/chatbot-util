@@ -20,3 +20,4 @@
 **/.env*
 **/*.log*
 docs/front
+**/screenshots

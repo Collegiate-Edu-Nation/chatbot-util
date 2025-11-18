@@ -9,13 +9,19 @@
     buildInputs = deps.build;
 
     shellHook =
-      # not sure if these need to be set on nixos
-      pkgs.lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
-        export CYPRESS_INSTALL_BINARY=0
-        export CYPRESS_RUN_BINARY=${pkgs.cypress}/opt/cypress/Cypress.app/Contents/MacOS/Cypress
-      ''
+      (
+        if pkgs.stdenv.hostPlatform.isDarwin then
+          ''
+            export CYPRESS_RUN_BINARY=${pkgs.cypress}/opt/cypress/Cypress.app/Contents/MacOS/Cypress
+          ''
+        else
+          ''
+            export CYPRESS_RUN_BINARY=${pkgs.cypress}/bin/Cypress
+          ''
+      )
       + ''
         export DEV=true
+        export CYPRESS_INSTALL_BINARY=0
         echo -e "\nchatbot-util DevShell via Nix Flake\n"
 
         echo -e "┌───────────────────────────────────────────────────┐"
