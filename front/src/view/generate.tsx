@@ -192,7 +192,7 @@ function Generate({
   }
 
   return (
-    <div className="flex grow justify-center items-center dark:bg-neutral-900  bg-neutral-100 gap-2.5">
+    <main className="flex grow justify-center items-center dark:bg-neutral-900  bg-neutral-100 gap-2.5">
       <Card className="w-full max-w-sm">
         {/* info and links */}
         <CardHeader>
@@ -265,7 +265,7 @@ function Generate({
           )}
         </CardFooter>
       </Card>
-    </div>
+    </main>
   );
 }
 

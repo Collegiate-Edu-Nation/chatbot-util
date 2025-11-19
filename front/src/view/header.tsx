@@ -82,7 +82,11 @@ function Header({
         target="_blank"
         className="cursor-default"
       >
-        <img src={logo} alt="Logo" width="100px"></img>
+        <img
+          src={logo}
+          alt="CENthia logo linking to edu-nation.org"
+          width="100px"
+        ></img>
       </a>
 
       {/* help */}

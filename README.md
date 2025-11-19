@@ -9,9 +9,9 @@ Utility for generating similar FAQ's a la rag-fusion in a structured format read
 Docs deployed at https://collegiate-edu-nation.github.io/chatbot-util<br>
 _Docs cover instructions and source code reference_
 
-## Showcase
+## Screenshot
 
-<img width="1763" alt="Image" src="https://storage.googleapis.com/chatbot_util/chatbot-util.png" />
+<img width="1763" alt="Screenshot of chatbot-util user interface" src="https://storage.googleapis.com/chatbot_util/chatbot-util.png" />
 
 ## Setup
 
