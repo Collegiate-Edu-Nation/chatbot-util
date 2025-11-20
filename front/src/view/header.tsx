@@ -112,6 +112,8 @@ function Header({
                 size="32"
                 strokeWidth="1.25"
                 className="hover:fill-accent hover:text-accent-foreground"
+                role="button"
+                aria-label="status button"
               ></CheckCircle2Icon>
               <div
                 className={
@@ -163,6 +165,8 @@ function Header({
               <Tooltip>
                 <TooltipTrigger asChild={true} className="flex">
                   <FileCheckIcon
+                    aria-label="file check icon"
+                    role="button"
                     size="24"
                     strokeWidth="1.25"
                     className={

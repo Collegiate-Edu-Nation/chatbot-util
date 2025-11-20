@@ -236,6 +236,7 @@ function Generate({
                 variant="outline"
                 disabled={interruptStatus}
                 className="w-auto"
+                aria-label="interrupt button"
               >
                 Interrupt
                 {interruptStatus ? (
@@ -259,6 +260,7 @@ function Generate({
               variant="outline"
               disabled={!(folderStatus && LLMStatus === 200)}
               className="w-auto"
+              aria-label="generate button"
             >
               Generate
             </Button>

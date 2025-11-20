@@ -1,21 +1,28 @@
 // SPDX-FileCopyrightText: Collegiate Edu-Nation
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Header from "./header.tsx";
 
-test("renders generate button", () => {
+test("fileCheckIcon is visible in the status popover", () => {
   render(
     <Header
       verStatus={false}
       setVerStatus={() => {}}
       LLMStatus={200}
       setLLMStatus={() => {}}
-      folderStatus={false}
+      folderStatus={true}
       setFolderStatus={() => {}}
     />,
   );
 
-  const linkElement = screen.getByAltText(/Logo/i);
-  expect(linkElement).toBeInTheDocument();
+  const statusButton = screen.getByRole("button", {
+    name: /status button/i,
+  });
+  fireEvent.click(statusButton);
+  const fileCheckButton = screen.getByRole("button", {
+    name: /file check icon/i,
+  });
+
+  expect(fileCheckButton).toBeInTheDocument();
 });
