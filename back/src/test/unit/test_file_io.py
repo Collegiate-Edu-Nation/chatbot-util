@@ -8,6 +8,31 @@ from chatbot_util import file_io, utils
 
 
 class TestFileIO(unittest.TestCase):
+    def test_read_config(self):
+        lines = [
+            "[links]\n",
+            'faq = "abc"\n',
+            'other = "def"\n',
+        ]
+        with tempfile.NamedTemporaryFile() as temp_file:
+            open(temp_file.name, "w", encoding="utf-8").writelines(lines)
+
+            expected_config = {
+                "faq": "abc",
+                "other": "def",
+            }
+
+            # monkey patch to set config filename to tempfile
+            file_io.FILENAMES["config"] = f"{temp_file.name}"
+
+            config = file_io.read_config()
+            self.assertEqual(config, expected_config)
+
+            # reset monkey patch to prevent muddying state for other tests
+            file_io.FILENAMES["config"] = f"{file_io.DIR}/{file_io.CONFIG}"
+
+            temp_file.close()
+
     def test_read_employees(self):
         lines = ["A Bcdef:G Hi:His\n", "::\n"]
         expected = {"A Bcdef": ["G Hi", "His"], "": ["", ""]}
