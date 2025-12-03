@@ -1,10 +1,11 @@
 # SPDX-FileCopyrightText: Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import tempfile
 import unittest
 
 from chatbot_util import file_io, utils
+
+from .. import utilities
 
 
 class TestFileIO(unittest.TestCase):
@@ -14,24 +15,21 @@ class TestFileIO(unittest.TestCase):
             'faq = "abc"\n',
             'other = "def"\n',
         ]
-        with tempfile.NamedTemporaryFile() as temp_file:
-            open(temp_file.name, "w", encoding="utf-8").writelines(lines)
 
+        with utilities.TestFileContent(lines) as temp_file:
             expected_config = {
                 "faq": "abc",
                 "other": "def",
             }
 
             # monkey patch to set config filename to tempfile
-            file_io.FILENAMES["config"] = f"{temp_file.name}"
+            file_io.FILENAMES["config"] = temp_file.filename
 
             config = file_io.read_config()
             self.assertEqual(config, expected_config)
 
             # reset monkey patch to prevent muddying state for other tests
             file_io.FILENAMES["config"] = f"{file_io.DIR}/{file_io.CONFIG}"
-
-            temp_file.close()
 
     def test_read_employees(self):
         lines = ["A Bcdef:G Hi:His\n", "::\n"]
@@ -83,9 +81,8 @@ class TestFileIO(unittest.TestCase):
             "Edu-Reach,We also also need help\n",
         ]
         teams = ["Instructional", "Edu-Reach"]
-        with tempfile.NamedTemporaryFile() as temp_file:
-            open(temp_file.name, "w", encoding="utf-8").writelines(lines)
 
+        with utilities.TestFileContent(lines) as temp_file:
             expected_store = {
                 "CEN": ["What is CEN?"],
                 "A Bcdef": ["We also need help"],
@@ -97,7 +94,6 @@ class TestFileIO(unittest.TestCase):
                 "num_other": [1, 1],
             }
 
-            store, nums = file_io.read_entries(temp_file.name, teams)
+            store, nums = file_io.read_entries(temp_file.filename, teams)
             self.assertEqual(store, expected_store)
             self.assertEqual(nums, expected_nums)
-            temp_file.close()
