@@ -4,7 +4,7 @@
 [![built with garnix](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2FCollegiate-Edu-Nation%2Fchatbot-util%3Fbranch%3Dmain&style=for-the-badge&color=grey&labelColor=grey)](https://garnix.io/repo/Collegiate-Edu-Nation/chatbot-util)
 ![Static Badge](https://img.shields.io/badge/Powered_by_Nix-grey?logo=nixOS&logoColor=white&style=for-the-badge)
 
-Utility for generating similar FAQ's a la rag-fusion in a structured format ready for Google's Conversational Agents
+Utility for generating similar FAQs a la [RAG-Fusion] in a structured format ready for Google's Conversational Agents
 
 Docs deployed at https://collegiate-edu-nation.github.io/chatbot-util<br>
 _Docs cover instructions and source code reference_
@@ -39,7 +39,8 @@ Once downloaded, create the extended FAQ in `~/.chatbot-util/` by
 
 - Launching both the back and frontends (follow one of [Nix](#nix) or [Non-Nix](#non-nix))
 - Navigating to http://localhost:8080
-- Then upload these files and click `Generate`
+- Uploading these files
+- Clicking `Generate`
 
 Once the operation completes, the extended FAQ will be available to upload via Google Cloud Console
 
@@ -151,6 +152,7 @@ If this isn't important for your use-case, leverage the `feat-concurrent-request
 
 [GPLv3]
 
+[RAG-Fusion]: https://arxiv.org/abs/2402.03367
 [Garnix]: https://garnix.io/
 [GPLv3]: COPYING
 [package.nix]: nix/package.nix
