@@ -80,7 +80,7 @@ function Header({
       <a
         href="https://edu-nation.org"
         target="_blank"
-        className="cursor-default"
+        className="cursor-default outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
       >
         <img
           src={logo}
@@ -94,18 +94,20 @@ function Header({
         <a
           href="https://collegiate-edu-nation.github.io/chatbot-util/instructions/"
           target="_blank"
-          className="cursor-default"
+          className="cursor-default outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
         >
           <HelpCircleIcon
             size="32"
             strokeWidth="1.25"
             className="hover:fill-accent hover:text-accent-foreground"
+            role="button"
+            aria-label="help button"
           ></HelpCircleIcon>
         </a>
 
         {/* statusMenu */}
         <Popover>
-          <PopoverTrigger>
+          <PopoverTrigger className="outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive">
             {/* overview */}
             <div className="flex items-end">
               <CheckCircle2Icon
