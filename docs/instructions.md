@@ -5,7 +5,9 @@ hide:
 
 # Instructions
 
-Before the README sections 'Setup' and 'Usage' are completed, you must first download two files from the shared CEN Google Drive. Optionally, adding links to these files in `config.toml` will streamline direct access in the future
+- Before the README sections 'Setup' and 'Usage' are completed, you must first download two files from the shared CEN Google Drive: the [FAQ](#faq-enter-herecsv) and [Other.txt](#othertxt)
+- Optionally, adding links to these files in the [config file](#configtoml) will streamline direct access in the future
+- Additionally, the UI features several [status indicators](#status-indicators) for identifying common issues
 
 ## `FAQ - Enter Here.csv`
 
@@ -119,3 +121,37 @@ This basic (and optional) TOML configuration file contains links to `FAQ - Enter
 ### Update
 
 If the direct links to the files change (which happens often with `Other.txt`), simply update the links in this file. Any changes will be automatically reflected on the UI within a short period of time
+
+## Status Indicators
+
+The [Overall Status](#overall-status-check-icon) gives an overview of whether you can/should proceed with generation, with additional indicators in its' associated popover providing insight into specific issues
+
+### Overall Status (Check Icon)
+
+| Color                                     | Meaning                                                                                                                                     |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| <span style="color:green;">&#9679</span>  | All systems are operational, so generation may proceed                                                                                      |
+| <span style="color:yellow;">&#9679</span> | [Verified Status](#verified-status-file-icon) is red, but all systems are operational, so generation may proceed with caution               |
+| <span style="color:red;">&#9679</span>    | The [Ollama Status](#ollama-status-brain-icon) and/or the [Folder Status](#folder-status-folder-icon) are red, so generation cannot proceed |
+
+### Ollama Status (Brain Icon)
+
+| Color                                    | Meaning                                                                  |
+| ---------------------------------------- | ------------------------------------------------------------------------ |
+| <span style="color:green;">&#9679</span> | Ollama and `mistral` are installed on your device                        |
+| <span style="color:red;">&#9679</span>   | Ollama and/or `mistral` are NOT installed on your device. See the README |
+
+### Folder Status (Folder Icon)
+
+| Color                                    | Meaning                                                                                         |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| <span style="color:green;">&#9679</span> | The [FAQ](#faq-enter-herecsv) and [Other.txt](#othertxt) are present in `~/.chatbot-util/`      |
+| <span style="color:red;">&#9679</span>   | The [FAQ](#faq-enter-herecsv) and/or [Other.txt](#othertxt) are missing from `~/.chatbot-util/` |
+
+### Verified Status (File Icon)
+
+| Color                                    | Meaning                                                                                                                                                                                                                                                                                                                                                        |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <span style="color:green;">&#9679</span> | No entries are modified or missing in the newly generated [Permutated.csv](#permutatedcsv)                                                                                                                                                                                                                                                                     |
+| <span style="color:grey;">&#9679</span>  | No new files have been generated in this session                                                                                                                                                                                                                                                                                                               |
+| <span style="color:red;">&#9679</span>   | Some entries are modified and/or missing in the newly generated [Permutated.csv](#permutatedcsv). You should review before generating as this will overwrite `Permutated.csv.backup`, potentially resulting in data loss. Clicking `Okay` on the associated toast will reset this status indicator, which can be retriggered at any time by clicking this icon |
