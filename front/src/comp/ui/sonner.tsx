@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Collegiate Edu-Nation
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import { useTheme } from "next-themes";
 import { Toaster as Sonner } from "sonner";
 import type { ToasterProps } from "sonner";

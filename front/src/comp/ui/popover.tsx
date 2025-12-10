@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Collegiate Edu-Nation
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 

@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Collegiate Edu-Nation
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "dark" | "light" | "system";
