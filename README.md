@@ -59,7 +59,7 @@ nix.settings.trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObb
 
 ### Non-Nix
 
-Build the frontend (tested with node v22.14.0)
+Build the frontend (tested with node v22.20.0)
 
 ```shell
 {
@@ -70,7 +70,7 @@ cd ..
 }
 ```
 
-Then build and launch the backend (tested with python v3.13.3)
+Then build and launch the backend (tested with python v3.13.8)
 
 ```shell
 {
