@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Reads csv, employees, and answers, and writes generated result to csv"""
+"""Reads toml config, csv, employees, and answers, and writes generated result to csv"""
 
 import csv
 import os
@@ -145,7 +145,7 @@ def read_phrases(lines: list[str]) -> list[list[str]]:
 
 
 def read_cen(lines: list[str]) -> dict[str, list[str]]:
-    """Read and return cen_answers"""
+    """Read and return `cen_answers`"""
     cen_answers: dict[str, list[str]] = {}
     for i, line in enumerate(lines):
         if len(line) >= 3:
@@ -168,7 +168,7 @@ def read_basic(lines: list[str]) -> list[str]:
 
 
 def read_answers(lines: list[list[str]]) -> utils.Answers:
-    """Read and return answers for cen, instr, reach"""
+    """Read and return answers for cen and teams"""
     cen_answers = read_cen(lines[0])
     other_answers = [read_basic(lines[1]), read_basic(lines[2])]
 

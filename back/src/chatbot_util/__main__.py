@@ -25,7 +25,7 @@ def main() -> None:
 
 
 def start() -> bool:
-    """Create chain, read info from files, append generated questions, then write to new file, indicating whether the run was interrupted"""
+    """Read info from files, append generated questions, then write to new file, indicating whether the run was interrupted"""
 
     # Check interrupt status between operations to avoid undesired behavior
     if chain.handle_interrupt():
@@ -53,7 +53,7 @@ def start() -> bool:
 
 
 def verify() -> bool:
-    """Determine whether the updated Permutated.csv has any modified or missing entries (and not just new ones)"""
+    """Determine whether the updated `Permutated.csv` has any modified or missing entries (and not just new ones)"""
     verified = True
     writefile = file_io.FILENAMES["permutated"]
     backupfile = writefile + ".backup"

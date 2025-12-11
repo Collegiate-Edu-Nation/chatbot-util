@@ -3,8 +3,10 @@
 
 import pino from "pino";
 
+/** Pino logger object */
 const logger = pino();
 
+/** Utility for formatting log messages */
 export function message(method: string, endpoint: string, error: unknown) {
   return "Failed to " + method + " " + endpoint + ": " +
           (error instanceof Error ? error.message : error);

@@ -9,7 +9,7 @@ from chatbot_util import utils
 
 
 class Progress:
-    """Representation of generation progress with utility methods for updating and displaying"""
+    """Representation of generation progress with utility method for updating and logging"""
 
     index: int = 0
     total: int
@@ -18,7 +18,7 @@ class Progress:
         self.total = total
 
     def update(self, index: int) -> None:
-        """Update generation progress"""
+        """Update and log generation progress"""
         self.index = index
         utils.logger.info(f"Generating similar queries for: {self.index}/{self.total}.")
 
@@ -31,7 +31,7 @@ Generate 5 variations of the following question: """
 
 
 def handle_interrupt() -> bool:
-    """Helper to reset chain state if interrupted"""
+    """Helper to reset chain state when interrupted"""
     interrupted = False
     global interrupt
     global progress
@@ -62,6 +62,7 @@ def parse(response: str, phrases: list[list[str]]) -> list[str]:
         return lines
 
     def remove_phrases(lines: list[str], phrases: list[list[str]]) -> list[str]:
+        """Find and replace phrases"""
         for i, line in enumerate(lines):
             for phrase in phrases:
                 line = line.replace(phrase[0], phrase[1])

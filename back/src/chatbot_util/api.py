@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""API routes and implementations for the uvicorn server launched in __main__"""
+"""API routes and implementations for the uvicorn server launched in `__main__.py`"""
 
 import os
 import time
@@ -33,8 +33,9 @@ allow_generate = True
 def health() -> None:
     """Health check for both uvicorn and ollama servers
 
-    status\n
-    200 = uvicorn and ollama are ready
+    Status codes
+
+    - `200` = uvicorn and ollama are ready
     """
     ollama.show("mistral")
 
@@ -43,13 +44,16 @@ def health() -> None:
 def generate(response: fastapi.Response) -> dict[str, bool | None]:
     """Create chain, read info from files, append generated questions, then write to new file
 
-    status\n
-    201 = successfully generated Permutated.csv\n
-    429 = request denied because generation is in progress\n\n
-    verified\n
-    True = verified\n
-    False = unverified, check diff\n
-    None = generation interrupted
+    Status codes
+
+    - `201` = successfully generated `Permutated.csv`
+    - `429` = request denied because generation is in progress
+
+    `verified`
+
+    - `True` = verified
+    - `False` = unverified, check diff
+    - `None` = generation interrupted
     """
 
     # generate new Permutated.csv
@@ -77,10 +81,14 @@ def generate(response: fastapi.Response) -> dict[str, bool | None]:
 def progress() -> dict[str, int]:
     """Report on generation progress
 
-    status\n
-    200 = successfully retrieved progress status\n\n
-    index = index of topic currently generating queries for, [1-total]\n
-    total = total number of topics to generate queries for
+    Status codes
+
+    - `200` = successfully retrieved progress status
+
+    Response keys
+
+    - `index` = index of topic currently generating queries for, [1-total]
+    - `total` = total number of topics to generate queries for
     """
     return {"index": chain.progress.index, "total": chain.progress.total}
 
@@ -89,7 +97,9 @@ def progress() -> dict[str, int]:
 def interrupt() -> None:
     """Interrupt the current generation task
 
-    200 = successfully interrupted generation of Permutated.csv
+    Status codes
+
+    - `200` = successfully interrupted generation of `Permutated.csv`
     """
     chain.interrupt = True
     while chain.progress.index != 0:
@@ -100,12 +110,15 @@ def interrupt() -> None:
 def upload(files: list[fastapi.UploadFile]) -> dict[str, bool]:
     """Replace data files via upload and return list of status codes
 
-    status\n
-    201 = no errors encountered when replacing file(s)\n
-    422 = validation error while processing file(s)\n\n
-    uploaded\n
-    True = succssfully replaced all files\n
-    False = some files failed to be replaced
+    Status codes
+
+    - `201` = no errors encountered when replacing file(s)
+    - `422` = validation error while processing file(s)
+
+    `uploaded`
+
+    - `True` = succssfully replaced all files
+    - `False` = some files failed to be replaced
     """
     uploaded = True
     for f in files:
@@ -120,11 +133,14 @@ def upload(files: list[fastapi.UploadFile]) -> dict[str, bool]:
 def files() -> dict[str, bool]:
     """Report on data file status
 
-    status\n
-    200 = no errors encountered while scanning for files\n
-    present\n
-    True = all files are present\n
-    False = some files are missing
+    Status codes
+
+    - `200` = no errors encountered while scanning for files
+
+    `present`
+
+    - `True` = all files are present
+    - `False` = some files are missing
     """
     present = True
     filenames = [file_io.FILENAMES["faq"], file_io.FILENAMES["other"]]
@@ -139,12 +155,16 @@ def files() -> dict[str, bool]:
 
 @app.get("/api/config")
 def config() -> dict[str, str]:
-    """Return CDN links to 'FAQ - Enter Here.csv' and 'Other.txt'
+    """Return CDN links to `FAQ - Enter Here.csv` and `Other.txt`
 
-    status\n
-    200 = no errors encountered while reading links from config\n\n
-    faq = CDN link to 'FAQ - Enter Here.csv'\n
-    other = CDN link to 'Other.txt'\n
+    Status codes
+
+    - `200` = no errors encountered while reading links from config
+
+    Config keys
+
+    - `faq` = CDN link to `FAQ - Enter Here.csv`
+    - `other` = CDN link to `Other.txt`
     """
     return file_io.read_config()
 

@@ -11,7 +11,7 @@ import Header from "./view/header.tsx";
 import Generate from "./view/generate.tsx";
 
 /**
- * Simple parent component to lift the state from children
+ * Simple parent component to lift the state from children and setup `ThemeProvider` + `Toaster`
  *
  * ```tsx
  * <App />

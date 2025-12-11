@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Utilities for creating and cleaning answers based on file content"""
+"""Utilities for logging and creating + cleaning answers based on file content"""
 
 import logging
 from typing import TypedDict
