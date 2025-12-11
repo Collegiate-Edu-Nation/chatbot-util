@@ -11,7 +11,7 @@ import fastapi.middleware.cors
 import fastapi.staticfiles
 import ollama
 
-from chatbot_util import __main__, chain, file_io
+from chatbot_util import __main__, chain, file_io, utils
 
 app = fastapi.FastAPI()
 
@@ -30,14 +30,19 @@ allow_generate = True
 
 
 @app.get("/api/health")
-def health() -> None:
+def health(response: fastapi.Response) -> None:
     """Health check for both uvicorn and ollama servers
 
     Status codes
 
     - `200` = uvicorn and ollama are ready
+    - `500` = ollama is not available
     """
-    ollama.show("mistral")
+    try:
+        ollama.show("mistral")
+    except Exception:
+        response.status_code = fastapi.status.HTTP_500_INTERNAL_SERVER_ERROR
+        utils.logger.error("You must install Ollama before using this utility.")
 
 
 @app.post("/api/generate", status_code=fastapi.status.HTTP_201_CREATED)
