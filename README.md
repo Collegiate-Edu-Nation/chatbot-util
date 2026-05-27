@@ -99,7 +99,7 @@ inputs = {
 }
 ```
 
-Then, add alc-calc to your packages
+Then, add chatbot-util to your packages
 
 > For system wide installation in `configuration.nix`
 
