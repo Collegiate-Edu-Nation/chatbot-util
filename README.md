@@ -1,7 +1,7 @@
 # chatbot-util
 
-![Static Badge](https://img.shields.io/badge/Platforms-Linux,_macOS-forestgreen?style=for-the-badge)
-![Dynamic Badge](https://img.shields.io/github/actions/workflow/status/Collegiate-Edu-Nation/chatbot-util/build.yaml?branch=main&style=for-the-badge&color=grey&labelColor=grey)
+![Static Badge](https://img.shields.io/badge/Platforms-Linux,_macOS-blue?style=for-the-badge)
+![Dynamic Badge](https://img.shields.io/github/actions/workflow/status/Collegiate-Edu-Nation/chatbot-util/build.yaml?branch=main&style=for-the-badge)
 ![Static Badge](https://img.shields.io/badge/Powered_by_Nix-grey?logo=nixOS&logoColor=white&style=for-the-badge)
 
 Utility for generating similar FAQs a la [RAG-Fusion] in a structured format ready for Google's Conversational Agents
