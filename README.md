@@ -50,7 +50,7 @@ Once the operation completes, the extended FAQ will be available to upload via G
 nix run github:collegiate-edu-nation/chatbot-util
 ```
 
-Leverage our binary cache provided by [Cachix] to your nix-config
+Leverage our binary cache by adding [Cachix] to your nix-config
 
 ```nix
 nix.settings.substituters = [ "https://edu-nation.cachix.org" ];
