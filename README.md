@@ -1,7 +1,7 @@
 # chatbot-util
 
 ![Static Badge](https://img.shields.io/badge/Platforms-Linux,_macOS-forestgreen?style=for-the-badge)
-[![built with garnix](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2FCollegiate-Edu-Nation%2Fchatbot-util%3Fbranch%3Dmain&style=for-the-badge&color=grey&labelColor=grey)](https://garnix.io/repo/Collegiate-Edu-Nation/chatbot-util)
+![Dynamic Badge](https://img.shields.io/github/actions/workflow/status/Collegiate-Edu-Nation/chatbot-util/build.yaml?branch=main&style=for-the-badge&color=grey&labelColor=grey)
 ![Static Badge](https://img.shields.io/badge/Powered_by_Nix-grey?logo=nixOS&logoColor=white&style=for-the-badge)
 
 Utility for generating similar FAQs a la [RAG-Fusion] in a structured format ready for Google's Conversational Agents
@@ -50,11 +50,11 @@ Once the operation completes, the extended FAQ will be available to upload via G
 nix run github:collegiate-edu-nation/chatbot-util
 ```
 
-Leverage the binary cache by adding [Garnix] to your nix-config
+Leverage our binary cache provided by [Cachix] to your nix-config
 
 ```nix
-nix.settings.substituters = [ "https://cache.garnix.io" ];
-nix.settings.trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" ];
+nix.settings.substituters = [ "https://edu-nation.cachix.org" ];
+nix.settings.trusted-public-keys = [ "edu-nation.cachix.org-1:S2s7ZDuLeFrV2qhfzXWNt+/XlnGxUjvUHv0WI+BvM+0=" ];
 ```
 
 ### Non-Nix
@@ -153,6 +153,6 @@ If this isn't important for your use-case, leverage the `feat-concurrent-request
 [GPLv3]
 
 [RAG-Fusion]: https://arxiv.org/abs/2402.03367
-[Garnix]: https://garnix.io/
+[Cachix]: https://www.cachix.org/
 [GPLv3]: COPYING
 [package.nix]: nix/package.nix
