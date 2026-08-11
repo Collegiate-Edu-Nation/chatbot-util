@@ -26,18 +26,20 @@ FILENAMES = {
 
 def read_config() -> dict[str, str]:
     """Read links from config file"""
-    links: dict[str, str] = {"faq": "", "other": ""}
+    cfg: dict[str, str] = {"url": "", "faq": "", "other": ""}
 
     try:
         with open(FILENAMES["config"], "rb") as f:
             config = tomllib.load(f)
 
+        ollama: dict[str, str] = config["ollama"]
         links: dict[str, str] = config["links"]
+        cfg = ollama | links
 
     except Exception:
         utils.logger.warning("Failed to load config.toml. Defaulting to empty links")
 
-    return links
+    return cfg
 
 
 def create_file(f: fastapi.UploadFile) -> bool | None:

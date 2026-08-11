@@ -11,13 +11,14 @@ from .. import utilities
 class TestFileIO(unittest.TestCase):
     def test_read_config(self):
         lines = [
-            "[links]\n",
+            '[ollama]\nurl = "http://localhost:11434"\n\n[links]\n',
             'faq = "abc"\n',
             'other = "def"\n',
         ]
 
         with utilities.TestFileContent(lines) as temp_file:
             expected_config = {
+                "url": "http://localhost:11434",
                 "faq": "abc",
                 "other": "def",
             }
