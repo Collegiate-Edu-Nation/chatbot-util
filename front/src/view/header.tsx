@@ -54,9 +54,6 @@ function Header({
 }) {
   const baseURL = "http://127.0.0.1:8080/api";
 
-  useInterval(() => health(), LLMStatus === 200 ? 5000 : 500);
-  useInterval(() => files(), folderStatus ? 50000 : 500);
-
   async function health() {
     const url = baseURL + "/health";
     const response = await fetch(url);
@@ -74,6 +71,9 @@ function Header({
       logger.error(message("get", "files", error));
     }
   }
+
+  useInterval(() => health(), LLMStatus === 200 ? 5000 : 500);
+  useInterval(() => files(), folderStatus ? 50000 : 500);
 
   return (
     <header className="flex justify-between items-center h-14 pl-4 pr-2.5">

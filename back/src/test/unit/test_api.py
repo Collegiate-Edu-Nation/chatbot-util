@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownMemberType=false
+
 import unittest
 
 from fastapi.testclient import TestClient

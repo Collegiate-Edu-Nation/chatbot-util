@@ -9,7 +9,7 @@
     [
       makeWrapper
     ]
-    ++ (with python313Packages; [
+    ++ (with python314Packages; [
       # backend
       coloredlogs
       fastapi
@@ -39,11 +39,11 @@
 
       # script deps
       boxes
-      nixfmt-rfc-style
-      nodePackages.prettier
+      nixfmt
+      prettier
       taplo
     ]
-    ++ (with python313Packages; [
+    ++ (with python314Packages; [
       # backend
       coverage
       mockito

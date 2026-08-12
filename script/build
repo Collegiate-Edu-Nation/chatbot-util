@@ -29,11 +29,11 @@ echo -e "\033[1;33mruff...\033[0m"
 ruff check | box
 
 echo -e "\n\033[1;33mpyright...\033[0m"
+pushd . &> /dev/null
+cd back
 pyright 2> /dev/null | box
 
 echo -e "\n\033[1;33mcoverage...\033[0m"
-pushd . &> /dev/null
-cd back
 coverage run -m unittest 2> /dev/null | box
 popd &> /dev/null
 
@@ -55,7 +55,7 @@ PYTHON_SERVER_PID=$!
 popd &> /dev/null
 pushd . &> /dev/null
 cd front
-npx cypress run 2> /dev/null | box
+npx cypress run 2> /dev/null
 popd &> /dev/null
 cleanup
 

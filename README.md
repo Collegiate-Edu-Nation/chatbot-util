@@ -59,7 +59,7 @@ nix.settings.trusted-public-keys = [ "edu-nation.cachix.org-1:S2s7ZDuLeFrV2qhfzX
 
 ### Non-Nix
 
-Build the frontend (tested with node v22.20.0)
+Build the frontend (tested with node v24.18.1)
 
 ```shell
 {
@@ -70,7 +70,7 @@ cd ..
 }
 ```
 
-Then build and launch the backend (tested with python v3.13.8)
+Then build and launch the backend (tested with python v3.14.6)
 
 ```shell
 {

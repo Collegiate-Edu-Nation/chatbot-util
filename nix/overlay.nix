@@ -10,13 +10,37 @@ let
     (prev.writeScriptBin name (builtins.readFile ../script/${name})).overrideAttrs (old: {
       buildCommand = "${old.buildCommand}\n patchShebangs $out";
     });
+  availableBinaries = {
+    x86_64-linux = {
+      platform = "linux-x64";
+      hash = "sha256-Ls7LOjzi1HCQDSE+XyerSCeYfeabn5/GQ9y4retft0g=";
+    };
+    aarch64-linux = {
+      platform = "linux-arm64";
+      hash = "sha256-MoEnQF0QIGH6nRx4MScPe/J+Sud+f5CdTLuyAu7qMCE=";
+    };
+    aarch64-darwin = {
+      platform = "darwin-arm64";
+      hash = "sha256-HCvsmwQUk293OK6vENdlBvKetDCTAxKvCAJ7pq0Vjpc=";
+    };
+  };
+  inherit (prev.stdenv.hostPlatform) system;
+  binary =
+    availableBinaries.${system} or (throw "cypress: No binaries available for system ${system}");
+  inherit (binary) platform hash;
 in
 {
   build = writePatchedScript "build";
   docs = writePatchedScript "docs";
   format = writePatchedScript "format";
   launch = writePatchedScript "launch";
-  cypress = prev.cypress.overrideAttrs (o: {
+  cypress = prev.cypress.overrideAttrs (o: rec {
+    version = "15.18.0";
+    src = prev.fetchzip {
+      url = "https://cdn.cypress.io/desktop/${version}/${platform}/cypress.zip";
+      inherit hash;
+      stripRoot = !prev.stdenv.hostPlatform.isDarwin;
+    };
     installPhase =
       o.installPhase or ""
       +

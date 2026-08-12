@@ -12,7 +12,7 @@ let
     src = ../front/.;
 
     env.CYPRESS_INSTALL_BINARY = 0;
-    npmDepsHash = "sha256-PjA8nxFjMHBhVfnIsFMLyOROiBc8taA2gYg8lYnmF7w=";
+    npmDepsHash = "sha256-ycAltkgbPBalTBwzvP15CLasa11q3LPVvGrwdhMZUgg=";
     postInstall = ''
       cp -r dist/ $out/lib/node_modules/chatbot-util/
     '';
@@ -20,14 +20,14 @@ let
 in
 {
   inherit front;
-  default = pkgs.python313Packages.buildPythonApplication {
+  default = pkgs.python314Packages.buildPythonApplication {
     inherit pname version;
     src = ../back/.;
 
     pyproject = true;
     dontCheckRuntimeDeps = true;
     propagatedBuildInputs = deps.build;
-    build-system = with pkgs.python313Packages; [ setuptools ];
+    build-system = with pkgs.python314Packages; [ setuptools ];
     postInstall = ''
       wrapProgram "$out/bin/chatbot-util" --set \
         FRONT_DIR "${front}/lib/node_modules/chatbot-util/dist"

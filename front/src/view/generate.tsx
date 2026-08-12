@@ -55,6 +55,25 @@ function Generate({
     false,
   );
 
+  async function progress() {
+    if (genStatus) {
+      const url = baseURL + "/progress";
+      const response = await fetch(url);
+      const result = await response.json();
+      setProgStatus([result.index, result.total]);
+    } else if (!genStatus && progStatus[0] !== 0) {
+      setProgStatus([0, 0]);
+      setInterruptStatus(false);
+    }
+  }
+
+  async function config() {
+    const url = baseURL + "/config";
+    const response = await fetch(url);
+    const result = await response.json();
+    setAppConfig([result.faq, result.other]);
+  }
+
   // config isn't actually dependent on folderStatus since its primary
   // purpose is preventing generating w/ missing data files (which causes
   // crashes). however, since it defaults to false, this is a decent hack
@@ -115,18 +134,6 @@ function Generate({
     setGenStatus(false);
   }
 
-  async function progress() {
-    if (genStatus) {
-      const url = baseURL + "/progress";
-      const response = await fetch(url);
-      const result = await response.json();
-      setProgStatus([result.index, result.total]);
-    } else if (!genStatus && progStatus[0] !== 0) {
-      setProgStatus([0, 0]);
-      setInterruptStatus(false);
-    }
-  }
-
   async function interrupt() {
     setInterruptStatus(true);
     const url = baseURL + "/interrupt";
@@ -161,13 +168,6 @@ function Generate({
       }
       setFiles(undefined);
     }
-  }
-
-  async function config() {
-    const url = baseURL + "/config";
-    const response = await fetch(url);
-    const result = await response.json();
-    setAppConfig([result.faq, result.other]);
   }
 
   function links() {
