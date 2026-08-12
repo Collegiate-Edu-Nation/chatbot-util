@@ -105,18 +105,31 @@ The changes should propagate after a short period of time (~15 minutes)
 
 ## `config.toml`
 
-This basic (and optional) TOML configuration file contains links to `FAQ - Enter Here.csv` and `Other.txt` that enables convenient access via buttons in the `Generate` card on the UI
+This basic (and optional) TOML configuration file contains URLs to the Ollama server (defaulting to `localhost`), `FAQ - Enter Here.csv`, and `Other.txt`. The latter two enable convenient access via buttons in the `Generate` card on the UI
 
 ### Format
 
-- The first row is an indicator for the `[links]` section
-- The second and third rows contain direct links (enclosed in quotes) to the `faq` and `other` files
+- The first section corresponds to settings relevant for the Ollama server
 
-      ```text
-      [links]
-      faq = "https://docs.google.com/spreadsheets/d/identifier/edit?usp=drive_link"
-      other = "https://drive.google.com/file/d/identifier/view?usp=drive_link"
-      ```
+| Entry | Description                                   |
+| ----- | --------------------------------------------- |
+| url   | URL of the Ollama server (enclosed in quotes) |
+
+- The second section corresponds to the links to relevant documents
+
+| Entry | Description                                  |
+| ----- | -------------------------------------------- |
+| faq   | URL of the `faq` file (enclosed in quotes)   |
+| other | URL of the `other` file (enclosed in quotes) |
+
+```text
+[ollama]
+url = "http://localhost:11434"
+
+[links]
+faq = "https://docs.google.com/spreadsheets/d/identifier/edit?usp=drive_link"
+other = "https://drive.google.com/file/d/identifier/view?usp=drive_link"
+```
 
 ### Update
 

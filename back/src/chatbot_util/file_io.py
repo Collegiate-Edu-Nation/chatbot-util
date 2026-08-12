@@ -26,7 +26,7 @@ FILENAMES = {
 
 def read_config() -> dict[str, str]:
     """Read links from config file"""
-    cfg: dict[str, str] = {"url": "", "faq": "", "other": ""}
+    cfg: dict[str, str] = {"url": "http://localhost:11434", "faq": "", "other": ""}
 
     try:
         with open(FILENAMES["config"], "rb") as f:
@@ -37,7 +37,9 @@ def read_config() -> dict[str, str]:
         cfg = ollama | links
 
     except Exception:
-        utils.logger.warning("Failed to load config.toml. Defaulting to empty links")
+        utils.logger.warning(
+            "Failed to load config.toml. Defaulting to localhost and empty links"
+        )
 
     return cfg
 
