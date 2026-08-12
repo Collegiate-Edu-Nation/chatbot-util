@@ -3,11 +3,13 @@
 
 import unittest
 
-import ollama
 from mockito import (  # pyright: ignore [reportMissingTypeStubs]
+    ANY,  # pyright: ignore [reportUnknownVariableType]
+    mock,  # pyright: ignore [reportUnknownVariableType]
     unstub,  # pyright: ignore [reportUnknownVariableType]
     when,  # pyright: ignore [reportUnknownVariableType]
 )
+from ollama import Client
 
 from chatbot_util import chain
 
@@ -15,6 +17,7 @@ from chatbot_util import chain
 class TestChainGenerate(unittest.TestCase):
     def test_generate(self):
         # setup
+        client = mock(Client)
         phrases = [["abc", "ABC"]]
         options = {"seed": 39}
         prompt = chain.INSTRUCTION + "def"
@@ -23,14 +26,15 @@ class TestChainGenerate(unittest.TestCase):
         response2 = {"response": '"b"'}
         store = {"abc": ["def", "ghi"]}
 
-        # mock
-        when(ollama).generate(
+        # mocks
+        when(chain).Client(host=ANY(str)).thenReturn(client)  # pyright: ignore [reportUnknownMemberType]
+        when(client).generate(
             # pyright: ignore [reportUnknownMemberType]
             model="mistral",
             prompt=prompt,
             options=options,
         ).thenReturn(response)
-        when(ollama).generate(
+        when(client).generate(
             # pyright: ignore [reportUnknownMemberType]
             model="mistral",
             prompt=prompt2,

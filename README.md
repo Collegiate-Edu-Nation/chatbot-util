@@ -15,7 +15,7 @@ _Docs cover instructions and source code reference_
 
 ## Setup
 
-**Must install Ollama before running anything**
+**Must install Ollama (or at least have access to a valid installation at a remote URL) before running anything**
 
 Start Ollama server<br>
 _I recommend running Ollama as a system service to avoid running this all the time_
@@ -33,7 +33,7 @@ ollama pull mistral
 
 ## Usage
 
-Before the FAQ can be extended by the LLM, download the initial FAQ and a list of teams, employees, phrases to substitute, and answers. An optional configuration file can also be downloaded to enable faster access in the future (see docs for more explanation)
+Before the FAQ can be extended by the LLM, download the initial FAQ and a list of teams, employees, phrases to substitute, and answers. An optional configuration file can also be downloaded to enable both remote Ollama servers and faster document access in the future (see docs for more explanation)
 
 Once downloaded, create the extended FAQ in `~/.chatbot-util/` by
 

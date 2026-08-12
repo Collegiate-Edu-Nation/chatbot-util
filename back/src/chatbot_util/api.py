@@ -9,7 +9,7 @@ import time
 import fastapi
 import fastapi.middleware.cors
 import fastapi.staticfiles
-import ollama
+from ollama import Client
 
 from chatbot_util import __main__, chain, file_io, utils
 
@@ -39,7 +39,8 @@ def health(response: fastapi.Response) -> None:
     - `500` = ollama is not available
     """
     try:
-        ollama.show("mistral")
+        host = file_io.read_config()["url"]
+        Client(host=host).show("mistral")
     except Exception:
         response.status_code = fastapi.status.HTTP_500_INTERNAL_SERVER_ERROR
         utils.logger.error("You must install Ollama before using this utility.")
@@ -171,7 +172,9 @@ def config() -> dict[str, str]:
     - `faq` = CDN link to `FAQ - Enter Here.csv`
     - `other` = CDN link to `Other.txt`
     """
-    return file_io.read_config()
+    links = file_io.read_config()
+    links.pop("url")
+    return links
 
 
 # serve react frontend on root in production - DEV benefits from live reloads
