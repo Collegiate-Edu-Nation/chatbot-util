@@ -13,7 +13,7 @@
   };
 
   outputs =
-    { nixpkgs, ... }:
+    { self, nixpkgs, ... }:
     let
       supportedSystems = [
         "x86_64-linux"
@@ -33,5 +33,15 @@
     {
       devShells = forEachSupportedSystem (import ./nix/shell.nix);
       packages = forEachSupportedSystem (import ./nix/package.nix);
+
+      nixosModules = rec {
+        default = chatbot-util;
+        chatbot-util = import ./nix/nixos-module.nix { inherit self; };
+      };
+
+      darwinModules = rec {
+        default = chatbot-util;
+        chatbot-util = import ./nix/darwin-module.nix { inherit self; };
+      };
     };
 }

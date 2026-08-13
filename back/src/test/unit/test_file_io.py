@@ -9,6 +9,9 @@ from .. import utilities
 
 
 class TestFileIO(unittest.TestCase):
+    def test_data_directory(self):
+        self.assertEqual(file_io.DIR, "/etc/chatbot-util")
+
     def test_read_config(self):
         lines = [
             '[ollama]\nurl = "http://localhost:11434"\n\n[links]\n',

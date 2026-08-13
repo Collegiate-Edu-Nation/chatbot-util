@@ -28,6 +28,7 @@ in
     dontCheckRuntimeDeps = true;
     propagatedBuildInputs = deps.build;
     build-system = with pkgs.python314Packages; [ setuptools ];
+    meta.mainProgram = pname;
     postInstall = ''
       wrapProgram "$out/bin/chatbot-util" --set \
         FRONT_DIR "${front}/lib/node_modules/chatbot-util/dist"

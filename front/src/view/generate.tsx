@@ -160,8 +160,8 @@ function Generate({
           ? "Updated file(s)"
           : "Failed to update file(s)";
         const desc = result.uploaded
-          ? "The data file(s) you uploaded have been saved to ~/.chatbot-util/"
-          : "The data file(s) you uploaded have NOT been saved to ~/.chatbot-util/";
+          ? "The data file(s) you uploaded have been saved to /etc/chatbot-util/"
+          : "The data file(s) you uploaded have NOT been saved to /etc/chatbot-util/";
         toast(title, { description: desc });
       } catch (error) {
         logger.error(message("post", "upload", error));

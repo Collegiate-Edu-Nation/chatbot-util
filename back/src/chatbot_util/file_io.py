@@ -11,7 +11,7 @@ import fastapi
 
 from chatbot_util import utils
 
-DIR = os.path.expanduser("~/.chatbot-util")
+DIR = "/etc/chatbot-util"
 FAQ = "FAQ - Enter Here.csv"
 OTHER = "Other.txt"
 PERMUTATED = "Permutated.csv"

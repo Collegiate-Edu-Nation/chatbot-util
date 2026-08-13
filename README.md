@@ -35,7 +35,7 @@ ollama pull mistral
 
 Before the FAQ can be extended by the LLM, download the initial FAQ and a list of teams, employees, phrases to substitute, and answers. An optional configuration file can also be downloaded to enable both remote Ollama servers and faster document access in the future (see docs for more explanation)
 
-Once downloaded, create the extended FAQ in `~/.chatbot-util/` by
+Once downloaded, create the extended FAQ in `/etc/chatbot-util/` by
 
 - Launching both the back and frontends (follow one of [Nix](#nix) or [Non-Nix](#non-nix))
 - Navigating to http://localhost:8080
@@ -45,6 +45,15 @@ Once downloaded, create the extended FAQ in `~/.chatbot-util/` by
 Once the operation completes, the extended FAQ will be available to upload via Google Cloud Console
 
 ### Nix
+
+For a one-off run, first create the data directory with access for your current
+user:
+
+```shell
+sudo install -d -m 0750 -o "$(id -un)" -g "$(id -gn)" /etc/chatbot-util
+```
+
+Then launch chatbot-util:
 
 ```shell
 nix run github:collegiate-edu-nation/chatbot-util
@@ -117,11 +126,42 @@ home.packages = with pkgs; [
 ];
 ```
 
+#### System service
+
+The flake also exports modules that run chatbot-util at boot and provision
+`/etc/chatbot-util/` with the permissions needed for uploads. Enable the NixOS
+module in your system configuration with
+
+```nix
+{
+  imports = [ inputs.chatbot-util.nixosModules.default ];
+  services.chatbot-util.enable = true;
+}
+```
+
+For nix-darwin, use the corresponding launch daemon module:
+
+```nix
+{
+  imports = [ inputs.chatbot-util.darwinModules.default ];
+  services.chatbot-util.enable = true;
+}
+```
+
+After rebuilding the system, the service is available at
+http://localhost:8080. To preserve data from an older installation, migrate it
+before uploading or generating new files:
+
+```shell
+sudo mkdir -p /etc/chatbot-util
+sudo cp -a ~/.chatbot-util/. /etc/chatbot-util/
+```
+
 ### Non-Nix
 
 As this is currently just an internal tool, we don't have plans to streamline the installation process for non-Nix users
 
-However, wrapping the backend's python executable with the location of the built `FRONT_DIR` before adding it to your path should do the trick. See the `postInstall` script in [package.nix] for further reference
+However, wrapping the backend's python executable with the location of the built `FRONT_DIR` before adding it to your path should do the trick. See the `postInstall` script in [package.nix] for further reference. The process must also have read/write access to `/etc/chatbot-util/`
 
 ## Advanced Usage
 

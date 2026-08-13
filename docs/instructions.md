@@ -80,7 +80,7 @@ This file is the output of successfully running `Generate` on the above files
 
 ### Retrieval and Usage
 
-- This file will be stored locally in `~/.chatbot-util/`
+- This file will be stored locally in `/etc/chatbot-util/`
 - Log in to Google Cloud Console and navigate to the `Chatbot` project
 - Click the hamburger menu on the top left and navigate to `Cloud Storage/Buckets/cen-chatbot-docs-062524/FAQ/`
 - Once there, upload `Permutated.csv`, making sure to select the 'Overwrite object' option
@@ -106,6 +106,8 @@ The changes should propagate after a short period of time (~15 minutes)
 ## `config.toml`
 
 This basic (and optional) TOML configuration file contains URLs to the Ollama server (defaulting to `localhost`), `FAQ - Enter Here.csv`, and `Other.txt`. The latter two enable convenient access via buttons in the `Generate` card on the UI
+
+Store this file at `/etc/chatbot-util/config.toml`.
 
 ### Format
 
@@ -156,10 +158,10 @@ The [Overall Status](#overall-status-check-icon) gives an overview of whether yo
 
 ### Folder Status (Folder Icon)
 
-| Color                                    | Meaning                                                                                         |
-| ---------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| <span style="color:green;">&#9679</span> | The [FAQ](#faq-enter-herecsv) and [Other.txt](#othertxt) are present in `~/.chatbot-util/`      |
-| <span style="color:red;">&#9679</span>   | The [FAQ](#faq-enter-herecsv) and/or [Other.txt](#othertxt) are missing from `~/.chatbot-util/` |
+| Color                                    | Meaning                                                                                           |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| <span style="color:green;">&#9679</span> | The [FAQ](#faq-enter-herecsv) and [Other.txt](#othertxt) are present in `/etc/chatbot-util/`      |
+| <span style="color:red;">&#9679</span>   | The [FAQ](#faq-enter-herecsv) and/or [Other.txt](#othertxt) are missing from `/etc/chatbot-util/` |
 
 ### Verified Status (File Icon)
 
