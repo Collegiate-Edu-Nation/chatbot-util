@@ -37,6 +37,7 @@ in
         KeepAlive = true;
         ProcessType = "Background";
         RunAtLoad = true;
+        StandardOutPath = "/var/log/chatbot-util.log";
         Umask = 23;
         UserName = "root";
       };

@@ -5,8 +5,7 @@
 
 from ollama import Client
 
-from chatbot_util import utils
-from src.chatbot_util import file_io
+from chatbot_util import file_io, utils
 
 
 class Progress:

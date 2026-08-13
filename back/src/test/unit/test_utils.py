@@ -1,12 +1,26 @@
 # SPDX-FileCopyrightText: Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import logging
+import sys
 import unittest
+from typing import TextIO, cast
 
 from chatbot_util import utils
 
 
 class TestUtils(unittest.TestCase):
+    def test_logger_uses_stdout(self):
+        # some logs were previously being written to
+        # stderr, so this just makes sure we don't
+        # regress
+        streams: list[TextIO] = [
+            cast(TextIO, handler.stream)  # pyright: ignore [reportUnknownMemberType]
+            for handler in logging.getLogger().handlers
+            if isinstance(handler, logging.StreamHandler)
+        ]
+        self.assertEqual(streams, [sys.stdout])
+
     def test_create_person_answer(self):
         topic = "A Bcdef"
         employees = {"A Bcdef": ["G Hijk", "His"]}

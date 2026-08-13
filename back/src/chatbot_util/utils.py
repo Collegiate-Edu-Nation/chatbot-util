@@ -4,6 +4,7 @@
 """Utilities for logging and creating + cleaning answers based on file content"""
 
 import logging
+import sys
 from typing import TypedDict
 
 import coloredlogs  # pyright: ignore [reportMissingTypeStubs]
@@ -11,11 +12,16 @@ import coloredlogs  # pyright: ignore [reportMissingTypeStubs]
 # override logger's config in order to show non-uvicorn entries while attaching to it.
 # setting the formatting and colors make it match for info msgs
 format = "%(levelname)s:     chatbot_util    - %(message)s"
-logging.basicConfig(level=logging.INFO, format=format)
+logging.basicConfig(level=logging.INFO, format=format, stream=sys.stdout)
 logger = logging.getLogger("fastapi")
 colors = coloredlogs.DEFAULT_FIELD_STYLES
 colors["levelname"] = {"bold": False, "color": "green"}
-coloredlogs.install(level="INFO", fmt=format, field_styles=colors)  # pyright: ignore [reportUnknownMemberType]
+coloredlogs.install(  # pyright: ignore [reportUnknownMemberType]
+    level="INFO",
+    fmt=format,
+    field_styles=colors,
+    stream=sys.stdout,
+)
 
 # not interested in info logs for httpx or ollama
 logging.getLogger("httpx").setLevel(logging.WARNING)
