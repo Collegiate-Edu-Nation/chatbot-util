@@ -19,7 +19,7 @@ in
     package = lib.mkOption {
       type = lib.types.package;
       default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
-      defaultText = lib.literalExpression "inputs.chatbot-util.packages.\${pkgs.stdenv.hostPlatform.system}.default";
+      defaultText = lib.literalExpression "inputs.chatbot-util.packages.${pkgs.stdenv.hostPlatform.system}.default";
       description = "The chatbot-util package to run.";
     };
   };
@@ -29,17 +29,17 @@ in
       script = ''
         ${pkgs.coreutils}/bin/install -d -m 0750 -o root -g wheel /etc/chatbot-util
         cd /etc/chatbot-util
-        exec ${lib.getExe cfg.package}
+        exec ${cfg.package}/bin/chatbot-util
       '';
 
       serviceConfig = {
+        UserName = "root";
         GroupName = "wheel";
         KeepAlive = true;
         ProcessType = "Background";
         RunAtLoad = true;
         StandardOutPath = "/var/log/chatbot-util.log";
         Umask = 23;
-        UserName = "root";
       };
     };
   };

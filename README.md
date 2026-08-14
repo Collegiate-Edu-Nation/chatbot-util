@@ -149,13 +149,7 @@ For nix-darwin, use the corresponding launch daemon module:
 ```
 
 After rebuilding the system, the service is available at
-http://localhost:8080. To preserve data from an older installation, migrate it
-before uploading or generating new files:
-
-```shell
-sudo mkdir -p /etc/chatbot-util
-sudo cp -a ~/.chatbot-util/. /etc/chatbot-util/
-```
+http://localhost:8080
 
 ### Non-Nix
 
