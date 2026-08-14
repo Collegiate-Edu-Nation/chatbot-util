@@ -105,19 +105,26 @@ The changes should propagate after a short period of time (~15 minutes)
 
 ## `config.toml`
 
-This basic (and optional) TOML configuration file contains URLs to the Ollama server (defaulting to `localhost`), `FAQ - Enter Here.csv`, and `Other.txt`. The latter two enable convenient access via buttons in the `Generate` card on the UI
+This basic (and optional) TOML configuration file contains the web server URL and port as well as URLs to the Ollama server (defaulting to `localhost`), `FAQ - Enter Here.csv`, and `Other.txt`. The latter two enable convenient access via buttons in the `Generate` card on the UI
 
 Store this file at `/etc/chatbot-util/config.toml`.
 
 ### Format
 
-- The first section corresponds to settings relevant for the Ollama server
+- The first section corresponds to settings relevant for the web server
+
+| Entry | Description                         |
+| ----- | ----------------------------------- |
+| host  | Listening host (enclosed in quotes) |
+| port  | Listening port (enclosed in quotes) |
+
+- The second section corresponds to settings relevant for the Ollama server
 
 | Entry | Description                                   |
 | ----- | --------------------------------------------- |
 | url   | URL of the Ollama server (enclosed in quotes) |
 
-- The second section corresponds to the links to relevant documents
+- The third section corresponds to the links to relevant documents
 
 | Entry | Description                                  |
 | ----- | -------------------------------------------- |
@@ -125,8 +132,12 @@ Store this file at `/etc/chatbot-util/config.toml`.
 | other | URL of the `other` file (enclosed in quotes) |
 
 ```text
+[server]
+host = "127.0.0.1"
+port = "8080"
+
 [ollama]
-url = "http://localhost:11434"
+url = "http://127.0.0.1:11434"
 
 [links]
 faq = "https://docs.google.com/spreadsheets/d/identifier/edit?usp=drive_link"
@@ -135,7 +146,9 @@ other = "https://drive.google.com/file/d/identifier/view?usp=drive_link"
 
 ### Update
 
-If the direct links to the files change (which happens often with `Other.txt`), simply update the links in this file. Any changes will be automatically reflected on the UI within a short period of time
+The `[server].host` and `[server].port` values take precedence over the `HOST` and `PORT` environment variables. The host and port default to `127.0.0.1` and `8080`, respectively. Server changes take effect after restarting chatbot-util.
+
+If the direct links to the files change (which happens often with `Other.txt`), simply update the links in this file. Link changes will be automatically reflected on the UI within a short period of time
 
 ## Status Indicators
 

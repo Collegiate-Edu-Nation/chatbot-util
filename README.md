@@ -59,6 +59,11 @@ Then launch chatbot-util:
 nix run github:collegiate-edu-nation/chatbot-util
 ```
 
+The listening host and port default to `127.0.0.1:8080`. Set them through `config.toml` or, as fallbacks when the file does not contain the corresponding `[server]` entries, through the environment
+
+Using `0.0.0.0` exposes the service on every available network interface, which is useful in a container but should only be used with appropriate network access
+controls.
+
 Leverage our binary cache by adding [Cachix] to your nix-config
 
 ```nix
@@ -135,7 +140,11 @@ module in your system configuration with
 ```nix
 {
   imports = [ inputs.chatbot-util.nixosModules.default ];
-  services.chatbot-util.enable = true;
+  services.chatbot-util = {
+    enable = true;
+    host = "0.0.0.0";
+    port = 9090;
+  };
 }
 ```
 
@@ -144,12 +153,21 @@ For nix-darwin, use the corresponding launch daemon module:
 ```nix
 {
   imports = [ inputs.chatbot-util.darwinModules.default ];
-  services.chatbot-util.enable = true;
+  services.chatbot-util = {
+    enable = true;
+    host = "0.0.0.0";
+    port = 9090;
+  };
 }
 ```
 
-After rebuilding the system, the service is available at
-http://localhost:8080
+After rebuilding the system, the service is available on the configured port.
+
+The Nix module options supply the `HOST` and `PORT` fallbacks, so `[server].host`
+and `[server].port` in `/etc/chatbot-util/config.toml` take precedence when
+present.
+
+This enables publicizing the server configuration w/o exposing links to sensitive files (e.g., the FAQ)
 
 ### Non-Nix
 

@@ -9,19 +9,19 @@ from .. import utilities
 
 
 class TestFileIO(unittest.TestCase):
-    def test_data_directory(self):
-        self.assertEqual(file_io.DIR, "/etc/chatbot-util")
-
     def test_read_config(self):
         lines = [
-            '[ollama]\nurl = "http://localhost:11434"\n\n[links]\n',
+            '[server]\nhost = "127.0.0.1"\nport = "8080"\n\n',
+            '[ollama]\nurl = "http://127.0.0.1:11434"\n\n[links]\n',
             'faq = "abc"\n',
             'other = "def"\n',
         ]
 
         with utilities.TestFileContent(lines) as temp_file:
             expected_config = {
-                "url": "http://localhost:11434",
+                "host": "127.0.0.1",
+                "port": "8080",
+                "url": "http://127.0.0.1:11434",
                 "faq": "abc",
                 "other": "def",
             }

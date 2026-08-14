@@ -11,7 +11,8 @@ import fastapi
 
 from chatbot_util import utils
 
-DIR = "/etc/chatbot-util"
+DEV = True if os.getenv("DEV", "false") == "true" else False
+DIR = os.path.expanduser("~/.chatbot-util") if DEV else "/etc/chatbot-util"
 FAQ = "FAQ - Enter Here.csv"
 OTHER = "Other.txt"
 PERMUTATED = "Permutated.csv"
@@ -26,19 +27,59 @@ FILENAMES = {
 
 def read_config() -> dict[str, str]:
     """Read links from config file"""
-    cfg: dict[str, str] = {"url": "http://localhost:11434", "faq": "", "other": ""}
+    cfg: dict[str, str] = {
+        "host": "127.0.0.1",
+        "port": "8080",
+        "url": "http://127.0.0.1:11434",
+        "faq": "",
+        "other": "",
+    }
+
+    # assign the fallbacks early in case the config
+    # doesn't exist
+    host = os.getenv("HOST")
+    port = os.getenv("PORT")
+    if host is not None:
+        cfg["host"] = host
+    if port is not None:
+        cfg["port"] = port
 
     try:
         with open(FILENAMES["config"], "rb") as f:
             config = tomllib.load(f)
 
-        ollama: dict[str, str] = config["ollama"]
-        links: dict[str, str] = config["links"]
-        cfg = ollama | links
+        # parse the toml one section at a time so
+        # that we don't throw everything away if a
+        # specific section is missing (e.g., what if
+        # your ollama server needs to be specified
+        # but you're using the modules to specify the
+        # port/host)
+        #
+        # main area of improvement here is to parse
+        # each specific entry, but this works for now
+        server: dict[str, str]
+        try:
+            server = config["server"]
+        except Exception:
+            server = {"host": cfg["host"], "port": cfg["port"]}
+
+        ollama: dict[str, str]
+        try:
+            ollama = config["ollama"]
+        except Exception:
+            ollama = {k: cfg[k] for k in ("url")}
+
+        links: dict[str, str]
+        try:
+            links = config["links"]
+        except Exception:
+            links = {k: cfg[k] for k in ("faq", "other")}
+
+        cfg = server | ollama | links
 
     except Exception:
         utils.logger.warning(
-            "Failed to load config.toml. Defaulting to localhost and empty links"
+            "Failed to load config.toml. Defaulting to 127.0.0.1 and empty links"
         )
 
     return cfg

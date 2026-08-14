@@ -22,6 +22,18 @@ in
       defaultText = lib.literalExpression "inputs.chatbot-util.packages.${pkgs.stdenv.hostPlatform.system}.default";
       description = "The chatbot-util package to run.";
     };
+
+    host = lib.mkOption {
+      type = lib.types.str;
+      default = "127.0.0.1";
+      description = "Fallback host for chatbot-util when server.host is not set in config.toml.";
+    };
+
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 8080;
+      description = "Fallback port for chatbot-util when server.port is not set in config.toml.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -33,6 +45,10 @@ in
       '';
 
       serviceConfig = {
+        EnvironmentVariables = {
+          HOST = cfg.host;
+          PORT = toString cfg.port;
+        };
         UserName = "root";
         GroupName = "wheel";
         KeepAlive = true;

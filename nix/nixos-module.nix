@@ -36,6 +36,18 @@ in
       default = defaultGroup;
       description = "Group under which chatbot-util runs.";
     };
+
+    host = lib.mkOption {
+      type = lib.types.str;
+      default = "127.0.0.1";
+      description = "Fallback host for chatbot-util when server.host is not set in config.toml.";
+    };
+
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 8080;
+      description = "Fallback port for chatbot-util when server.port is not set in config.toml.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -57,6 +69,10 @@ in
       description = "chatbot-util web service";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
+      environment = {
+        HOST = cfg.host;
+        PORT = toString cfg.port;
+      };
 
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/chatbot-util";

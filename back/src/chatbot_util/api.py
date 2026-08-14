@@ -15,16 +15,20 @@ from chatbot_util import __main__, chain, file_io, utils
 
 app = fastapi.FastAPI()
 
+DEV_FRONT_PORT = 5173
 DEV = True if os.getenv("DEV", "false") == "true" else False
-FRONT_PORT = 5173 if DEV else 8080
 
-app.add_middleware(
-    fastapi.middleware.cors.CORSMiddleware,
-    allow_origins=[f"http://localhost:{FRONT_PORT}"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+if DEV:
+    app.add_middleware(
+        fastapi.middleware.cors.CORSMiddleware,
+        allow_origins=[
+            f"http://localhost:{DEV_FRONT_PORT}",
+            f"http://127.0.0.1:{DEV_FRONT_PORT}",
+        ],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 allow_generate = True
 
@@ -172,9 +176,8 @@ def config() -> dict[str, str]:
     - `faq` = CDN link to `FAQ - Enter Here.csv`
     - `other` = CDN link to `Other.txt`
     """
-    links = file_io.read_config()
-    links.pop("url")
-    return links
+    cfg = file_io.read_config()
+    return {k: cfg[k] for k in ("faq", "other")}
 
 
 # serve react frontend on root in production - DEV benefits from live reloads

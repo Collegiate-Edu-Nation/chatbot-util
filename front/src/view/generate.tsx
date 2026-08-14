@@ -44,7 +44,7 @@ function Generate({
   LLMStatus: number;
   folderStatus: boolean;
 }) {
-  const baseURL = "http://127.0.0.1:8080/api";
+  const baseURL = "/api";
 
   const [files, setFiles] = useState<File[] | undefined>();
   const [appConfig, setAppConfig] = useState(["", ""]);

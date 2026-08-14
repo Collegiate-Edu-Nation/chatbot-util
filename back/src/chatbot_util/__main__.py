@@ -11,11 +11,17 @@ import uvicorn
 
 from chatbot_util import chain, file_io, utils
 
+DEFAULT_HOST = "127.0.0.1"
+DEFAULT_PORT = 8080
+
 
 def main() -> None:
     """Start uvicorn server"""
-    host = "127.0.0.1"
-    port = 8080
+    cfg = file_io.read_config()
+    fallback_host = os.getenv("HOST", DEFAULT_HOST)
+    fallback_port = int(os.getenv("PORT", str(DEFAULT_PORT)))
+    host = cfg["host"] if cfg["host"] != "" else fallback_host
+    port = int(cfg["port"]) if cfg["port"] != "" else fallback_port
 
     uvicorn.run(
         "chatbot_util.api:app",

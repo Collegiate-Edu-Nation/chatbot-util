@@ -52,7 +52,7 @@ function Header({
   folderStatus: boolean;
   setFolderStatus: (val: boolean) => void;
 }) {
-  const baseURL = "http://127.0.0.1:8080/api";
+  const baseURL = "/api";
 
   async function health() {
     const url = baseURL + "/health";
