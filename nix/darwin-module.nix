@@ -10,6 +10,11 @@
 }:
 
 let
+  defaultUser = "root";
+  defaultGroup = "wheel";
+  configDir = "/etc/chatbot-util";
+  dataDir = "/Library/Application Support/chatbot-util";
+  logFile = "/var/log/chatbot-util.log";
   cfg = config.services.chatbot-util;
 in
 {
@@ -21,6 +26,18 @@ in
       default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
       defaultText = lib.literalExpression "inputs.chatbot-util.packages.${pkgs.stdenv.hostPlatform.system}.default";
       description = "The chatbot-util package to run.";
+    };
+
+    user = lib.mkOption {
+      type = lib.types.str;
+      default = defaultUser;
+      description = "User account under which chatbot-util runs.";
+    };
+
+    group = lib.mkOption {
+      type = lib.types.str;
+      default = defaultGroup;
+      description = "Group under which chatbot-util runs.";
     };
 
     host = lib.mkOption {
@@ -37,24 +54,27 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    system.activationScripts.launchd.text = lib.mkBefore ''
+      ${pkgs.coreutils}/bin/install -d -m 0750 -o ${cfg.user} -g ${cfg.group} \
+        ${lib.escapeShellArg configDir} \
+        ${lib.escapeShellArg dataDir}
+    '';
+
     launchd.daemons.chatbot-util = {
-      script = ''
-        ${pkgs.coreutils}/bin/install -d -m 0750 -o root -g wheel /etc/chatbot-util
-        cd /etc/chatbot-util
-        exec ${cfg.package}/bin/chatbot-util
-      '';
+      command = "${cfg.package}/bin/chatbot-util";
 
       serviceConfig = {
         EnvironmentVariables = {
           HOST = cfg.host;
           PORT = toString cfg.port;
         };
-        UserName = "root";
-        GroupName = "wheel";
+        UserName = cfg.user;
+        GroupName = cfg.group;
         KeepAlive = true;
         ProcessType = "Background";
         RunAtLoad = true;
-        StandardOutPath = "/var/log/chatbot-util.log";
+        StandardOutPath = logFile;
+        WorkingDirectory = dataDir;
         Umask = 23;
       };
     };

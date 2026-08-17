@@ -12,6 +12,8 @@
 let
   defaultUser = "chatbot-util";
   defaultGroup = "chatbot-util";
+  configDir = "/etc/chatbot-util";
+  dataDir = "/var/lib/chatbot-util";
   cfg = config.services.chatbot-util;
 in
 {
@@ -51,18 +53,20 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    users = lib.mkIf (cfg.user == defaultUser) {
-      ${defaultUser} = {
-        description = "chatbot-util service user";
-        inherit (cfg) group;
-        home = "/etc/chatbot-util";
-        isSystemUser = true;
+    users = {
+      users = lib.mkIf (cfg.user == defaultUser) {
+        ${defaultUser} = {
+          description = "chatbot-util service user";
+          inherit (cfg) group;
+          home = configDir;
+          isSystemUser = true;
+        };
       };
+      groups = lib.mkIf (cfg.group == defaultGroup) { ${defaultGroup} = { }; };
     };
-    groups = lib.mkIf (cfg.group == defaultGroup) { ${defaultGroup} = { }; };
 
     systemd.tmpfiles.rules = [
-      "d /etc/chatbot-util 0750 chatbot-util chatbot-util -"
+      "d ${configDir} 0750 ${cfg.user} ${cfg.group} -"
     ];
 
     systemd.services.chatbot-util = {
@@ -76,17 +80,19 @@ in
 
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/chatbot-util";
-        User = "chatbot-util";
-        Group = "chatbot-util";
+        User = cfg.user;
+        Group = cfg.group;
         NoNewPrivileges = true;
         PrivateDevices = true;
         PrivateTmp = true;
         ProtectHome = true;
         ProtectSystem = "strict";
-        ReadWritePaths = [ "/etc/chatbot-util" ];
+        StateDirectory = "chatbot-util";
+        StateDirectoryMode = "0750";
+        ReadWritePaths = [ configDir ];
+        WorkingDirectory = dataDir;
         Restart = "on-failure";
         UMask = "0027";
-        WorkingDirectory = "/etc/chatbot-util";
       };
     };
   };

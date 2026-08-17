@@ -5,6 +5,7 @@
 
 import csv
 import os
+import platform
 import tomllib
 
 import fastapi
@@ -12,7 +13,14 @@ import fastapi
 from chatbot_util import utils
 
 DEV = True if os.getenv("DEV", "false") == "true" else False
-DIR = os.path.expanduser("~/.chatbot-util") if DEV else "/etc/chatbot-util"
+LINUX_DATA_HOME = "/var/lib/chatbot-util"
+DARWIN_DATA_HOME = "/Library/Application Support/chatbot-util"
+DIR = (
+    (os.path.expanduser("~/.chatbot-util") if DEV else LINUX_DATA_HOME)
+    if platform.system() == "Linux"
+    else (os.path.expanduser(f"~{DARWIN_DATA_HOME}") if DEV else DARWIN_DATA_HOME)
+)
+CFG_DIR = os.path.expanduser("~/.config/chatbot-util") if DEV else "/etc/chatbot-util"
 FAQ = "FAQ - Enter Here.csv"
 OTHER = "Other.txt"
 PERMUTATED = "Permutated.csv"
@@ -21,7 +29,7 @@ FILENAMES = {
     "faq": f"{DIR}/{FAQ}",
     "other": f"{DIR}/{OTHER}",
     "permutated": f"{DIR}/{PERMUTATED}",
-    "config": f"{DIR}/{CONFIG}",
+    "config": f"{CFG_DIR}/{CONFIG}",
 }
 
 
