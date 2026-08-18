@@ -35,7 +35,7 @@ ollama pull mistral
 
 Before the FAQ can be extended by the LLM, download the initial FAQ and a list of teams, employees, phrases to substitute, and answers. An optional configuration file can also be downloaded to enable both remote Ollama servers and faster document access in the future (see docs for more explanation)
 
-Once downloaded, create the extended FAQ in `/etc/chatbot-util/` by
+Once downloaded, create the extended FAQ in the OS-specific data directory by
 
 - Launching both the back and frontends (follow one of [Nix](#nix) or [Non-Nix](#non-nix))
 - Navigating to http://localhost:8080
@@ -46,11 +46,11 @@ Once the operation completes, the extended FAQ will be available to upload via G
 
 ### Nix
 
-For a one-off run, first create the data directory with access for your current
-user:
+For a one-off run, first create the data directory with access for your current user (substituting `/var/lib` -> `/Library/Application Support` on macOS):
 
 ```shell
 sudo install -d -m 0750 -o "$(id -un)" -g "$(id -gn)" /etc/chatbot-util
+sudo install -d -m 0750 -o "$(id -un)" -g "$(id -gn)" /var/lib/chatbot-util
 ```
 
 Then launch chatbot-util:
@@ -58,11 +58,6 @@ Then launch chatbot-util:
 ```shell
 nix run github:collegiate-edu-nation/chatbot-util
 ```
-
-The listening host and port default to `127.0.0.1:8080`. Set them through `config.toml` or, as fallbacks when the file does not contain the corresponding `[server]` entries, through the environment
-
-Using `0.0.0.0` exposes the service on every available network interface, which is useful in a container but should only be used with appropriate network access
-controls.
 
 Leverage our binary cache by adding [Cachix] to your nix-config
 
@@ -73,7 +68,7 @@ nix.settings.trusted-public-keys = [ "edu-nation.cachix.org-1:S2s7ZDuLeFrV2qhfzX
 
 ### Non-Nix
 
-Build the frontend (tested with node v24.18.1)
+After creating the relevant directories per [Nix](#nix), build the frontend (tested with node v24.18.1)
 
 ```shell
 {
@@ -113,29 +108,9 @@ inputs = {
 }
 ```
 
-Then, add chatbot-util to your packages
+Then, add chatbot-util as a system service
 
-> For system wide installation in `configuration.nix`
-
-```nix
-environment.systemPackages = with pkgs; [
-  inputs.chatbot-util.packages.${system}.default
-];
-```
-
-> For user level installation in `home.nix`
-
-```nix
-home.packages = with pkgs; [
-  inputs.chatbot-util.packages.${system}.default
-];
-```
-
-#### System service
-
-The flake also exports modules that run chatbot-util at boot and provision
-`/etc/chatbot-util/` with the permissions needed for uploads. Enable the NixOS
-module in your system configuration with
+> On NixOS
 
 ```nix
 {
@@ -148,7 +123,7 @@ module in your system configuration with
 }
 ```
 
-For nix-darwin, use the corresponding launch daemon module:
+> On nix-darwin
 
 ```nix
 {
@@ -163,9 +138,7 @@ For nix-darwin, use the corresponding launch daemon module:
 
 After rebuilding the system, the service is available on the configured port.
 
-The Nix module options supply the `HOST` and `PORT` fallbacks, so `[server].host`
-and `[server].port` in `/etc/chatbot-util/config.toml` take precedence when
-present.
+The Nix module options supply `HOST` and `PORT`, so they take precedence over `[server].host` and `[server].port` in `/etc/chatbot-util/config.toml`.
 
 This enables publicizing the server configuration w/o exposing links to sensitive files (e.g., the FAQ)
 

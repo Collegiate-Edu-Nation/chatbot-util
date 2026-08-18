@@ -42,13 +42,13 @@ in
     host = lib.mkOption {
       type = lib.types.str;
       default = "127.0.0.1";
-      description = "Fallback host for chatbot-util when server.host is not set in config.toml.";
+      description = "Listening host for chatbot-util; overrides server.host in config.toml.";
     };
 
     port = lib.mkOption {
       type = lib.types.port;
       default = 8080;
-      description = "Fallback port for chatbot-util when server.port is not set in config.toml.";
+      description = "Listening port for chatbot-util; overrides server.port in config.toml.";
     };
   };
 

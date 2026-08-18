@@ -36,12 +36,12 @@
 
       nixosModules = rec {
         default = chatbot-util;
-        chatbot-util = import ./nix/nixos-module.nix { inherit self; };
+        chatbot-util = import ./nix/nixos.nix { inherit self; };
       };
 
       darwinModules = rec {
         default = chatbot-util;
-        chatbot-util = import ./nix/darwin-module.nix { inherit self; };
+        chatbot-util = import ./nix/darwin.nix { inherit self; };
       };
     };
 }

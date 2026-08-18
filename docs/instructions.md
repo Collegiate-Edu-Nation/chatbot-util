@@ -146,7 +146,7 @@ other = "https://drive.google.com/file/d/identifier/view?usp=drive_link"
 
 ### Update
 
-The `[server].host` and `[server].port` values take precedence over the `HOST` and `PORT` environment variables. The host and port default to `127.0.0.1` and `8080`, respectively. Server changes take effect after restarting chatbot-util.
+The `HOST` and `PORT` environment variables take precedence over `[server].host` and `[server].port`. The host and port default to `127.0.0.1` and `8080`, respectively. Server changes take effect after restarting chatbot-util.
 
 If the direct links to the files change (which happens often with `Other.txt`), simply update the links in this file. Link changes will be automatically reflected on the UI within a short period of time
 

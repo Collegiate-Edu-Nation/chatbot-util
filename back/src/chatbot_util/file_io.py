@@ -43,15 +43,6 @@ def read_config() -> dict[str, str]:
         "other": "",
     }
 
-    # assign the fallbacks early in case the config
-    # doesn't exist
-    host = os.getenv("HOST")
-    port = os.getenv("PORT")
-    if host is not None:
-        cfg["host"] = host
-    if port is not None:
-        cfg["port"] = port
-
     try:
         with open(FILENAMES["config"], "rb") as f:
             config = tomllib.load(f)
@@ -89,6 +80,14 @@ def read_config() -> dict[str, str]:
         utils.logger.warning(
             "Failed to load config.toml. Defaulting to 127.0.0.1 and empty links"
         )
+
+    # Environment variables override config.toml when present.
+    host = os.getenv("HOST")
+    port = os.getenv("PORT")
+    if host is not None:
+        cfg["host"] = host
+    if port is not None:
+        cfg["port"] = port
 
     return cfg
 
