@@ -49,8 +49,10 @@ Once the operation completes, the extended FAQ will be available to upload via G
 For a one-off run, first create the data directory with access for your current user (substituting `/var/lib` -> `/Library/Application Support` on macOS):
 
 ```shell
+{
 sudo install -d -m 0750 -o "$(id -un)" -g "$(id -gn)" /etc/chatbot-util
 sudo install -d -m 0750 -o "$(id -un)" -g "$(id -gn)" /var/lib/chatbot-util
+}
 ```
 
 Then launch chatbot-util:
