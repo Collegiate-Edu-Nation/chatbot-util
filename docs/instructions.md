@@ -116,7 +116,7 @@ Store this file at `/etc/chatbot-util/config.toml`.
 | Entry | Description                         |
 | ----- | ----------------------------------- |
 | host  | Listening host (enclosed in quotes) |
-| port  | Listening port (enclosed in quotes) |
+| port  | Listening port (integer)            |
 
 - The second section corresponds to settings relevant for the Ollama server
 
@@ -134,7 +134,7 @@ Store this file at `/etc/chatbot-util/config.toml`.
 ```text
 [server]
 host = "127.0.0.1"
-port = "8080"
+port = 8080
 
 [ollama]
 url = "http://127.0.0.1:11434"

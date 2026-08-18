@@ -7,6 +7,7 @@ import csv
 import os
 import platform
 import tomllib
+from typing import TypedDict
 
 import fastapi
 
@@ -33,11 +34,21 @@ FILENAMES = {
 }
 
 
-def read_config() -> dict[str, str]:
-    """Read links from config file"""
-    cfg: dict[str, str] = {
+class Config(TypedDict):
+    """Resolved application configuration model"""
+
+    host: str
+    port: int
+    url: str
+    faq: str
+    other: str
+
+
+def read_config() -> Config:
+    """Read and resolve application configuration"""
+    cfg: Config = {
         "host": "127.0.0.1",
-        "port": "8080",
+        "port": 8080,
         "url": "http://127.0.0.1:11434",
         "faq": "",
         "other": "",
@@ -56,30 +67,26 @@ def read_config() -> dict[str, str]:
         #
         # main area of improvement here is to parse
         # each specific entry, but this works for now
-        server: dict[str, str]
-        try:
-            server = config["server"]
-        except Exception:
-            server = {"host": cfg["host"], "port": cfg["port"]}
+        values: dict[str, object] = {}
+        for section in ("server", "ollama", "links"):
+            try:
+                section_values: dict[str, object] = config[section]
+                values.update(section_values)
+            except Exception:
+                pass
 
-        ollama: dict[str, str]
-        try:
-            ollama = config["ollama"]
-        except Exception:
-            ollama = {k: cfg[k] for k in ("url")}
+        # convert the toml's values to type-safe config entries
+        for key in ("host", "url", "faq", "other"):
+            value = values.get(key)
+            if isinstance(value, str):
+                cfg[key] = value
 
-        links: dict[str, str]
-        try:
-            links = config["links"]
-        except Exception:
-            links = {k: cfg[k] for k in ("faq", "other")}
-
-        cfg = server | ollama | links
+        configured_port = values.get("port")
+        if isinstance(configured_port, int):
+            cfg["port"] = configured_port
 
     except Exception:
-        utils.logger.warning(
-            "Failed to load config.toml. Defaulting to 127.0.0.1 and empty links"
-        )
+        utils.logger.warning("Failed to load config.toml")
 
     # Environment variables override config.toml when present.
     host = os.getenv("HOST")
@@ -87,7 +94,7 @@ def read_config() -> dict[str, str]:
     if host is not None:
         cfg["host"] = host
     if port is not None:
-        cfg["port"] = port
+        cfg["port"] = int(port)
 
     return cfg
 

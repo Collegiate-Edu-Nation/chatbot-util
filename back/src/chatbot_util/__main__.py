@@ -11,20 +11,15 @@ import uvicorn
 
 from chatbot_util import chain, file_io, utils
 
-DEFAULT_HOST = "127.0.0.1"
-DEFAULT_PORT = 8080
-
 
 def main() -> None:
     """Start uvicorn server"""
     cfg = file_io.read_config()
-    host = cfg["host"]
-    port = int(cfg["port"])
 
     uvicorn.run(
         "chatbot_util.api:app",
-        host=host,
-        port=port,
+        host=cfg["host"],
+        port=cfg["port"],
     )
 
 

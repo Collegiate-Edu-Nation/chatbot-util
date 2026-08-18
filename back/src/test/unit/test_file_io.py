@@ -11,7 +11,7 @@ from .. import utilities
 class TestFileIO(unittest.TestCase):
     def test_read_config(self):
         lines = [
-            '[server]\nhost = "127.0.0.1"\nport = "8080"\n\n',
+            '[server]\nhost = "127.0.0.1"\nport = 8080\n\n',
             '[ollama]\nurl = "http://127.0.0.1:11434"\n\n[links]\n',
             'faq = "abc"\n',
             'other = "def"\n',
@@ -20,7 +20,7 @@ class TestFileIO(unittest.TestCase):
         with utilities.TestFileContent(lines) as temp_file:
             expected_config = {
                 "host": "127.0.0.1",
-                "port": "8080",
+                "port": 8080,
                 "url": "http://127.0.0.1:11434",
                 "faq": "abc",
                 "other": "def",
