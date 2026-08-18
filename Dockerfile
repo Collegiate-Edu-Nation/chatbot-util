@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM node:24.18.1-bookworm-slim AS frontend
+FROM docker.io/library/node:24.18.1-bookworm-slim AS frontend
 
 WORKDIR /build
 
@@ -11,7 +11,7 @@ COPY front/ ./
 RUN npm run build
 
 
-FROM python:3.14.6-slim-bookworm AS backend
+FROM docker.io/library/python:3.14.6-slim-bookworm AS backend
 
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
@@ -25,7 +25,7 @@ COPY back/src/ ./src/
 RUN pip install --no-cache-dir .
 
 
-FROM python:3.14.6-slim-bookworm AS runtime
+FROM docker.io/library/python:3.14.6-slim-bookworm AS runtime
 
 ENV FRONT_DIR=/opt/chatbot-util/front \
     HOST=0.0.0.0 \

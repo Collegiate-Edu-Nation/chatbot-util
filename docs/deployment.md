@@ -45,17 +45,17 @@ The deployment workflow uses Workload Identity Federation, so it does not need a
 
 Environment variables:
 
-| Name                             | Example                                                                                     |
-| -------------------------------- | ------------------------------------------------------------------------------------------- |
-| `GCP_PROJECT_ID`                 | `my-project`                                                                                |
-| `GCP_REGION`                     | `us-central1`                                                                               |
-| `GCP_CLOUD_RUN_SERVICE`          | `chatbot-util`                                                                              |
-| `GCP_DATA_BUCKET`                | `my-project-chatbot-util`                                                                   |
-| `GCP_DEPLOY_SERVICE_ACCOUNT`     | `github-deployer@my-project.iam.gserviceaccount.com`                                         |
-| `GCP_RUNTIME_SERVICE_ACCOUNT`    | `chatbot-util@my-project.iam.gserviceaccount.com`                                            |
-| `GCP_WORKLOAD_IDENTITY_PROVIDER` | `projects/123456789/locations/global/workloadIdentityPools/github/providers/chatbot-util`    |
-| `FAQ_URL`                        | Optional URL displayed by the UI                                                            |
-| `OTHER_URL`                      | Optional URL displayed by the UI                                                            |
+| Name                             | Example                                                                                   |
+| -------------------------------- | ----------------------------------------------------------------------------------------- |
+| `GCP_PROJECT_ID`                 | `my-project`                                                                              |
+| `GCP_REGION`                     | `us-central1`                                                                             |
+| `GCP_CLOUD_RUN_SERVICE`          | `chatbot-util`                                                                            |
+| `GCP_DATA_BUCKET`                | `my-project-chatbot-util`                                                                 |
+| `GCP_DEPLOY_SERVICE_ACCOUNT`     | `github-deployer@my-project.iam.gserviceaccount.com`                                      |
+| `GCP_RUNTIME_SERVICE_ACCOUNT`    | `chatbot-util@my-project.iam.gserviceaccount.com`                                         |
+| `GCP_WORKLOAD_IDENTITY_PROVIDER` | `projects/123456789/locations/global/workloadIdentityPools/github/providers/chatbot-util` |
+| `FAQ_URL`                        | Optional URL displayed by the UI                                                          |
+| `OTHER_URL`                      | Optional URL displayed by the UI                                                          |
 
 Add `OLLAMA_URL` as an environment secret. The remote server must contain the `mistral` model and be reachable from Cloud Run.
 
