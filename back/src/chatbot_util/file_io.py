@@ -90,9 +90,19 @@ def read_config() -> Config:
 
     # Environment variables override config.toml when present.
     host = os.getenv("HOST")
+    ollama_url = os.getenv("OLLAMA_URL")
+    faq_url = os.getenv("FAQ_URL")
+    other_url = os.getenv("OTHER_URL")
     port = os.getenv("PORT")
+
     if host is not None:
         cfg["host"] = host
+    if ollama_url is not None:
+        cfg["url"] = ollama_url
+    if faq_url is not None:
+        cfg["faq"] = faq_url
+    if other_url is not None:
+        cfg["other"] = other_url
     if port is not None:
         cfg["port"] = int(port)
 

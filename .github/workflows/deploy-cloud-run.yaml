@@ -1,0 +1,54 @@
+name: deploy-cloud-run
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        description: Public GHCR image tag or digest to deploy
+        required: true
+        type: string
+        default: ghcr.io/collegiate-edu-nation/chatbot-util:latest
+
+concurrency:
+  group: deploy-cloud-run-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment: production
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@2028e2d7d30a78c6910e0632e48dd561b064884d # v3.0.1
+        with:
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+          service: ${{ vars.GCP_CLOUD_RUN_SERVICE }}
+          region: ${{ vars.GCP_REGION }}
+          image: ${{ inputs.image }}
+          env_vars: |
+            FAQ_URL=${{ vars.FAQ_URL }}
+            OLLAMA_URL=${{ secrets.OLLAMA_URL }}
+            OTHER_URL=${{ vars.OTHER_URL }}
+          flags: >-
+            --execution-environment=gen2
+            --max-instances=1
+            --timeout=3600
+            --service-account=${{ vars.GCP_RUNTIME_SERVICE_ACCOUNT }}
+            --add-volume=mount-path=/var/lib/chatbot-util,type=cloud-storage,bucket=${{ vars.GCP_DATA_BUCKET }},readonly=false,mount-options="uid=10001;gid=10001"
+
+      - name: Summarize deployment
+        run: echo "Deployed to ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"

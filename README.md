@@ -150,6 +150,20 @@ As this is currently just an internal tool, we don't have plans to streamline th
 
 However, wrapping the backend's python executable with the location of the built `FRONT_DIR` before adding it to your path should do the trick. See the `postInstall` script in [package.nix] for further reference. The process must also have read/write access to `/etc/chatbot-util/`
 
+## Containers and Cloud Run
+
+Build and run the complete app locally with Docker Compose:
+
+```shell
+docker compose up --build
+```
+
+The image connects to Ollama outside the app container. Set `OLLAMA_URL` when it is not available at `http://host.docker.internal:11434`.
+
+Publishing a semantic-versioned GitHub Release builds `linux/amd64` and publishes it to `ghcr.io/collegiate-edu-nation/chatbot-util`. A separate, manually triggered workflow deploys an immutable image to Cloud Run through Google Workload Identity Federation.
+
+See the [container deployment guide] for local configuration, GHCR visibility, GCP setup, persistent storage, and the app's current Cloud Run constraints.
+
 ## Advanced Usage
 
 ### Verification
@@ -183,3 +197,4 @@ If this isn't important for your use-case, leverage the `feat-concurrent-request
 [Cachix]: https://www.cachix.org/
 [GPLv3]: COPYING
 [package.nix]: nix/package.nix
+[container deployment guide]: docs/deployment.md

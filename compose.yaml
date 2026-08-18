@@ -1,0 +1,23 @@
+name: chatbot-util
+
+services:
+  app:
+    build:
+      context: .
+      target: runtime
+    image: chatbot-util:local
+    environment:
+      FAQ_URL: "${FAQ_URL:-}"
+      OLLAMA_URL: "${OLLAMA_URL:-http://host.docker.internal:11434}"
+      OTHER_URL: "${OTHER_URL:-}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "${CHATBOT_PORT:-8080}:8080"
+    volumes:
+      - chatbot-config:/etc/chatbot-util
+      - chatbot-data:/var/lib/chatbot-util
+
+volumes:
+  chatbot-config:
+  chatbot-data:

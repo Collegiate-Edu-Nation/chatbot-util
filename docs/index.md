@@ -8,6 +8,7 @@ hide:
 ## What's here?
 
 - Instructions
+- Container and Cloud Run deployment
 - Source code reference for both the backend and frontend
 
 ## What's in the README?
