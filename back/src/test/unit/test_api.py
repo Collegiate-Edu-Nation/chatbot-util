@@ -18,12 +18,26 @@ class TestChain(unittest.TestCase):
         # monkey patch to simulate current generation
         api.allow_generate = False
 
-        response = client.post("/api/generate")
+        response = client.post(
+            "/api/generate",
+            headers={api.auth.APPLICATION_REQUEST_HEADER: "1"},
+        )
         assert response.status_code == 429
         assert response.json() == {"verified": None}
 
         # reset monkey patch to prevent muddying state for other tests
         api.allow_generate = True
+
+    def test_generate_rejects_request_without_application_marker(self):
+        response = client.post("/api/generate")
+        assert response.status_code == 403
+        assert response.json() == {"detail": "Missing application request marker"}
+
+    def test_session_reports_local_mode(self):
+        response = client.get("/api/session")
+        assert response.status_code == 200
+        assert response.json() == {"authenticated": False, "user": None}
+        assert response.headers["cache-control"] == "no-store"
 
     def test_progress(self):
         response = client.get("/api/progress")

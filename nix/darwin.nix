@@ -51,6 +51,46 @@ in
       default = 8080;
       description = "Listening port for chatbot-util; overrides server.port in config.toml.";
     };
+
+    proxyAuth = {
+      enable = lib.mkEnableOption "authentication asserted by a trusted reverse proxy";
+
+      userHeader = lib.mkOption {
+        type = lib.types.str;
+        default = "X-Authenticated-User";
+        description = ''
+          Request header in which the trusted reverse proxy supplies the
+          authenticated user. The service must remain unreachable except through
+          that proxy when this option is enabled.
+        '';
+      };
+    };
+
+    ollama = {
+      host = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        example = "https://ollama.com";
+        description = "Optional Ollama API host; overrides ollama.url in config.toml.";
+      };
+
+      model = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        example = "gpt-oss:120b";
+        description = "Optional Ollama model; overrides ollama.model in config.toml.";
+      };
+
+      apiKeyFile = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        example = "/run/secrets/chatbot-util-ollama-api-key";
+        description = ''
+          Runtime path to the Ollama API key. The path is passed to the service
+          without copying the secret into the Nix store.
+        '';
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -67,6 +107,17 @@ in
         EnvironmentVariables = {
           HOST = cfg.host;
           PORT = toString cfg.port;
+          CHATBOT_UTIL_PROXY_AUTH = lib.boolToString cfg.proxyAuth.enable;
+          CHATBOT_UTIL_AUTH_HEADER = cfg.proxyAuth.userHeader;
+        }
+        // lib.optionalAttrs (cfg.ollama.host != null) {
+          OLLAMA_HOST = cfg.ollama.host;
+        }
+        // lib.optionalAttrs (cfg.ollama.model != null) {
+          OLLAMA_MODEL = cfg.ollama.model;
+        }
+        // lib.optionalAttrs (cfg.ollama.apiKeyFile != null) {
+          OLLAMA_API_KEY_FILE = cfg.ollama.apiKeyFile;
         };
         UserName = cfg.user;
         GroupName = cfg.group;

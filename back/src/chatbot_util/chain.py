@@ -3,9 +3,7 @@
 
 """Setup language model and output parser, then generate and append new questions"""
 
-from ollama import Client
-
-from chatbot_util import file_io, utils
+from chatbot_util import ollama_client, utils
 
 
 class Progress:
@@ -79,14 +77,9 @@ def parse(response: str, phrases: list[list[str]]) -> list[str]:
 def invoke(prompt: str, phrases: list[list[str]]) -> list[str]:
     """Define chat model, then create the chain"""
     options = {"seed": 39}
-    host = file_io.read_config()["url"]
-    response = Client(host=host).generate(
-        model="mistral",
-        prompt=prompt,
-        options=options,
-    )
+    response = ollama_client.generate(prompt, options)
 
-    cleaned_response = parse(response["response"], phrases)
+    cleaned_response = parse(response, phrases)
     return cleaned_response
 
 

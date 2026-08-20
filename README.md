@@ -15,9 +15,9 @@ _Docs cover instructions and source code reference_
 
 ## Setup
 
-**Must install Ollama (or at least have access to a valid installation at a remote URL) before running anything**
+Local development defaults to Ollama at `http://127.0.0.1:11434`. Production can instead connect directly to Ollama Cloud with an API key; see the [Apache OIDC deployment guide].
 
-Start Ollama server<br>
+For local development, start the Ollama server<br>
 _I recommend running Ollama as a system service to avoid running this all the time_
 
 ```shell
@@ -142,6 +142,14 @@ After rebuilding the system, the service is available on the configured port.
 
 The Nix module options supply `HOST` and `PORT`, so they take precedence over `[server].host` and `[server].port` in `/etc/chatbot-util/config.toml`.
 
+When deploying behind an authenticating reverse proxy, enable the application's trusted-proxy boundary:
+
+```nix
+services.chatbot-util.proxyAuth.enable = true;
+```
+
+Keep the application listener on loopback and configure the proxy to overwrite `X-Authenticated-User` with the authenticated account. See the [Apache OIDC deployment guide] for the complete application/proxy contract.
+
 This enables publicizing the server configuration w/o exposing links to sensitive files (e.g., the FAQ)
 
 ### Non-Nix
@@ -183,3 +191,4 @@ If this isn't important for your use-case, leverage the `feat-concurrent-request
 [Cachix]: https://www.cachix.org/
 [GPLv3]: COPYING
 [package.nix]: nix/package.nix
+[Apache OIDC deployment guide]: docs/apache-oidc.md

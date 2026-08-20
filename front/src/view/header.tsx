@@ -5,6 +5,7 @@ import useInterval from "react-useinterval";
 import { toast } from "sonner";
 import logo from "../assets/logo.png";
 import logger, { message } from "../util/logger.ts";
+import { apiFetch, isAuthenticationRequired } from "../util/api.ts";
 import {
   Popover,
   PopoverContent,
@@ -56,19 +57,25 @@ function Header({
 
   async function health() {
     const url = baseURL + "/health";
-    const response = await fetch(url);
-    const result = response.status;
-    setLLMStatus(result);
+    try {
+      const response = await apiFetch(url);
+      const result = response.status;
+      setLLMStatus(result);
+    } catch (error) {
+      if (!isAuthenticationRequired(error))
+        logger.error(message("get", "health", error));
+    }
   }
 
   async function files() {
     const url = baseURL + "/files";
     try {
-      const response = await fetch(url);
+      const response = await apiFetch(url);
       const result = await response.json();
       setFolderStatus(result.present);
     } catch (error) {
-      logger.error(message("get", "files", error));
+      if (!isAuthenticationRequired(error))
+        logger.error(message("get", "files", error));
     }
   }
 

@@ -41,6 +41,7 @@ markdown_extensions:
 nav:
   - Welcome: index.md
   - instructions.md
+  - Apache OIDC deployment: apache-oidc.md
   - backend.md
   - Frontend: front/index.html
   - license.md

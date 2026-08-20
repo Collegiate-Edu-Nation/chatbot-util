@@ -1,7 +1,9 @@
 # SPDX-FileCopyrightText: Collegiate Edu-Nation
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import os
 import unittest
+from unittest import mock
 
 from chatbot_util import file_io, utils
 
@@ -12,7 +14,7 @@ class TestFileIO(unittest.TestCase):
     def test_read_config(self):
         lines = [
             '[server]\nhost = "127.0.0.1"\nport = 8080\n\n',
-            '[ollama]\nurl = "http://127.0.0.1:11434"\n\n[links]\n',
+            '[ollama]\nurl = "http://127.0.0.1:11434"\nmodel = "mistral"\n\n[links]\n',
             'faq = "abc"\n',
             'other = "def"\n',
         ]
@@ -22,6 +24,7 @@ class TestFileIO(unittest.TestCase):
                 "host": "127.0.0.1",
                 "port": 8080,
                 "url": "http://127.0.0.1:11434",
+                "model": "mistral",
                 "faq": "abc",
                 "other": "def",
             }
@@ -34,6 +37,25 @@ class TestFileIO(unittest.TestCase):
 
             # reset monkey patch to prevent muddying state for other tests
             file_io.FILENAMES["config"] = f"{file_io.DIR}/{file_io.CONFIG}"
+
+    def test_ollama_environment_overrides_config(self):
+        lines = ['[ollama]\nurl = "http://127.0.0.1:11434"\nmodel = "mistral"\n']
+
+        with utilities.TestFileContent(lines) as temp_file:
+            with (
+                mock.patch.dict(file_io.FILENAMES, {"config": temp_file.filename}),
+                mock.patch.dict(
+                    os.environ,
+                    {
+                        "OLLAMA_HOST": "https://ollama.com",
+                        "OLLAMA_MODEL": "gpt-oss:120b",
+                    },
+                ),
+            ):
+                config = file_io.read_config()
+
+        assert config["url"] == "https://ollama.com"
+        assert config["model"] == "gpt-oss:120b"
 
     def test_read_employees(self):
         lines = ["A Bcdef:G Hi:His\n", "::\n"]

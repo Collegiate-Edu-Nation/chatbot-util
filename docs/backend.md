@@ -15,6 +15,11 @@ hide:
     ## api.py
     ::: src.chatbot_util.api
 
+=== "auth.py"
+
+    ## auth.py
+    ::: src.chatbot_util.auth
+
 === "chain.py"
 
     ## chain.py
@@ -24,6 +29,11 @@ hide:
 
     ## file_io.py
     ::: src.chatbot_util.file_io
+
+=== "ollama_client.py"
+
+    ## ollama_client.py
+    ::: src.chatbot_util.ollama_client
 
 === "utils.py"
 

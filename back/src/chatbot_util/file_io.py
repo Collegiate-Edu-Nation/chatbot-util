@@ -40,6 +40,7 @@ class Config(TypedDict):
     host: str
     port: int
     url: str
+    model: str
     faq: str
     other: str
 
@@ -50,6 +51,7 @@ def read_config() -> Config:
         "host": "127.0.0.1",
         "port": 8080,
         "url": "http://127.0.0.1:11434",
+        "model": "mistral",
         "faq": "",
         "other": "",
     }
@@ -76,7 +78,7 @@ def read_config() -> Config:
                 pass
 
         # convert the toml's values to type-safe config entries
-        for key in ("host", "url", "faq", "other"):
+        for key in ("host", "url", "model", "faq", "other"):
             value = values.get(key)
             if isinstance(value, str):
                 cfg[key] = value
@@ -91,10 +93,16 @@ def read_config() -> Config:
     # Environment variables override config.toml when present.
     host = os.getenv("HOST")
     port = os.getenv("PORT")
+    ollama_host = os.getenv("OLLAMA_HOST")
+    ollama_model = os.getenv("OLLAMA_MODEL")
     if host is not None:
         cfg["host"] = host
     if port is not None:
         cfg["port"] = int(port)
+    if ollama_host is not None:
+        cfg["url"] = ollama_host
+    if ollama_model is not None:
+        cfg["model"] = ollama_model
 
     return cfg
 

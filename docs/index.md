@@ -8,6 +8,7 @@ hide:
 ## What's here?
 
 - Instructions
+- Apache OIDC deployment
 - Source code reference for both the backend and frontend
 
 ## What's in the README?

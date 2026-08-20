@@ -120,9 +120,10 @@ Store this file at `/etc/chatbot-util/config.toml`.
 
 - The second section corresponds to settings relevant for the Ollama server
 
-| Entry | Description                                   |
-| ----- | --------------------------------------------- |
-| url   | URL of the Ollama server (enclosed in quotes) |
+| Entry | Description                                |
+| ----- | ------------------------------------------ |
+| url   | URL of the Ollama API (enclosed in quotes) |
+| model | Ollama model name (enclosed in quotes)     |
 
 - The third section corresponds to the links to relevant documents
 
@@ -138,6 +139,7 @@ port = 8080
 
 [ollama]
 url = "http://127.0.0.1:11434"
+model = "mistral"
 
 [links]
 faq = "https://docs.google.com/spreadsheets/d/identifier/edit?usp=drive_link"
@@ -146,7 +148,9 @@ other = "https://drive.google.com/file/d/identifier/view?usp=drive_link"
 
 ### Update
 
-The `HOST` and `PORT` environment variables take precedence over `[server].host` and `[server].port`. The host and port default to `127.0.0.1` and `8080`, respectively. Server changes take effect after restarting chatbot-util.
+The `HOST` and `PORT` environment variables take precedence over `[server].host` and `[server].port`. Likewise, `OLLAMA_HOST` and `OLLAMA_MODEL` take precedence over `[ollama].url` and `[ollama].model`. Defaults are `127.0.0.1`, `8080`, `http://127.0.0.1:11434`, and `mistral`, respectively. Server changes take effect after restarting chatbot-util.
+
+Ollama Cloud also requires `OLLAMA_API_KEY` or a protected file referenced by `OLLAMA_API_KEY_FILE`. Never put an API key in `config.toml`: the file can be uploaded through the application and is not intended to store secrets.
 
 If the direct links to the files change (which happens often with `Other.txt`), simply update the links in this file. Link changes will be automatically reflected on the UI within a short period of time
 
@@ -164,10 +168,10 @@ The [Overall Status](#overall-status-check-icon) gives an overview of whether yo
 
 ### Ollama Status (Brain Icon)
 
-| Color                                    | Meaning                                                                  |
-| ---------------------------------------- | ------------------------------------------------------------------------ |
-| <span style="color:green;">&#9679</span> | Ollama and `mistral` are installed on your device                        |
-| <span style="color:red;">&#9679</span>   | Ollama and/or `mistral` are NOT installed on your device. See the README |
+| Color                                    | Meaning                                                       |
+| ---------------------------------------- | ------------------------------------------------------------- |
+| <span style="color:green;">&#9679</span> | The configured Ollama API and model are available             |
+| <span style="color:red;">&#9679</span>   | The configured Ollama API or model is unavailable or rejected |
 
 ### Folder Status (Folder Icon)
 

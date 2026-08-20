@@ -9,11 +9,13 @@ import time
 import fastapi
 import fastapi.middleware.cors
 import fastapi.staticfiles
-from ollama import Client
 
-from chatbot_util import __main__, chain, file_io, utils
+from chatbot_util import __main__, auth, chain, file_io, ollama_client, utils
 
 app = fastapi.FastAPI()
+
+PROXY_AUTH = auth.ProxyAuthConfig.from_environment()
+app.add_middleware(auth.ProxyAuthenticationMiddleware, config=PROXY_AUTH)
 
 DEV_FRONT_PORT = 5173
 DEV = True if os.getenv("DEV", "false") == "true" else False
@@ -33,6 +35,16 @@ if DEV:
 allow_generate = True
 
 
+@app.get("/api/session")
+def session(
+    request: fastapi.Request, response: fastapi.Response
+) -> dict[str, bool | str | None]:
+    """Report the identity asserted by the trusted authentication proxy."""
+    response.headers["Cache-Control"] = "no-store"
+    user = auth.authenticated_user(request)
+    return {"authenticated": user is not None, "user": user}
+
+
 @app.get("/api/health")
 def health(response: fastapi.Response) -> None:
     """Health check for both uvicorn and ollama servers
@@ -43,15 +55,20 @@ def health(response: fastapi.Response) -> None:
     - `500` = ollama is not available
     """
     try:
-        host = file_io.read_config()["url"]
-        Client(host=host).show("mistral")
-    except Exception:
+        ollama_client.check()
+    except Exception as error:
         response.status_code = fastapi.status.HTTP_500_INTERNAL_SERVER_ERROR
-        utils.logger.error("You must install Ollama before using this utility.")
+        utils.logger.error("Ollama health check failed: %s", error)
 
 
-@app.post("/api/generate", status_code=fastapi.status.HTTP_201_CREATED)
-def generate(response: fastapi.Response) -> dict[str, bool | None]:
+@app.post(
+    "/api/generate",
+    status_code=fastapi.status.HTTP_201_CREATED,
+    dependencies=[fastapi.Depends(auth.require_application_request)],
+)
+def generate(
+    request: fastapi.Request, response: fastapi.Response
+) -> dict[str, bool | None]:
     """Create chain, read info from files, append generated questions, then write to new file
 
     Status codes
@@ -65,6 +82,8 @@ def generate(response: fastapi.Response) -> dict[str, bool | None]:
     - `False` = unverified, check diff
     - `None` = generation interrupted
     """
+
+    utils.logger.info("Generation requested by %s.", auth.request_actor(request))
 
     # generate new Permutated.csv
     verified = None
@@ -103,21 +122,31 @@ def progress() -> dict[str, int]:
     return {"index": chain.progress.index, "total": chain.progress.total}
 
 
-@app.get("/api/interrupt")
-def interrupt() -> None:
+@app.post(
+    "/api/interrupt",
+    dependencies=[fastapi.Depends(auth.require_application_request)],
+)
+def interrupt(request: fastapi.Request) -> None:
     """Interrupt the current generation task
 
     Status codes
 
     - `200` = successfully interrupted generation of `Permutated.csv`
     """
+    utils.logger.info("Interruption requested by %s.", auth.request_actor(request))
     chain.interrupt = True
     while chain.progress.index != 0:
         time.sleep(0.1)
 
 
-@app.post("/api/upload", status_code=fastapi.status.HTTP_201_CREATED)
-def upload(files: list[fastapi.UploadFile]) -> dict[str, bool]:
+@app.post(
+    "/api/upload",
+    status_code=fastapi.status.HTTP_201_CREATED,
+    dependencies=[fastapi.Depends(auth.require_application_request)],
+)
+def upload(
+    request: fastapi.Request, files: list[fastapi.UploadFile]
+) -> dict[str, bool]:
     """Replace data files via upload and return list of status codes
 
     Status codes
@@ -130,6 +159,7 @@ def upload(files: list[fastapi.UploadFile]) -> dict[str, bool]:
     - `True` = succssfully replaced all files
     - `False` = some files failed to be replaced
     """
+    utils.logger.info("File upload requested by %s.", auth.request_actor(request))
     uploaded = True
     for f in files:
         if file_io.create_file(f) is not True:

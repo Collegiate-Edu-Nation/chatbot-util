@@ -17,7 +17,10 @@ class TestChain(unittest.TestCase):
     def test_interrupt(self):
         # index = 0 indicates progress has been reset, so we should exit the loop
         # immediately w/ 200 code and be ready for generation
-        response = client.get("/api/interrupt")
+        response = client.post(
+            "/api/interrupt",
+            headers={api.auth.APPLICATION_REQUEST_HEADER: "1"},
+        )
         chain.handle_interrupt()
         assert response.status_code == 200
         assert not chain.interrupt

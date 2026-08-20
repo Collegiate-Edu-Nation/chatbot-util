@@ -6,6 +6,7 @@ import { useSessionStorage } from "usehooks-ts";
 import useInterval from "react-useinterval";
 import { toast } from "sonner";
 import logger, { message } from "../util/logger.ts";
+import { apiFetch, isAuthenticationRequired } from "../util/api.ts";
 import { Button } from "../comp/ui/button.tsx";
 import { Progress } from "../comp/ui/progress.tsx";
 import {
@@ -58,9 +59,14 @@ function Generate({
   async function progress() {
     if (genStatus) {
       const url = baseURL + "/progress";
-      const response = await fetch(url);
-      const result = await response.json();
-      setProgStatus([result.index, result.total]);
+      try {
+        const response = await apiFetch(url);
+        const result = await response.json();
+        setProgStatus([result.index, result.total]);
+      } catch (error) {
+        if (!isAuthenticationRequired(error))
+          logger.error(message("get", "progress", error));
+      }
     } else if (!genStatus && progStatus[0] !== 0) {
       setProgStatus([0, 0]);
       setInterruptStatus(false);
@@ -69,9 +75,14 @@ function Generate({
 
   async function config() {
     const url = baseURL + "/config";
-    const response = await fetch(url);
-    const result = await response.json();
-    setAppConfig([result.faq, result.other]);
+    try {
+      const response = await apiFetch(url);
+      const result = await response.json();
+      setAppConfig([result.faq, result.other]);
+    } catch (error) {
+      if (!isAuthenticationRequired(error))
+        logger.error(message("get", "config", error));
+    }
   }
 
   // config isn't actually dependent on folderStatus since its primary
@@ -105,7 +116,7 @@ function Generate({
     const url = baseURL + "/generate";
 
     try {
-      const response = await fetch(url, settings);
+      const response = await apiFetch(url, settings);
       const status = response.status;
       const result = await response.json();
       setVerStatus(result.verified);
@@ -128,7 +139,8 @@ function Generate({
           },
         });
     } catch (error) {
-      logger.error(message("post", "generate", error));
+      if (!isAuthenticationRequired(error))
+        logger.error(message("post", "generate", error));
     }
 
     setGenStatus(false);
@@ -137,7 +149,14 @@ function Generate({
   async function interrupt() {
     setInterruptStatus(true);
     const url = baseURL + "/interrupt";
-    await fetch(url);
+    try {
+      await apiFetch(url, { method: "POST" });
+    } catch (error) {
+      if (!isAuthenticationRequired(error)) {
+        logger.error(message("post", "interrupt", error));
+        setInterruptStatus(false);
+      }
+    }
   }
 
   async function upload() {
@@ -152,7 +171,7 @@ function Generate({
       const url = baseURL + "/upload";
 
       try {
-        const response = await fetch(url, settings);
+        const response = await apiFetch(url, settings);
         const result = await response.json();
 
         // toast based on upload success of ALL files before resetting files
@@ -164,7 +183,8 @@ function Generate({
           : "The data file(s) you uploaded have NOT been saved to /etc/chatbot-util/";
         toast(title, { description: desc });
       } catch (error) {
-        logger.error(message("post", "upload", error));
+        if (!isAuthenticationRequired(error))
+          logger.error(message("post", "upload", error));
       }
       setFiles(undefined);
     }
