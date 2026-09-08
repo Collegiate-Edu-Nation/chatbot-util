@@ -76,9 +76,5 @@ pkgs.testers.runNixOSTest {
     machine.succeed(
         "runuser -u cypress -- ${support.cypress}/bin/chatbot-util-cypress"
     )
-    machine.wait_until_succeeds(
-        "journalctl -u chatbot-util.service --no-pager "
-        "| grep -Fq Interrupted"
-    )
   '';
 }

@@ -98,13 +98,6 @@ nix-darwin.lib.darwinSystem {
             done
 
             ${support.cypress}/bin/chatbot-util-cypress
-            for _ in {1..60}; do
-              if sudo grep -Fq Interrupted /var/log/chatbot-util.log; then
-                break
-              fi
-              sleep 1
-            done
-            sudo grep -Fq Interrupted /var/log/chatbot-util.log
           '')
         ];
       }

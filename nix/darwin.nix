@@ -29,19 +29,19 @@ in
     };
 
     user = lib.mkOption {
-      type = lib.types.str;
+      type = lib.types.nonEmptyStr;
       default = defaultUser;
       description = "User account under which chatbot-util runs.";
     };
 
     group = lib.mkOption {
-      type = lib.types.str;
+      type = lib.types.nonEmptyStr;
       default = defaultGroup;
       description = "Group under which chatbot-util runs.";
     };
 
     host = lib.mkOption {
-      type = lib.types.str;
+      type = lib.types.nonEmptyStr;
       default = "127.0.0.1";
       description = "Listening host for chatbot-util; overrides server.host in config.toml.";
     };
