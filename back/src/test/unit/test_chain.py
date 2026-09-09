@@ -41,7 +41,7 @@ class TestChain(unittest.TestCase):
         # setup
         client = mock(Client)
         phrases = [["abc", "ABC"]]
-        options = {"seed": 39}
+        options = {"seed": 39, "num_ctx": 4096}
         prompt = ""
         response = {"response": ""}
 

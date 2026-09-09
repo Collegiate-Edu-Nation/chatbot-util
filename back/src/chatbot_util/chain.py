@@ -78,7 +78,7 @@ def parse(response: str, phrases: list[list[str]]) -> list[str]:
 
 def invoke(prompt: str, phrases: list[list[str]]) -> list[str]:
     """Define chat model, then create the chain"""
-    options = {"seed": 39}
+    options = {"seed": 39, "num_ctx": 4096}
     host = file_io.read_config()["url"]
     response = Client(host=host).generate(
         model="mistral",

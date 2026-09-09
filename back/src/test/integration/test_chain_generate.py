@@ -19,7 +19,7 @@ class TestChainGenerate(unittest.TestCase):
         # setup
         client = mock(Client)
         phrases = [["abc", "ABC"]]
-        options = {"seed": 39}
+        options = {"seed": 39, "num_ctx": 4096}
         prompt = chain.INSTRUCTION + "def"
         prompt2 = chain.INSTRUCTION + "ghi"
         response = {"response": '"a"'}
