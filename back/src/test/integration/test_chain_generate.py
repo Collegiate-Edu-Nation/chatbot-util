@@ -41,7 +41,7 @@ class TestChainGenerate(unittest.TestCase):
             options=options,
         ).thenReturn(response2)
 
-        expected = {"abc": ["def", "ghi", '"a"', '"b"']}
+        expected = {"abc": ["def", "ghi"] + ['"a"'] * 5 + ['"b"'] * 5}
         result = chain.generate(store, phrases)
         self.assertEqual(result, expected)
         unstub()

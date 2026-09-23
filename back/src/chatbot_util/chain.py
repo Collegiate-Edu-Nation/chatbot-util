@@ -69,11 +69,18 @@ def parse(response: str, phrases: list[list[str]]) -> list[str]:
             lines[i] = line
         return lines
 
+    def clamp(lines: list[str]) -> list[str]:
+        """Ensure there are exactly 5 entries when possible"""
+        if lines:
+            lines.extend([lines[-1]] * (5 - len(lines)))
+        return lines[:5]
+
     lines = response.strip().split("\n")
     nonempty_lines = remove_empty(lines)
     no_num_lines = remove_numbers(nonempty_lines)
     cleaned_lines = remove_phrases(no_num_lines, phrases)
-    return cleaned_lines
+    clamped_lines = clamp(cleaned_lines)
+    return clamped_lines
 
 
 def invoke(prompt: str, phrases: list[list[str]]) -> list[str]:

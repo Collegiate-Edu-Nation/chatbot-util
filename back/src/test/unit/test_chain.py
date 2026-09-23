@@ -25,15 +25,21 @@ class TestChain(unittest.TestCase):
         cleaned = chain.parse(response, phrases)
         self.assertEqual(cleaned, expected)
 
+        # extra variations
+        response = "1. a\n2. b\n3. c\n4. d\n5. e\n6. f"
+        expected = ["a", "b", "c", "d", "e"]
+        cleaned = chain.parse(response, phrases)
+        self.assertEqual(cleaned, expected)
+
         # numbers
         response = "1. a"
-        expected = ["a"]
+        expected = ["a"] * 5
         cleaned = chain.parse(response, phrases)
         self.assertEqual(cleaned, expected)
 
         # phrases
         response = "abc"
-        expected = ["ABC"]
+        expected = ["ABC"] * 5
         cleaned = chain.parse(response, phrases)
         self.assertEqual(cleaned, expected)
 
