@@ -12,7 +12,7 @@ let
     src = ../front/.;
 
     env.CYPRESS_INSTALL_BINARY = 0;
-    npmDepsHash = "sha256-ycAltkgbPBalTBwzvP15CLasa11q3LPVvGrwdhMZUgg=";
+    npmDepsHash = "sha256-3/DOz/wyIzJ+Kn9o7+6xcFfciyKLSUqwD9ePxM/sprQ=";
     postInstall = ''
       cp -r dist/ $out/lib/node_modules/chatbot-util/
     '';

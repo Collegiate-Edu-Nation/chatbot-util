@@ -13,15 +13,15 @@ let
   availableBinaries = {
     x86_64-linux = {
       platform = "linux-x64";
-      hash = "sha256-Ls7LOjzi1HCQDSE+XyerSCeYfeabn5/GQ9y4retft0g=";
+      hash = "sha256-mS6tiWbkbp5IiQ6zYbMzhZGmefMsnVC2maGaakgxys4=";
     };
     aarch64-linux = {
       platform = "linux-arm64";
-      hash = "sha256-MoEnQF0QIGH6nRx4MScPe/J+Sud+f5CdTLuyAu7qMCE=";
+      hash = "sha256-m6kgLcQE8drGGv+2ZgkytnEPyVfBbEJShGOz4cDGZPw=";
     };
     aarch64-darwin = {
       platform = "darwin-arm64";
-      hash = "sha256-HCvsmwQUk293OK6vENdlBvKetDCTAxKvCAJ7pq0Vjpc=";
+      hash = "sha256-r8akzSxrjRrwE/Y5Y3rHgG4yr4FPRSX9eM5J7mriR6k=";
     };
   };
   inherit (prev.stdenv.hostPlatform) system;
@@ -35,7 +35,12 @@ in
   format = writePatchedScript "format";
   launch = writePatchedScript "launch";
   cypress = prev.cypress.overrideAttrs (o: rec {
-    version = "15.18.0";
+    version = "16.2.1";
+    meta = o.meta // {
+      # The inherited warning concerns Electron 37.6.0;
+      # Cypress 16.2.1 bundles Electron 41.7.0.
+      knownVulnerabilities = [ ];
+    };
     src = prev.fetchzip {
       url = "https://cdn.cypress.io/desktop/${version}/${platform}/cypress.zip";
       inherit hash;

@@ -34,7 +34,7 @@ let
     src = ./cypress;
 
     env.CYPRESS_INSTALL_BINARY = 0;
-    npmDepsHash = "sha256-Vx97aHZRJH4mquy3BJDTZHz8wipzZtrinrMMxEskNqo=";
+    npmDepsHash = "sha256-drh+CSVcUBdneEhSx2Y+ejawCTH0U/NwdAZUN2Fwoho=";
     dontNpmBuild = true;
 
     installPhase = ''
