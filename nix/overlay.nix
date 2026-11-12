@@ -13,15 +13,15 @@ let
   availableBinaries = {
     x86_64-linux = {
       platform = "linux-x64";
-      hash = "sha256-mS6tiWbkbp5IiQ6zYbMzhZGmefMsnVC2maGaakgxys4=";
+      hash = "sha256-zELSx/th2R4Zs8FYndGWk2a+gDxiP/yeDF1B4AbhdKI=";
     };
     aarch64-linux = {
       platform = "linux-arm64";
-      hash = "sha256-m6kgLcQE8drGGv+2ZgkytnEPyVfBbEJShGOz4cDGZPw=";
+      hash = "sha256-ssm4WVzDMTo5cWDJaPoEddUmpHK1oh1453El5xexzrQ=";
     };
     aarch64-darwin = {
       platform = "darwin-arm64";
-      hash = "sha256-r8akzSxrjRrwE/Y5Y3rHgG4yr4FPRSX9eM5J7mriR6k=";
+      hash = "sha256-p0hK/kqxcgQlGz8MLByOxrqnkJudHPjO3sR8h9Wmn+c=";
     };
   };
   inherit (prev.stdenv.hostPlatform) system;
@@ -35,10 +35,10 @@ in
   format = writePatchedScript "format";
   launch = writePatchedScript "launch";
   cypress = prev.cypress.overrideAttrs (o: rec {
-    version = "16.2.1";
+    version = "16.3.0";
     meta = o.meta // {
       # The inherited warning concerns Electron 37.6.0;
-      # Cypress 16.2.1 bundles Electron 41.7.0.
+      # Cypress now bundles an unaffected version
       knownVulnerabilities = [ ];
     };
     src = prev.fetchzip {

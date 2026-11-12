@@ -10,25 +10,25 @@ name = "chatbot-util"
 version = "2.0.0"
 dependencies = [
   "coloredlogs==15.0.1",
-  "fastapi==0.139.0",
-  "ollama==0.6.2",
+  "fastapi==0.141.1",
+  "ollama==0.6.3",
   "uvicorn==0.51.0",
   "python-multipart==0.0.32",
 ]
-requires-python = "==3.14.6"
+requires-python = "==3.14.10"
 
 [project.scripts]
 chatbot-util = "chatbot_util.__main__:main"
 
 [project.optional-dependencies]
 dev = [
-  "coverage==7.15.2",
+  "coverage==7.17.0",
   "mockito==1.5.5",
   "mkdocs==1.6.1",
-  "mkdocs-material==9.7.6",
-  "mkdocstrings==1.0.4",
+  "mkdocs-material==9.7.7",
+  "mkdocstrings==1.0.6",
   "mkdocstrings-python==2.0.2",
-  "ruff==0.16.2",
+  "ruff==0.17.4",
 ]
 
 [tool.coverage.run]
